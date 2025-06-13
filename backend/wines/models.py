@@ -30,14 +30,6 @@ class Wine(models.Model):
 
 class Grape(models.Model):
     name = models.CharField(max_length=20)      # 'name' use in WineTypeSerializer slug_field
-    TYPE_CHOICES = (
-        ('white', 'white'),
-        ('red', 'red'),
-        ('sparkling', 'sparkling'),
-        ('orange', 'orange'),
-        ('dessert', 'dessert'),
-    )
-    wine_type = models.CharField(max_length=20, choices=TYPE_CHOICES, null=True) 
 
     def __str__(self):
         return self.name

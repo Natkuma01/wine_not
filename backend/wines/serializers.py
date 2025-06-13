@@ -8,7 +8,6 @@ class GrapeSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'wine_type',
         ]
 
 

@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { addWine } from "./wineSlice"
+import axios from 'axios'
+
+const WINE_TYPE_CHOICES = [
+    { value: 'white', label: 'White'},
+    { value: 'red', label: 'Red'},
+    { value: 'sparkling', label: 'Sparkling'},
+    { value: 'orange', label: 'Orange'},
+    { value: 'dessert', label: 'Dessert'},
+
+    
+]
 
 function AddWineForm() {
     const dispatch = useDispatch()
@@ -10,29 +21,31 @@ function AddWineForm() {
     const [country, setCountry] = useState("")
     const [year, setYear] = useState("")
     
-    const [wineTypes, setWineTypes] = useState([])
-    const [wineTypeId, setWineTypeId] = useState("")
+    const [wineType, setWineType] = useState("")
+
+    const [restaurants, setRestaurants] = useState([])
+    const [restaurantId, setRestaurantId] =useState("")
 
 
     useEffect(() => {
-    fetch("http://127.0.0.1:8000/wines/wine_type/")
-    .then(res => {
-        if (!res.ok) { // Check if the response was successful (status code 2xx)
-            throw new Error(`HTTP error! status: ${res.status}`);
+        const fetchRestaurants = async () => {
+            try {
+                const response = await axios.get("http://localhost:8000/restaurants/restaurants/")
+                setRestaurants(response.data)
+            } catch (error) {
+                console.log("Failed to load restaurants:", error)
+            }
         }
-        return res.json();
-    })
-    .then((data) => setWineTypes(data))
-    .then((err) => console.error("Failed to load wine type", err))
-    
-  }, []);
-  
+        fetchRestaurants()
+    }, [])
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-    if (!name || !producer || !country || !year || !wineTypeId) return
+    if (!name || !producer || !country || !year || !wineType) return
 
-    const newWine = { name, producer, country, year: parseInt(year), wine_type: parseInt(wineTypeId) }
+    const newWine = { name, producer, country, year: parseInt(year), wine_type: wineType, restaurant: parseInt(restaurantId) }
     
     dispatch(addWine(newWine))
 
@@ -40,7 +53,8 @@ function AddWineForm() {
     setProducer("")
     setCountry("")
     setYear("")
-    setWineTypeId("")
+    setWineType("")
+    setRestaurantId("")
 
     }
 
@@ -96,11 +110,29 @@ function AddWineForm() {
       </div>
 
         <div>
-        <select className="select select-bordered w-full mb-4" value={wineTypeId} onChange={(e) => setWineTypeId(e.target.value)} required>
+        <label className="label">Wine Type</label>
+        <select className="select select-bordered w-full mb-4" value={wineType} onChange={(e) => setWineType(e.target.value)} required>
         <option value="">Select Wine Type</option>
-        {wineTypes.map(wt => <option key={wt.id} value={wt.id}>{wt.type}</option>)}
+        {WINE_TYPE_CHOICES.map(choice => <option key={choice.value} value={choice.value}>{choice.label}</option>)}
       </select>
         </div>
+
+         <div>
+                <label className="label">Restaurant</label>
+                <select 
+                    className="select select-bordered w-full mb-4" 
+                    value={restaurantId} 
+                    onChange={(e) => setRestaurantId(e.target.value)} 
+                    required
+                >
+                    <option value="">Select Restaurant</option>
+                    {restaurants.map(restaurant => (
+                        <option key={restaurant.id} value={restaurant.id}>
+                            {restaurant.name}
+                        </option>
+                    ))} 
+                </select>
+            </div>
 
       <button type="submit" className="btn btn-primary w-full">
         Submit

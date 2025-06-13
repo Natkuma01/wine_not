@@ -13,7 +13,7 @@ export const addWine = createAsyncThunk(
     'wines/addWine',
     async (newWine) => {
         const response = await axios.post(
-            'http://localhost:8000/wines/wines',
+            'http://localhost:8000/wines/wines/',
             newWine,
             {
                 headers: {
