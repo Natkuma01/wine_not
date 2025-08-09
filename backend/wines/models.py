@@ -5,6 +5,7 @@ class Wine(models.Model):
     name = models.CharField(max_length=100)
     producer = models.CharField(null=True, blank=True, max_length=100)
     country = models.CharField(max_length=100)
+    imageURL = models.URLField(max_length=500, blank=True, null=True)
     year = models.IntegerField(
         null=True,
         blank=True,
