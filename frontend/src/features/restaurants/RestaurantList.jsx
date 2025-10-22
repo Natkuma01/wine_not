@@ -17,13 +17,17 @@ function RestaurantList() {
   
 
   return (
-  <>
-  <Link to="/add_restaurant">
-    <button className="btn">
+    <div className="container mx-auto py-8 px-4">
+      <div className="flex justify-between items-center px-10">
+        <h1 className="text-2xl font-bold">Wine Inventory Tracker</h1>
+        <Link to="/add_restaurant">
+    <button className="btn btn-secondary hover:text-neutral-500">
       Add restaurant</button>
   </Link>
-  <div className="overflow-x-auto m-30 border-2 border-slate-300 min-h-200 rounded-lg">
-    <table className="table">
+      </div>
+
+  <div className="overflow-hidden m-8 border-2 border-slate-300 rounded-lg">
+    <table className="table w-full">
       <thead>
         <tr>
           <th></th>
@@ -48,7 +52,7 @@ function RestaurantList() {
 
     </table>
   </div>
-  </>
+  </div>
   );
 }
 
