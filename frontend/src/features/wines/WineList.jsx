@@ -39,7 +39,7 @@ function WineList() {
   // display current restaurant's name
   const currentRestaurant = restaurants.find((r) => r.id === parseInt(id));
 
-    const toggleGrape = (grapeId) => {
+  const toggleGrape = (grapeId) => {
     setSelectedGrapes((prev) => {
       if (prev.includes(grapeId)) {
         // remove if already selected
@@ -57,10 +57,12 @@ function WineList() {
     if (!name || !producer || !country || !year || !wineType) return;
 
     // Convert grape IDs to grape names for the backend
-    const grapeNames = selectedGrapes.map(grapeId => {
-      const grape = grapes.find(g => g.id === grapeId);
-      return grape ? grape.name : null;
-    }).filter(name => name !== null);
+    const grapeNames = selectedGrapes
+      .map((grapeId) => {
+        const grape = grapes.find((g) => g.id === grapeId);
+        return grape ? grape.name : null;
+      })
+      .filter((name) => name !== null);
 
     const newWine = {
       name,
@@ -79,7 +81,7 @@ function WineList() {
     setCountry("");
     setYear("");
     setWineType("");
-    setSelectedGrapes([]); 
+    setSelectedGrapes([]);
     setOpen(false);
   };
 
@@ -104,7 +106,7 @@ function WineList() {
       <div className="container mx-auto py-8 px-4">
         <div className="flex justify-between items-center mb-6 px-10">
           <h1 className="text-2xl font-bold">
-            Wine List - {currentRestaurant?.name}
+            {currentRestaurant?.name} Wine List
           </h1>
           <button
             onClick={() => setOpen(true)}
@@ -231,10 +233,10 @@ function WineList() {
                   />
                 </div>
 
-{/* Select Grapes */}
-<div className="mb-4">
+                {/* Select Grapes */}
+                <div className="mb-4">
                   <label className="block text-sm font-medium mb-2">
-                    Grapes (select one or more)
+                    Grapes
                   </label>
 
                   {/* Container for checkbox list */}
@@ -247,27 +249,22 @@ function WineList() {
                             key={grape.id}
                             className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 cursor-pointer"
                           >
-                            {/* 
-                              Use daisyUI checkbox; adjust classes for colors you want.
-                              Important: checked is boolean, onChange toggles grape id.
-                            */}
                             <input
                               type="checkbox"
-                              // Controlled checked prop
                               checked={checked}
-                              // Example color classes; change as desired
                               className={
                                 "checkbox border-indigo-600 bg-indigo-500 checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800"
                               }
                               onChange={() => toggleGrape(grape.id)}
-                              aria-label={`Select ${grape.name}`}
                             />
                             <span className="text-sm">{grape.name}</span>
                           </label>
                         );
                       })
                     ) : (
-                      <p className="text-sm text-gray-500">No grapes available.</p>
+                      <p className="text-sm text-gray-500">
+                        No grapes available.
+                      </p>
                     )}
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
@@ -275,8 +272,7 @@ function WineList() {
                   </p>
                 </div>
 
-
-{/* Wine Type */}
+                {/* Wine Type */}
                 <div className="mb-4">
                   <label className="block text-sm font-medium mb-2">
                     Wine Type

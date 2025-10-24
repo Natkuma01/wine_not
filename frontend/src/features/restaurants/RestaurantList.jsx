@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRestaurant, fetchRestaurants } from "./restaurantSlice";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function RestaurantList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { restaurants, loading, error } = useSelector(
     (state) => state.restaurants,
   );
@@ -53,17 +54,21 @@ function RestaurantList() {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody> 
             {restaurants.map((restaurant, index) => (
               <tr
-                className="hover:bg-secondary hover:text-neutral-300"
+                className="hover:bg-secondary hover:text-neutral-300 cursor-pointer"
                 key={restaurant.id}
+                onClick={() => navigate(`wines/${restaurant.id}`)}
               >
+                
+               
                 <td>{index + 1}</td>
                 <td>
-                  <Link to={`wines/${restaurant.id}`}>{restaurant.name}</Link>
+                  {restaurant.name}
                 </td>
                 <td>{restaurant.address}</td>
+                
               </tr>
             ))}
           </tbody>

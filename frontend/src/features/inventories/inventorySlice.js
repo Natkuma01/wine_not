@@ -11,6 +11,17 @@ export const fetchInventories = createAsyncThunk(
   },
 );
 
+export const addInventory = createAsyncThunk(
+  "inventories/inventories",
+  async (newInventory) => {
+    const response = await axios.post(
+    "http://localhost:8000/inventories/inventories/",
+    newInventory,
+    {headers: {"Content-Type": "application/json",},},
+  );
+  return response.data;
+},);
+
 const inventorySlice = createSlice({
   name: "inventories",
   initialState: {
@@ -30,6 +41,19 @@ const inventorySlice = createSlice({
         state.inventories = action.payload;
       })
       .addCase(fetchInventories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(addInventory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addInventory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.inventories.push(action.payload);
+      })
+      .addCase(addInventory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
