@@ -1,20 +1,22 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const fetchInventories = createAsyncThunk(
-  'inventories/fetchInventories',
+  "inventories/fetchInventories",
   async () => {
-    const response = await axios.get('http://localhost:8000/inventories/inventories/');
+    const response = await axios.get(
+      "http://localhost:8000/inventories/inventories/",
+    );
     return response.data;
-  }
+  },
 );
 
 const inventorySlice = createSlice({
-  name: 'inventories',
+  name: "inventories",
   initialState: {
     inventories: [],
     loading: false,
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -31,7 +33,7 @@ const inventorySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       });
-  }
+  },
 });
 
 export default inventorySlice.reducer;

@@ -1,64 +1,68 @@
-import { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { addWine } from "./wineSlice"
-import axios from 'axios'
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addWine } from "./wineSlice";
+import axios from "axios";
 
 const WINE_TYPE_CHOICES = [
-    { value: 'white', label: 'White'},
-    { value: 'red', label: 'Red'},
-    { value: 'sparkling', label: 'Sparkling'},
-    { value: 'orange', label: 'Orange'},
-    { value: 'dessert', label: 'Dessert'},
-
-    
-]
+  { value: "white", label: "White" },
+  { value: "red", label: "Red" },
+  { value: "sparkling", label: "Sparkling" },
+  { value: "orange", label: "Orange" },
+  { value: "dessert", label: "Dessert" },
+];
 
 function AddWineForm() {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const [name, setName] = useState("")
-    const [producer, setProducer] = useState("")
-    const [country, setCountry] = useState("")
-    const [year, setYear] = useState("")
-    
-    const [wineType, setWineType] = useState("")
+  const [name, setName] = useState("");
+  const [producer, setProducer] = useState("");
+  const [country, setCountry] = useState("");
+  const [year, setYear] = useState("");
 
-    const [restaurants, setRestaurants] = useState([])
-    const [restaurantId, setRestaurantId] =useState("")
+  const [wineType, setWineType] = useState("");
 
+  const [restaurants, setRestaurants] = useState([]);
+  const [restaurantId, setRestaurantId] = useState("");
 
-    useEffect(() => {
-        const fetchRestaurants = async () => {
-            try {
-                const response = await axios.get("http://localhost:8000/restaurants/restaurants/")
-                setRestaurants(response.data)
-            } catch (error) {
-                console.log("Failed to load restaurants:", error)
-            }
-        }
-        fetchRestaurants()
-    }, [])
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/restaurants/restaurants/",
+        );
+        setRestaurants(response.data);
+      } catch (error) {
+        console.log("Failed to load restaurants:", error);
+      }
+    };
+    fetchRestaurants();
+  }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    if (!name || !producer || !country || !year || !wineType) return;
 
-    if (!name || !producer || !country || !year || !wineType) return
+    const newWine = {
+      name,
+      producer,
+      country,
+      year: parseInt(year),
+      wine_type: wineType,
+      restaurant: parseInt(restaurantId),
+    };
 
-    const newWine = { name, producer, country, year: parseInt(year), wine_type: wineType, restaurant: parseInt(restaurantId) }
-    
-    dispatch(addWine(newWine))
+    dispatch(addWine(newWine));
 
-    setName("")
-    setProducer("")
-    setCountry("")
-    setYear("")
-    setWineType("")
-    setRestaurantId("")
+    setName("");
+    setProducer("");
+    setCountry("");
+    setYear("");
+    setWineType("");
+    setRestaurantId("");
+  };
 
-    }
-
-    return (
+  return (
     <form
       onSubmit={handleSubmit}
       className="max-w-md mx-auto my-30 p-4 bg-white rounded-lg shadow-md"
@@ -87,7 +91,7 @@ function AddWineForm() {
         />
       </div>
 
-        <div className="mb-4">
+      <div className="mb-4">
         <label className="label">Country</label>
         <input
           type="text"
@@ -98,7 +102,7 @@ function AddWineForm() {
         />
       </div>
 
-        <div className="mb-4">
+      <div className="mb-4">
         <label className="label">Year</label>
         <input
           type="text"
@@ -109,38 +113,44 @@ function AddWineForm() {
         />
       </div>
 
-        <div>
+      <div>
         <label className="label">Wine Type</label>
-        <select className="select select-bordered w-full mb-4" value={wineType} onChange={(e) => setWineType(e.target.value)} required>
-        <option value="">Select Wine Type</option>
-        {WINE_TYPE_CHOICES.map(choice => <option key={choice.value} value={choice.value}>{choice.label}</option>)}
-      </select>
-        </div>
+        <select
+          className="select select-bordered w-full mb-4"
+          value={wineType}
+          onChange={(e) => setWineType(e.target.value)}
+          required
+        >
+          <option value="">Select Wine Type</option>
+          {WINE_TYPE_CHOICES.map((choice) => (
+            <option key={choice.value} value={choice.value}>
+              {choice.label}
+            </option>
+          ))}
+        </select>
+      </div>
 
-         <div>
-                <label className="label">Restaurant</label>
-                <select 
-                    className="select select-bordered w-full mb-4" 
-                    value={restaurantId} 
-                    onChange={(e) => setRestaurantId(e.target.value)} 
-                    required
-                >
-                    <option value="">Select Restaurant</option>
-                    {restaurants.map(restaurant => (
-                        <option key={restaurant.id} value={restaurant.id}>
-                            {restaurant.name}
-                        </option>
-                    ))} 
-                </select>
-            </div>
+      <div>
+        <label className="label">Restaurant</label>
+        <select
+          className="select select-bordered w-full mb-4"
+          value={restaurantId}
+          onChange={(e) => setRestaurantId(e.target.value)}
+          required
+        >
+          <option value="">Select Restaurant</option>
+          {restaurants.map((restaurant) => (
+            <option key={restaurant.id} value={restaurant.id}>
+              {restaurant.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <button type="submit" className="btn btn-primary w-full">
         Submit
       </button>
     </form>
-  )
-        
-    
-
+  );
 }
 export default AddWineForm;

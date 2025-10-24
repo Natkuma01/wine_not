@@ -1,36 +1,38 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const fetchRestaurants = createAsyncThunk(
-  'restaurants/fetchRestaurants',
+  "restaurants/fetchRestaurants",
   async () => {
-    const response = await axios.get('http://localhost:8000/restaurants/restaurants/');
+    const response = await axios.get(
+      "http://localhost:8000/restaurants/restaurants/",
+    );
     return response.data;
-  }
+  },
 );
 
 export const addRestaurant = createAsyncThunk(
-  'restaurants/addRestaurant',
+  "restaurants/addRestaurant",
   async (newRestaurant) => {
     const response = await axios.post(
-      'http://localhost:8000/restaurants/restaurants/',
+      "http://localhost:8000/restaurants/restaurants/",
       newRestaurant,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      }
+      },
     );
     return response.data; // new restaurant returned from backend
-  }
+  },
 );
 
 const restaurantSlice = createSlice({
-  name: 'restaurants',
+  name: "restaurants",
   initialState: {
     restaurants: [],
     loading: false,
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -61,7 +63,7 @@ const restaurantSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       });
-  }
+  },
 });
 
 export default restaurantSlice.reducer;
