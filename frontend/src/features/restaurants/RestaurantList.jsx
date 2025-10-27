@@ -54,21 +54,16 @@ function RestaurantList() {
             </tr>
           </thead>
 
-          <tbody> 
+          <tbody>
             {restaurants.map((restaurant, index) => (
               <tr
                 className="hover:bg-secondary hover:text-neutral-300 cursor-pointer"
                 key={restaurant.id}
                 onClick={() => navigate(`wines/${restaurant.id}`)}
               >
-                
-               
                 <td>{index + 1}</td>
-                <td>
-                  {restaurant.name}
-                </td>
+                <td>{restaurant.name}</td>
                 <td>{restaurant.address}</td>
-                
               </tr>
             ))}
           </tbody>
