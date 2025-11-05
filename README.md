@@ -36,13 +36,7 @@ A full-stack web application for managing wine inventory across multiple restaur
 - **Vite** - Build tool
 
 
-### Prerequisites
-- Python 
-- Node.js
-- PostgreSQL
-- pip (Python package manager)
-- npm (Node package manager)
-
+### Features
 ### Adding a Restaurant
 1. Navigate to the home page
 2. Click "Add Restaurant"
