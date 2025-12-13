@@ -19,6 +19,22 @@ export const addWine = createAsyncThunk("wines/addWine", async (newWine) => {
   return response.data;
 });
 
+export const updateWine = createAsyncThunk(
+  "wines/updateWine",
+    async ({ id, ...updateData }) => {
+      const response = await axios.patch(
+        `http://localhost:8000/wines/wines/${id}/`,
+        updateData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data
+    }
+)
+
 const wineSlice = createSlice({
   name: "wines",
   initialState: {
@@ -52,6 +68,25 @@ const wineSlice = createSlice({
         state.wines.push(action.payload);
       })
       .addCase(addWine.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // handle the updateWine
+      .addCase(updateWine.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateWine.fulfilled, (state, action) => {
+        state.loading = false;
+        const index = state.wines.findIndex(
+          (wine) => wine.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.wines[index] = action.payload;
+        }
+      })
+      .addCase(updateWine.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
