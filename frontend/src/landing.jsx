@@ -117,7 +117,7 @@ function Landing() {
       <div className="w-full max-w-md">
         {/* Logo/Title Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">
+          <h1 className="text-4xl font-bold text-secondary mb-2">
             Wine Inventory Tracker
           </h1>
           <p className="text-base-content/70">
@@ -131,7 +131,7 @@ function Landing() {
             {/* Login Form */}
             {!showCreateAccount && !showForgotPassword && (
               <>
-                <h2 className="card-title text-2xl mb-4 justify-center">
+                <h2 className="card-title text-2xl mb-4 justify-center text-gray-600">
                   Sign In
                 </h2>
                 
@@ -205,7 +205,7 @@ function Landing() {
                   <div className="form-control mb-6">
                     <button
                       type="submit"
-                      className="btn btn-primary w-full"
+                      className="btn btn-secondary w-full"
                     >
                       Sign In
                     </button>
