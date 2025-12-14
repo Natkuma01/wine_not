@@ -13,6 +13,7 @@ class InventorySerializer(serializers.ModelSerializer):
     producer = serializers.CharField(source='wine.producer', read_only=True)
     country = serializers.CharField(source='wine.country', read_only=True)
     year = serializers.IntegerField(source='wine.year', read_only=True)
+    profit_margin = serializers.DecimalField(max_digits=5, decimal_places=2, required=False, allow_null=True)
 
     class Meta:
         model = Inventory

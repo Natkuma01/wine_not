@@ -453,10 +453,6 @@ function Landing() {
           </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-sm text-base-content/60 mt-6">
-          © 2025 Wine Inventory Tracker. All rights reserved.
-        </p>
       </div>
     </div>
   );
