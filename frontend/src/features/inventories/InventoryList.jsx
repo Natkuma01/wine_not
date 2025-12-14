@@ -18,20 +18,24 @@ function InventoryList() {
   const [profitMargin, setProfitMargin] = useState();
 
   // Wine Information form state
-  const [ producer, setProducer] = useState("");
-  const [ country, setCountry] = useState("");
-  const [ year, setYear] = useState("");
+  const [producer, setProducer] = useState("");
+  const [country, setCountry] = useState("");
+  const [year, setYear] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const dispatch = useDispatch();
 
-  const { inventories, loading: inventoryLoading, error: inventoryError } = useSelector(
-    (state) => state.inventories,
-  );
+  const {
+    inventories,
+    loading: inventoryLoading,
+    error: inventoryError,
+  } = useSelector((state) => state.inventories);
 
-  const { wines, loading: wineLoading, error: wineError } = useSelector(
-    (state) => state.wines,
-  );
-     
+  const {
+    wines,
+    loading: wineLoading,
+    error: wineError,
+  } = useSelector((state) => state.wines);
 
   useEffect(() => {
     dispatch(fetchInventories());
@@ -54,90 +58,106 @@ function InventoryList() {
       setProducer(wine.producer);
       setCountry(wine.country);
       setYear(wine.year);
+      setImageUrl(wine.imageURL || "");
     }
   }, [wineInformationFormOpen]);
 
-  // Calculate profit margin when buying or selling price changes
-  const calculateProfitMargin = (buyPrice, sellPrice) => {
-    const buyingNum = parseFloat(buyPrice);
-    const sellingNum = parseFloat(sellPrice);
+  const recalculate = ({ buying, selling, margin, changed }) => {
+    const buy = parseFloat(buying);
+    const sell = parseFloat(selling);
+    const mar = parseFloat(margin);
 
-    if (buyingNum > 0 && sellingNum > 0) {
-      const profit = (sellingNum - buyingNum);
-      const margin = (profit / buyingNum) * 100;
-      return margin.toFixed(2);
+    if (changed === "selling" && buy > 0 && sell > 0) {
+      return {
+        buying,
+        selling,
+        margin: (((sell - buy) / sell) * 100).toFixed(2),
+      };
     }
-    return "";
-  };
 
-  // calculate selling price when profit margin changes
-  const calculateSellingPrice = (buyPrice, margin) => {
-    const buyingNum = parseFloat(buyPrice);
-    const marginNum = parseFloat(margin);
-
-    if (buyingNum > 0 && !isNaN(marginNum)) {   
-      const selling = buyingNum * (1 + marginNum / 100);
-      return selling.toFixed(2);
+    if (changed === "margin" && buy > 0 && !isNaN(mar)) {
+      return {
+        buying,
+        selling: (buy / (1 - margin / 100)).toFixed(2),
+        margin,
+      };
     }
-    return "";
+
+    if (changed === "buying" && sell > 0 && buy > 0) {
+      return {
+        buying,
+        selling,
+        margin: (((sell - buy) / sell) * 100).toFixed(2),
+      };
+    }
+    return { buying, selling, margin };
   };
 
   const handleBuyingPriceChange = (value) => {
-    setBuyingPrice(value);
-   
-    if (sellingPrice) {
-      const newMargin = calculateProfitMargin(value, sellingPrice);
-      setProfitMargin(newMargin);
-    } else if (profitMargin) {
-      const newSelling = calculateSellingPrice(value, profitMargin);
-      setSellingPrice(newSelling);
-    }
+    const result = recalculate({
+      buying: value,
+      selling: sellingPrice,
+      margin: profitMargin,
+      changed: "buying",
+    });
+
+    setBuyingPrice(result.buying);
+    setSellingPrice(result.selling);
+    setProfitMargin(result.margin);
   };
 
   const handleSellingPriceChange = (value) => {
-    setSellingPrice(value);
-    
-    if (buyingPrice) {
-      const newMargin = calculateProfitMargin(buyingPrice, value);
-      setProfitMargin(newMargin);
-    }
+    const result = recalculate({
+      buying: buyingPrice,
+      selling: value,
+      margin: profitMargin,
+      changed: "selling",
+    });
+
+    setBuyingPrice(result.buying);
+    setSellingPrice(result.selling);
+    setProfitMargin(result.margin);
   };
 
   const handleProfitMarginChange = (value) => {
-    setProfitMargin(value);
+    const result = recalculate({
+      buying: buyingPrice,
+      selling: sellingPrice,
+      margin: value,
+      changed: "margin",
+    });
 
-    if (buyingPrice) {
-      const newSelling = calculateSellingPrice(buyingPrice, value);
-      setSellingPrice(newSelling);
-    }
+    setBuyingPrice(result.buying);
+    setSellingPrice(result.selling);
+    setProfitMargin(result.margin);
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!quantity || !buyingPrice || !sellingPrice) return;
-  
+
     const updateData = {
       id: inventory.id,
       quantity: parseInt(quantity),
       buying_price: parseFloat(buyingPrice),
-      selling_price: parseFloat(sellingPrice)
+      selling_price: parseFloat(sellingPrice),
+      profit_margin: parseFloat(profitMargin),
     };
-    
+
     await dispatch(updateInventory(updateData));
+    await dispatch(fetchInventories());
 
     setQuantity("");
     setBuyingPrice("");
     setSellingPrice("");
     setInventoryDetailFormOpen(false);
-  }
-
+  };
 
   const handleWineInfoSubmit = async (e) => {
     e.preventDefault();
     if (!producer || !country || !year) {
       alert("Please  update at least one field.");
-     return;
+      return;
     }
 
     const updateData = {
@@ -147,16 +167,17 @@ function InventoryList() {
     if (producer) updateData.producer = producer;
     if (country) updateData.country = country;
     if (year) updateData.year = parseInt(year);
+    if (imageUrl) updateData.imageURL = imageUrl;
 
     await dispatch(updateWine(updateData));
-    await dispatch(fetchInventories());  
+    await dispatch(fetchInventories());
 
     setProducer("");
     setCountry("");
     setYear("");
+    setImageUrl();
     setWineInformationFormOpen(false);
-  } 
-
+  };
 
   if (inventoryLoading || wineLoading) return <p>Loading...</p>;
   if (inventoryError) return <p>Error: {inventoryError}</p>;
@@ -166,8 +187,8 @@ function InventoryList() {
   const wine = wines.find((w) => w.id === parseInt(wineId));
 
   if (!inventory) {
-     navigate(`/inventories/add/${wineId}`);
-     return null;
+    navigate(`/inventories/add/${wineId}`);
+    return null;
   }
 
   return (
@@ -188,7 +209,7 @@ function InventoryList() {
         {/* image */}
         <div className="flex-none">
           <img
-            src={inventory.image}
+            src={wine.imageURL}
             alt="wine image"
             className="w-40 h-auto rounded-md"
           />
@@ -205,7 +226,10 @@ function InventoryList() {
               <p>Profit Margin Percentage: {inventory.profit_margin}%</p>
             </div>
             <div className="card-actions justify-end m-8">
-              <button onClick={() => setInventoryDetailFormOpen(true)} className="justify-end">
+              <button
+                onClick={() => setInventoryDetailFormOpen(true)}
+                className="justify-end"
+              >
                 Edit
               </button>
             </div>
@@ -218,12 +242,15 @@ function InventoryList() {
               <p>Producer: {wine.producer}</p>
               <p>Country: {wine.country}</p>
               <p>Year: {wine.year}</p>
-                          
-            <div className="card-actions justify-end m-2">
-              <button onClick={() => setWineInformationFormOpen(true)} className="justify-end">
-                Edit
-              </button>
-            </div>
+
+              <div className="card-actions justify-end m-2">
+                <button
+                  onClick={() => setWineInformationFormOpen(true)}
+                  className="justify-end"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -232,25 +259,30 @@ function InventoryList() {
         {inventoryDetailFormOpen && (
           <div
             className="fixed inset-0 flex items-center justify-center z-50"
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-            onClick={() => setInventoryDetailFormOpen(false)}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+            onMouseDown={() => setInventoryDetailFormOpen(false)}
           >
-            <div 
+            <div
               className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between mb-4">
                 <h2 className="text-xl font-bold">Update Inventory Detail</h2>
-                <button onClick={() => setInventoryDetailFormOpen(false)} className="text-2xl">&times;</button>
+                <button
+                  onClick={() => setInventoryDetailFormOpen(false)}
+                  className="text-2xl"
+                >
+                  &times;
+                </button>
               </div>
               <form onSubmit={handleSubmit}>
                 <label className="label">Quantity</label>
-                <input 
-                  type="text" 
-                  className="input input-bordered w-full" 
-                  placeholder={inventory.quantity} 
-                  value={producer} 
-                  onChange={(e) => setQuantity(e.target.value)} 
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  placeholder={inventory.quantity}
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
                 />
                 <label className="label">Buying Price</label>
                 <input
@@ -268,45 +300,51 @@ function InventoryList() {
                   value={sellingPrice}
                   onChange={(e) => handleSellingPriceChange(e.target.value)}
                 />
-                 <label className="label">Profit margin (%)</label>
+                <label className="label">Profit margin (%)</label>
                 <input
                   type="number"
                   className="input input-bordered w-full"
-                  placeholder={inventory.profit_margin || "e.g., 33.50 for 33.5%"}
+                  placeholder={inventory.profit_margin}
                   value={profitMargin}
                   onChange={(e) => handleProfitMarginChange(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary mt-4 w-full">Update</button>
+                <button type="submit" className="btn btn-primary mt-4 w-full">
+                  Update
+                </button>
               </form>
             </div>
           </div>
         )}
         {/* END OF - Update Inventory Details Form */}
 
-
-          {/* Update Wine Information Form */}
-{wineInformationFormOpen && (
+        {/* Update Wine Information Form */}
+        {wineInformationFormOpen && (
           <div
             className="fixed inset-0 flex items-center justify-center z-50"
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
             onClick={() => setWineInformationFormOpen(false)}
           >
-            <div 
+            <div
               className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between mb-4">
                 <h2 className="text-xl font-bold">Update Wine Information</h2>
-                <button onClick={() => setWineInformationFormOpen(false)} className="text-2xl">&times;</button>
+                <button
+                  onClick={() => setWineInformationFormOpen(false)}
+                  className="text-2xl"
+                >
+                  &times;
+                </button>
               </div>
               <form onSubmit={handleWineInfoSubmit}>
                 <label className="label">Producer</label>
-                <input 
-                  type="text" 
-                  className="input input-bordered w-full" 
-                  placeholder={wine.producer} 
-                  value={producer} 
-                  onChange={(e) => setProducer(e.target.value)} 
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  placeholder={wine.producer}
+                  value={producer}
+                  onChange={(e) => setProducer(e.target.value)}
                 />
                 <label className="label">Country</label>
                 <input
@@ -324,12 +362,24 @@ function InventoryList() {
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary mt-4 w-full">Update</button>
+                <label className="label">Wine Image URL</label>
+                <input
+                  type="url"
+                  className="input input-bordered w-full"
+                  placeholder={
+                    wine.image_url || "https://example.com/image.jpg"
+                  }
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+                <button type="submit" className="btn btn-primary mt-4 w-full">
+                  Update
+                </button>
               </form>
             </div>
           </div>
         )}
-          {/* END OF - Update Wine Information Form */}
+        {/* END OF - Update Wine Information Form */}
 
         <div className="flex-1">
           <div className="card bg-base-100 shadow-md">

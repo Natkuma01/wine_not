@@ -134,7 +134,7 @@ function Landing() {
                 <h2 className="card-title text-2xl mb-4 justify-center text-gray-600">
                   Sign In
                 </h2>
-                
+
                 {error && (
                   <div className="alert alert-error mb-4">
                     <svg
@@ -203,10 +203,7 @@ function Landing() {
                   </div>
 
                   <div className="form-control mb-6">
-                    <button
-                      type="submit"
-                      className="btn btn-secondary w-full"
-                    >
+                    <button type="submit" className="btn btn-secondary w-full">
                       Sign In
                     </button>
                   </div>
@@ -452,7 +449,6 @@ function Landing() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

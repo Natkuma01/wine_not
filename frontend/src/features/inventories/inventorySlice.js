@@ -35,7 +35,6 @@ export const updateInventory = createAsyncThunk(
   },
 );
 
-
 const inventorySlice = createSlice({
   name: "inventories",
   initialState: {
@@ -78,7 +77,7 @@ const inventorySlice = createSlice({
       .addCase(updateInventory.fulfilled, (state, action) => {
         state.loading = false;
         const index = state.inventories.findIndex(
-          (inv) => inv.id === action.payload.id
+          (inv) => inv.id === action.payload.id,
         );
         if (index !== -1) {
           state.inventories[index] = action.payload;

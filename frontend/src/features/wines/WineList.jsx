@@ -29,6 +29,7 @@ function WineList() {
   const [year, setYear] = useState("");
   const [selectedGrapes, setSelectedGrapes] = useState([]);
   const [wineType, setWineType] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     dispatch(fetchWines());
@@ -72,6 +73,7 @@ function WineList() {
       wine_type: wineType,
       grapes: grapeNames,
       restaurant: parseInt(id),
+      imageURL: imageUrl,
     };
 
     dispatch(addWine(newWine));
@@ -82,6 +84,7 @@ function WineList() {
     setYear("");
     setWineType("");
     setSelectedGrapes([]);
+    setImageUrl("");
     setOpen(false);
   };
 
@@ -292,6 +295,19 @@ function WineList() {
                   </select>
                 </div>
 
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">
+                    Wine Image URL
+                  </label>
+                  <input
+                    type="url"
+                    className="input input-bordered w-full"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    placeholder="https://example.com/my-wine.jpg"
+                  />
+                </div>
+
                 {/* Restaurant info - display only, not editable */}
                 <div className="mb-4 p-3 bg-gray-100 rounded-lg">
                   <p className="text-sm text-gray-600">
@@ -301,7 +317,7 @@ function WineList() {
                 </div>
 
                 <div className="flex gap-2">
-                  <button type="submit" className="btn btn-primary flex-1">
+                  <button type="submit" className="btn btn-secondary flex-1">
                     Submit
                   </button>
                   <button

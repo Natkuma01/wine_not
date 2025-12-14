@@ -50,7 +50,6 @@ function AddInventory() {
     return "";
   };
 
-
   // Handle form field changes with auto-calculation
   const handleBuyingPriceChange = (value) => {
     setBuyingPrice(value);
@@ -138,7 +137,7 @@ function AddInventory() {
     } else {
       navigate(-1);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-secondary/10">
@@ -158,10 +157,10 @@ function AddInventory() {
           <div className="card bg-secondary/60 text-gray-800 shadow-lg mb-6">
             <div className="card-body">
               <div className="flex items-start gap-4">
-
-               
                 <div>
-                  <h3 className="font-bold text-lg">No Inventory Record Found</h3>
+                  <h3 className="font-bold text-lg">
+                    No Inventory Record Found
+                  </h3>
                   <p className="text-sm mt-1">
                     This wine doesn't have an inventory record yet. Please add
                     inventory details below to start tracking stock levels and
@@ -175,7 +174,9 @@ function AddInventory() {
           {/* Add Inventory Form Card */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title text-2xl text-gray-600 mb-4">Add Inventory Details</h2>
+              <h2 className="card-title text-2xl text-gray-600 mb-4">
+                Add Inventory Details
+              </h2>
 
               {/* Error Alert */}
               {error && (
@@ -272,7 +273,6 @@ function AddInventory() {
                     </span>
                   </label>
                 </div>
-
 
                 {/* Submit Button */}
                 <div className="form-control">

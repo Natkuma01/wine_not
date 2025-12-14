@@ -119,7 +119,7 @@ function RestaurantList() {
               </div>
 
               <div className="flex gap-2">
-                <button type="submit" className="btn btn-primary flex-1">
+                <button type="submit" className="btn btn-secondary flex-1">
                   Submit
                 </button>
                 <button
