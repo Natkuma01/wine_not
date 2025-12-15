@@ -1,0 +1,13 @@
+# Security (NEVER upload this)
+.env
+
+# Python compilation junk
+__pycache__/
+*.pyc
+
+# Virtual Environments (Too big, OS specific)
+venv/
+env/
+
+# Mac OS junk
+.DS_Store
