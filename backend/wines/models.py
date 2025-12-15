@@ -25,7 +25,6 @@ class Wine(models.Model):
     )
     wine_type = models.CharField(max_length=20, choices=TYPE_CHOICES, null=True) 
     grapes = models.ManyToManyField('Grape', related_name='wines')      # allow user to add more than 1 grape
-    restaurant = models.ForeignKey('restaurants.Restaurant', on_delete=models.CASCADE, related_name='wines')        # explicitly declare Restaurant model from restaurants app
 
     def __str__(self):
         return f"{self.name} ({self.year})"

@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory, fetchInventories } from "./inventorySlice";
 import { updateWine, fetchWines } from "../wines/wineSlice";
+import { fetchRestaurants } from "../restaurants/restaurantSlice";
 import { useParams, useNavigate } from "react-router-dom";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Bar } from "react-chartjs-2";
 import leftArrow from "../../assets/left-arrow.png";
 
 function InventoryList() {
@@ -23,6 +26,7 @@ function InventoryList() {
   const [year, setYear] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
+
   const dispatch = useDispatch();
 
   const {
@@ -37,9 +41,16 @@ function InventoryList() {
     error: wineError,
   } = useSelector((state) => state.wines);
 
+  const {
+    restaurants,
+    loading: restaurantLoading,
+    error: restaurantError,
+  } = useSelector((state) => state.restaurants);
+
   useEffect(() => {
     dispatch(fetchInventories());
     dispatch(fetchWines());
+    dispatch(fetchRestaurants());
   }, [dispatch]);
 
   // Pre-fill inventory form when modal opens
@@ -179,17 +190,124 @@ function InventoryList() {
     setWineInformationFormOpen(false);
   };
 
-  if (inventoryLoading || wineLoading) return <p>Loading...</p>;
+  if (inventoryLoading || wineLoading || restaurantLoading) return <p>Loading...</p>;
   if (inventoryError) return <p>Error: {inventoryError}</p>;
   if (wineError) return <p>Error: {wineError}</p>;
+  if (restaurantError) return <p>Error: {restaurantError}</p>;
 
   const inventory = inventories.find((item) => item.wine === parseInt(wineId));
   const wine = wines.find((w) => w.id === parseInt(wineId));
+  const restaurant = restaurants.find((r) => r.id === inventory?.restaurant);
 
   if (!inventory) {
     navigate(`/inventories/add/${wineId}`);
     return null;
   }
+
+
+  // =================================== CHART CALCULATION ===================================
+  ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+  const currentRestaurantId = inventory?.restaurant;        // get restaurant ID from inventory
+
+  const restaurantInventories = inventories.filter((item) => item.restaurant === currentRestaurantId);
+  
+  const totalProfitPercentage = Math.round(restaurantInventories.reduce((sum, item) => sum + (parseFloat(item.profit_margin) || 0), 0));
+  console.log(currentRestaurantId)
+  console.log(restaurantInventories)
+  console.log('All Profit Margins:', restaurantInventories.map(item => item.profit_margin));
+
+  const profitMarginDistribution = restaurantInventories.reduce(
+  (acc, item) => {
+    const margin = parseFloat(item.profit_margin) || 0;
+    
+    if (margin >= 0 && margin <= 25) {
+      acc['0-25%']++;
+    } else if (margin > 25 && margin <= 50) {
+      acc['26-50%']++;
+    } else if (margin > 50 && margin <= 75) {
+      acc['51-75%']++;
+    } else if (margin > 75 && margin <= 100) {
+      acc['76-100%']++;
+    } else if (margin > 100) {
+      acc['>100%']++;
+    }
+    
+    return acc;
+  },
+  { '0-25%': 0, '26-50%': 0, '51-75%': 0, '76-100%': 0, '>100%': 0 }
+);
+
+const chartData = {
+  labels: ['0-25%', '26-50%', '51-75%', '76-100%', '>100%'],
+  datasets: [
+    {
+    
+      data: [
+        profitMarginDistribution['0-25%'],
+        profitMarginDistribution['26-50%'],
+        profitMarginDistribution['51-75%'],
+        profitMarginDistribution['76-100%'],
+        profitMarginDistribution['>100%'],
+      ],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',   // Red
+        'rgba(255, 206, 86, 0.6)',   // Yellow
+        'rgba(75, 192, 192, 0.6)',   // Teal
+        'rgba(54, 162, 235, 0.6)',   // Blue
+        'rgba(153, 102, 255, 0.6)',  // Purple
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(153, 102, 255, 1)',
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 1,
+      },
+      title: {
+        display: true,
+        text: 'Number of Wines'
+      }
+    },
+    x: {
+      title: {
+        display: true,
+        text: 'Profit Margin Range'
+      }
+    }
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          return `${context.parsed.y} wine(s)`;
+        }
+      }
+    }
+  }
+};
+
+  
+  
+ 
+
 
   return (
     <>
@@ -384,8 +502,14 @@ function InventoryList() {
         <div className="flex-1">
           <div className="card bg-base-100 shadow-md">
             <div className="card-body">
-              <h2 className="card-title">Chart</h2>
-              {/* Chart content will go here */}
+              <h2 className="card-title">{restaurant?.name || "Restaurant"} Profit Margin Chart</h2>
+              <p>Total Profit Margin Percentage: {totalProfitPercentage}%</p>
+              <p>Total Wines: {restaurantInventories.length}</p>
+<p>Average Profit Margin: {restaurantInventories.length > 0 ? (totalProfitPercentage / restaurantInventories.length).toFixed(2) : 0}%</p>
+
+<div className="w-full h-80 relative">
+  <Bar data={chartData} options={chartOptions} />
+</div>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWines, addWine } from "./wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
+import { fetchInventories } from "../inventories/inventorySlice";
 import { fetchGrapes } from "./grapeSlice";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import leftArrow from "../../assets/left-arrow.png";
@@ -31,10 +32,13 @@ function WineList() {
   const [wineType, setWineType] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
+  const { inventories } = useSelector((state) => state.inventories);
+
   useEffect(() => {
     dispatch(fetchWines());
     dispatch(fetchRestaurants());
     dispatch(fetchGrapes());
+    dispatch(fetchInventories());
   }, [dispatch]);
 
   // display current restaurant's name
@@ -72,7 +76,6 @@ function WineList() {
       year: parseInt(year),
       wine_type: wineType,
       grapes: grapeNames,
-      restaurant: parseInt(id),
       imageURL: imageUrl,
     };
 
@@ -91,8 +94,16 @@ function WineList() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  // filter wines by restaurant ID - convert to integer
-  const filtered = wines.filter((wine) => wine.restaurant === parseInt(id));
+  const restaurantInventories = inventories.filter(
+    (inv) => inv.restaurant === parseInt(id)
+  );
+  const wineIdsInInventories = restaurantInventories.map((inv) => inv.wine);
+
+  const filtered = wines.filter(
+    (wine) =>
+      wineIdsInInventories.includes(wine.id)
+  );
+  
 
   return (
     <>
