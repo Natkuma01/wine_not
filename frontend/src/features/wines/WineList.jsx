@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWines, addWine } from "./wineSlice";
+import { fetchWines, addWine, deleteWine } from "./wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
 import { fetchInventories } from "../inventories/inventorySlice";
 import { fetchGrapes } from "./grapeSlice";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import leftArrow from "../../assets/left-arrow.png";
+import trashIcon from "../../assets/trash.png";
 
 const WINE_TYPE_CHOICES = [
   { value: "white", label: "White" },
@@ -91,6 +92,14 @@ function WineList() {
     setOpen(false);
   };
 
+  const handleDelete = (e, wineId) => {
+    e.stopPropagation();
+    
+    if (window.confirm("Are you sure you want to delete this wine?")) {
+      dispatch(deleteWine(wineId));
+    }
+  }
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -129,7 +138,16 @@ function WineList() {
             Add Wine
           </button>
         </div>
-
+        <div className="m-8">
+          <select defaultValue="All Types of wine" className="select">
+  <option disabled={true}>All Types of wines</option>
+  <option>White</option>
+  <option>Red</option>
+  <option>Sparkling</option>
+  <option>Orange</option>
+  <option>Dessert</option>
+</select>
+        </div>
         <div className="overflow-x-auto border-2 border-slate-300 m-8 rounded-lg">
           <table className="table w-full">
             <thead>
@@ -138,7 +156,8 @@ function WineList() {
                 <th>Producer</th>
                 <th>Country</th>
                 <th>Year</th>
-                <th>Type</th>
+                
+                <th></th>
               </tr>
             </thead>
 
@@ -161,7 +180,18 @@ function WineList() {
                     <td>{wine.producer}</td>
                     <td>{wine.country}</td>
                     <td>{wine.year}</td>
-                    <td className="capitalize">{wine.wine_type}</td>
+                   
+                    <td>
+                      <button className="text-right"
+                      onClick={(e) => handleDelete(e, wine.id)}>
+                        <img
+                          src={trashIcon}
+                          alt="Delete"
+                          className="w-5 h-5 inline-block hover:text-red-500"
+                        />
+                      </button>
+                    
+                    </td>
                   </tr>
                 ))
               )}

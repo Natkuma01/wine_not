@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8000/restaurants/restaurants/"
+
 export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
   async () => {
-    const response = await axios.get(
-      "http://localhost:8000/restaurants/restaurants/",
-    );
+    const response = await axios.get(BASE_URL);
     return response.data;
   },
 );
@@ -15,8 +15,7 @@ export const addRestaurant = createAsyncThunk(
   "restaurants/addRestaurant",
   async (newRestaurant) => {
     const response = await axios.post(
-      "http://localhost:8000/restaurants/restaurants/",
-      newRestaurant,
+      BASE_URL, newRestaurant,
       {
         headers: {
           "Content-Type": "application/json",
@@ -26,6 +25,14 @@ export const addRestaurant = createAsyncThunk(
     return response.data; // new restaurant returned from backend
   },
 );
+
+export const deleteRestaurant = createAsyncThunk(
+  "restaurants/deleteRestaurant",
+  async (id) => {
+    await axios.delete(`${BASE_URL}${id}/`);
+    return id;
+  }
+)
 
 const restaurantSlice = createSlice({
   name: "restaurants",
@@ -62,6 +69,13 @@ const restaurantSlice = createSlice({
       .addCase(addRestaurant.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+
+      // delete
+      .addCase(deleteRestaurant.fulfilled, (state, action) => {
+        state.restaurants = state.restaurants.filter(
+          (restaurant) => restaurant.id !== action.payload
+        );
       });
   },
 });

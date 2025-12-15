@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8000/wines/wines/"
+
 export const fetchWines = createAsyncThunk("wines/fetchWines", async () => {
-  const response = await axios.get("http://localhost:8000/wines/wines/");
+  const response = await axios.get(BASE_URL);
   return response.data;
 });
 
 export const addWine = createAsyncThunk("wines/addWine", async (newWine) => {
-  const response = await axios.post(
-    "http://localhost:8000/wines/wines/",
-    newWine,
+  const response = await axios.post(BASE_URL, newWine,
     {
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const updateWine = createAsyncThunk(
   "wines/updateWine",
   async ({ id, ...updateData }) => {
     const response = await axios.patch(
-      `http://localhost:8000/wines/wines/${id}/`,
+      `${BASE_URL}${id}/`,
       updateData,
       {
         headers: {
@@ -34,6 +34,14 @@ export const updateWine = createAsyncThunk(
     return response.data;
   },
 );
+
+export const deleteWine = createAsyncThunk(
+  "wines/deleteWine",
+  async (id) => {
+    await axios.delete(`${BASE_URL}${id}/`);
+    return id;
+  }
+)
 
 const wineSlice = createSlice({
   name: "wines",
@@ -89,6 +97,13 @@ const wineSlice = createSlice({
       .addCase(updateWine.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+
+      // delete
+      .addCase(deleteWine.fulfilled, (state, action) => {
+        state.wines = state.wines.filter(
+          (wine) => wine.id !== action.payload
+        );
       });
   },
 });

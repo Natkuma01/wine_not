@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRestaurant, fetchRestaurants } from "./restaurantSlice";
+import { addRestaurant, fetchRestaurants, deleteRestaurant } from "./restaurantSlice";
 import { useNavigate } from "react-router-dom";
+import trashIcon from "../../assets/trash.png";
 
 function RestaurantList() {
   const dispatch = useDispatch();
@@ -29,6 +30,14 @@ function RestaurantList() {
     setOpen(false);
   };
 
+  const handleDelete = (e, restaurantId) => {
+    e.stopPropagation();
+
+    if (window.confirm("Are you sure you want to delete this restaurant?")) {
+      dispatch(deleteRestaurant(restaurantId));
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -51,6 +60,7 @@ function RestaurantList() {
               <th></th>
               <th>Restaurant Name</th>
               <th>Address</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -64,6 +74,18 @@ function RestaurantList() {
                 <td>{index + 1}</td>
                 <td>{restaurant.name}</td>
                 <td>{restaurant.address}</td>
+                <td className="text-right">
+                  <button
+                    onClick={(e) => handleDelete(e, restaurant.id)}
+                    className="hover:text-red-500"    // this hover effect does not work
+                  >
+                    <img
+                      src={trashIcon}
+                      alt="Delete"
+                      className="w-5 h-5 inline-block"
+                    />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
