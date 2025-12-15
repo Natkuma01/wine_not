@@ -24,6 +24,7 @@ function WineList() {
   const { restaurants } = useSelector((state) => state.restaurants);
   const { grapes } = useSelector((state) => state.grapes);
 
+
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [producer, setProducer] = useState("");
@@ -32,6 +33,7 @@ function WineList() {
   const [selectedGrapes, setSelectedGrapes] = useState([]);
   const [wineType, setWineType] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [filterType, setFilterType] = useState("All Types of wines");
 
   const { inventories } = useSelector((state) => state.inventories);
 
@@ -92,6 +94,7 @@ function WineList() {
     setOpen(false);
   };
 
+  // Delete wine
   const handleDelete = (e, wineId) => {
     e.stopPropagation();
     
@@ -100,18 +103,26 @@ function WineList() {
     }
   }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
   const restaurantInventories = inventories.filter(
     (inv) => inv.restaurant === parseInt(id)
   );
+
   const wineIdsInInventories = restaurantInventories.map((inv) => inv.wine);
 
-  const filtered = wines.filter(
-    (wine) =>
-      wineIdsInInventories.includes(wine.id)
-  );
+  // Filter wine type
+  const filtered = wines.filter((wine) => {
+    const isInRestaurant = wineIdsInInventories.includes(wine.id);
+    const matchType = filterType === "All Types of wines" || wine.wine_type === filterType;
+    return isInRestaurant && matchType;
+  })
+
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+
+
+
   
 
   return (
@@ -138,16 +149,20 @@ function WineList() {
             Add Wine
           </button>
         </div>
-        <div className="m-8">
-          <select defaultValue="All Types of wine" className="select">
-  <option disabled={true}>All Types of wines</option>
-  <option>White</option>
-  <option>Red</option>
-  <option>Sparkling</option>
-  <option>Orange</option>
-  <option>Dessert</option>
-</select>
-        </div>
+<div className="m-8">
+  <select 
+    className="select select-bordered w-full max-w-xs" 
+    value={filterType}
+    onChange={(e) => setFilterType(e.target.value)}
+  >
+    <option value="All">All Types of wines</option>
+    {WINE_TYPE_CHOICES.map((choice) => (
+      <option key={choice.value} value={choice.value}>
+        {choice.label}
+      </option>
+    ))}
+  </select>
+</div>
         <div className="overflow-x-auto border-2 border-slate-300 m-8 rounded-lg">
           <table className="table w-full">
             <thead>
