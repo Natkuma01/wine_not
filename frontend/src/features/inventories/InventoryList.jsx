@@ -426,7 +426,7 @@ const chartOptions = {
                   value={profitMargin}
                   onChange={(e) => handleProfitMarginChange(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary mt-4 w-full">
+                <button type="submit" className="btn btn-secondary mt-4 w-full">
                   Update
                 </button>
               </form>
@@ -490,7 +490,7 @@ const chartOptions = {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary mt-4 w-full">
+                <button type="submit" className="btn btn-secondary mt-4 w-full">
                   Update
                 </button>
               </form>
