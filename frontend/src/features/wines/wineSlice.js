@@ -8,7 +8,9 @@ export const fetchWines = createAsyncThunk("wines/fetchWines", async () => {
   return response.data;
 });
 
-export const addWine = createAsyncThunk("wines/addWine", async (newWine) => {
+export const addWine = createAsyncThunk(
+  "wines/addWine", 
+  async (newWine) => {
   const response = await axios.post(BASE_URL, newWine,
     {
       headers: {
@@ -17,7 +19,7 @@ export const addWine = createAsyncThunk("wines/addWine", async (newWine) => {
     },
   );
   return response.data;
-});
+} );
 
 export const updateWine = createAsyncThunk(
   "wines/updateWine",

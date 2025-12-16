@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8000/inventories/inventories/"
+
 export const fetchInventories = createAsyncThunk(
   "inventories/fetchInventories",
   async () => {
     const response = await axios.get(
-      "http://localhost:8000/inventories/inventories/",
+      BASE_URL,
     );
     return response.data;
   },
@@ -15,7 +17,7 @@ export const addInventory = createAsyncThunk(
   "inventories/inventories",
   async (newInventory) => {
     const response = await axios.post(
-      "http://localhost:8000/inventories/inventories/",
+      BASE_URL,
       newInventory,
       { headers: { "Content-Type": "application/json" } },
     );

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWines, addWine, deleteWine } from "./wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
-import { fetchInventories } from "../inventories/inventorySlice";
+import { fetchInventories, addInventory } from "../inventories/inventorySlice";
 import { fetchGrapes } from "./grapeSlice";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import leftArrow from "../../assets/left-arrow.png";
@@ -23,9 +23,13 @@ function WineList() {
   const { wines, loading, error } = useSelector((state) => state.wines);
   const { restaurants } = useSelector((state) => state.restaurants);
   const { grapes } = useSelector((state) => state.grapes);
+  const { inventories } = useSelector((state) => state.inventories);
 
 
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [createdWineId, setCreatedWineId] = useState(null); 
+
   const [name, setName] = useState("");
   const [producer, setProducer] = useState("");
   const [country, setCountry] = useState("");
@@ -34,8 +38,6 @@ function WineList() {
   const [wineType, setWineType] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [filterType, setFilterType] = useState("All Types of wines");
-
-  const { inventories } = useSelector((state) => state.inventories);
 
   useEffect(() => {
     dispatch(fetchWines());
@@ -82,7 +84,15 @@ function WineList() {
       imageURL: imageUrl,
     };
 
-    dispatch(addWine(newWine));
+    const resultAction = await dispatch(addWine(newWine));
+
+    if (addWine.fulfilled.match(resultAction)) {
+      const createdWine = resultAction.payload;
+      setCreatedWineId(createdWine.id);
+      setOpen(false);
+      setConfirmOpen(true);
+    }
+
 
     setName("");
     setProducer("");
@@ -93,6 +103,34 @@ function WineList() {
     setImageUrl("");
     setOpen(false);
   };
+
+  const handleConfirmYes = async () => {
+    if (!createdWineId) return;
+
+    const newInventory = {
+      wine: createdWineId,
+      restaurant: parseInt(id),
+      quantity: 0,
+      buying_price: 0.00,
+      selling_price: 0.00,
+      profit_margin: null,
+    };
+
+    try {
+      await dispatch(addInventory(newInventory)).unwrap();
+      await dispatch(fetchInventories());
+      setConfirmOpen(false);
+      setCreatedWineId(null); 
+    } catch (err) {
+      console.error("Failed to add inventory for the new wine: ", err);
+      alert("Failed to add inventory for the new wine. Please try again.");
+    }
+  };
+
+  const handleConfirmNo = () => {
+    setConfirmOpen(false);
+    setCreatedWineId(null);
+  }
 
   // Delete wine
   const handleDelete = (e, wineId) => {
@@ -155,7 +193,7 @@ function WineList() {
     value={filterType}
     onChange={(e) => setFilterType(e.target.value)}
   >
-    <option value="All">All Types of wines</option>
+    <option value="All Types of wines">All Types of wines</option>
     {WINE_TYPE_CHOICES.map((choice) => (
       <option key={choice.value} value={choice.value}>
         {choice.label}
@@ -364,14 +402,6 @@ function WineList() {
                   />
                 </div>
 
-                {/* Restaurant info - display only, not editable */}
-                <div className="mb-4 p-3 bg-gray-100 rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Restaurant:</span>{" "}
-                    {currentRestaurant?.name}
-                  </p>
-                </div>
-
                 <div className="flex gap-2">
                   <button type="submit" className="btn btn-secondary flex-1">
                     Submit
@@ -385,6 +415,39 @@ function WineList() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Confirmation Modal */}
+        {confirmOpen && (
+          <div  className="fixed inset-0 flex items-center justify-center z-50"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          >
+            <div
+              className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-bold mb-4">Wine Created Successfully!</h2>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to add this wine to{" "}
+                <span className="font-semibold">{currentRestaurant?.name}</span>?
+              </p>
+
+              <div className="flex gap-4">
+                <button
+                  onClick={handleConfirmYes}
+                  className="btn btn-secondary flex-1"
+                >
+                  YES
+                </button>
+                <button
+                  onClick={handleConfirmNo}
+                  className="btn btn-outline flex-1"
+                >
+                  NO
+                </button>
+              </div>
             </div>
           </div>
         )}
