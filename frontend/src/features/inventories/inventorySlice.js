@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "http://18.218.13.195/inventories/inventories/"
+const BASE_URL = "http://wine-inventory.duckdns.org/inventories/inventories/"
 
 export const fetchInventories = createAsyncThunk(
   "inventories/fetchInventories",
