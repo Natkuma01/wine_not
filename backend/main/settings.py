@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-@btn(z$jzl$_ur+m3f2j5#gn2smlz)vvkk7=xqma6!0j!wva_0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.218.13.195', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['18.218.13.195', 'localhost', 'wine-project.18.218.13.195.nip.io', '127.0.0.1']
 
 
 # Application definition
@@ -57,7 +57,7 @@ MIDDLEWARE = [
 
 ]
 # Handling CORS
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173", 'http://wine-project.18.218.13.195.nip.io' ]
 
 
 # for Django restframework
