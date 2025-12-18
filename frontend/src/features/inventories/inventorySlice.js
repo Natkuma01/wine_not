@@ -29,7 +29,7 @@ export const updateInventory = createAsyncThunk(
   "inventories/updateInventory",
   async ({ id, ...updateData }) => {
     const response = await axios.patch(
-      `http://localhost:8000/inventories/inventories/${id}/`,
+      `${BASE_URL}/${id}/`,
       updateData,
       { headers: { "Content-Type": "application/json" } },
     );
