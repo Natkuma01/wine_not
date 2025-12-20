@@ -21,33 +21,36 @@ function Landing() {
       return;
     }
 
-    const BASE_URL = import meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+    const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
   try {
-      const response = await axios.post("http://localhost:8000/api/token/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({ username, password }),
+      const response = await axios.post(`${BASE_URL}/api/token/`, {
+        username: username,
+        password: password
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok) {
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
+    
+      localStorage.setItem("access_token", data.access);
+      localStorage.setItem("refresh_token", data.refresh);
 
-        console.log("Login successful");
-        navigate("/");
-      } else {
-        setError("Invalid username or password")
-      }
+      console.log("Login successful");
+      navigate("/");
+
     } catch (err) {
       console.error("Login Error:", err);
-      setError("Unable to connect to the server. Build more projects to practice");
+
+      if (err.response){
+        setError("Invalid user name or password");
+      } else if (err.request) {
+      setError("Unable to connect to the server. Make sure backend is running.");
+      } else {
+        setError("Build more projects to practice. You Failed! LOL");
+      }
     }
   };
+  
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
