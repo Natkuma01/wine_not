@@ -197,7 +197,7 @@ function Landing() {
                 <div className="flex flex-col gap-2">
                   <button
                     type="button"
-                    className="btn btn-outline w-full"
+                    className="btn btn-outline bg-secondary text-gray-300 w-full"
                     onClick={() => {
                       setShowCreateAccount(true);
                       setError("");
@@ -226,7 +226,7 @@ function Landing() {
             {showCreateAccount && (
               <>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="card-title text-2xl">Create Account</h2>
+                  <h2 className="card-title text-gray-600 text-2xl">Create Account</h2>
                   <button
                     className="btn btn-sm btn-ghost"
                     onClick={() => {
@@ -310,7 +310,7 @@ function Landing() {
                   </div>
 
                   <div className="form-control mb-4">
-                    <button type="submit" className="btn btn-primary w-full">
+                    <button type="submit" className="btn btn-secondary w-full">
                       Create Account
                     </button>
                   </div>
@@ -319,7 +319,7 @@ function Landing() {
                 <div className="text-center">
                   <button
                     type="button"
-                    className="btn btn-link text-sm"
+                    className="btn btn-link text-secondary text-sm"
                     onClick={() => {
                       setShowCreateAccount(false);
                       setError("");
@@ -336,7 +336,7 @@ function Landing() {
             {showForgotPassword && (
               <>
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="card-title text-2xl">Forgot Password</h2>
+                  <h2 className="card-title text-gray-600 text-2xl">Forgot Password</h2>
                   <button
                     className="btn btn-sm btn-ghost"
                     onClick={() => {
@@ -409,7 +409,7 @@ function Landing() {
                   </div>
 
                   <div className="form-control mb-4">
-                    <button type="submit" className="btn btn-primary w-full">
+                    <button type="submit" className="btn btn-secondary w-full">
                       Send Reset Instructions
                     </button>
                   </div>
@@ -418,7 +418,7 @@ function Landing() {
                 <div className="text-center">
                   <button
                     type="button"
-                    className="btn btn-link text-sm"
+                    className="btn btn-link text-secondary text-sm"
                     onClick={() => {
                       setShowForgotPassword(false);
                       setError("");
