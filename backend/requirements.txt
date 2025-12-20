@@ -120,6 +120,7 @@ pymongo==4.4.1
 pyserial==3.5
 pytest==7.4.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.2.1
 python-jose==3.3.0
 python-json-logger==3.3.0
 python-multipart==0.0.5
