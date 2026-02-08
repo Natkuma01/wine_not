@@ -1,9 +1,9 @@
 // grapeSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../app/api";
 
 export const fetchGrapes = createAsyncThunk("grapes/fetchGrapes", async () => {
-  const response = await axios.get("http://localhost:8000/wines/grapes/");
+  const response = await api.get("/wines/grapes/");
   return response.data;
 });
 

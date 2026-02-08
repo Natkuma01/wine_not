@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../app/api";
 
-const BASE_URL = "http://wine-inventory.duckdns.org/restaurants/restaurants/"
+const BASE_URL = "/restaurants/restaurants/";
 
 export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
   async () => {
-    const response = await axios.get(BASE_URL);
+    const response = await api.get(BASE_URL);
     return response.data;
   },
 );
@@ -14,14 +14,7 @@ export const fetchRestaurants = createAsyncThunk(
 export const addRestaurant = createAsyncThunk(
   "restaurants/addRestaurant",
   async (newRestaurant) => {
-    const response = await axios.post(
-      BASE_URL, newRestaurant,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const response = await api.post(BASE_URL, newRestaurant);
     return response.data; // new restaurant returned from backend
   },
 );
@@ -29,7 +22,7 @@ export const addRestaurant = createAsyncThunk(
 export const deleteRestaurant = createAsyncThunk(
   "restaurants/deleteRestaurant",
   async (id) => {
-    await axios.delete(`${BASE_URL}${id}/`);
+    await api.delete(`${BASE_URL}${id}/`);
     return id;
   }
 )

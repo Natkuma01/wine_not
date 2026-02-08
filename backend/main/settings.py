@@ -26,10 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@btn(z$jzl$_ur+m3f2j5#gn2smlz)vvkk7=xqma6!0j!wva_0"
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key-for-development-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# The DEBUG environment variable should be set to 'True' locally and 'False' on AWS
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['18.218.13.195', 'localhost', 'wine-inventory.duckdns.org', '127.0.0.1']
 
@@ -62,6 +63,9 @@ MIDDLEWARE = [
     
 
 ]
+
+CORS_ALLOWED_ORIGINS = False
+
 # Handling CORS
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173", 'http://wine-inventory.duckdns.org', 'https://wine-inventory.duckdns.org' ]
 

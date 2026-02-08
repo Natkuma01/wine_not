@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +10,13 @@ function Landing() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // If already logged in, go to app home
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -67,14 +74,38 @@ function Landing() {
       return;
     }
 
+    const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-    setSuccess("Account created successfully! You can now log in.");
-    setTimeout(() => {
-      setShowCreateAccount(false);
-      setUsername("");
-      setPassword("");
-      setSuccess("");
-    }, 2000);
+    try {
+      const response = await axios.post(`${BASE_URL}/api/register/`, {
+        username: username.trim(),
+        password: password,
+      });
+
+      if (response.status === 201) {
+        setSuccess("Account created successfully! You can now log in.");
+        setTimeout(() => {
+          setShowCreateAccount(false);
+          setUsername("");
+          setPassword("");
+          setSuccess("");
+        }, 2000);
+      }
+    } catch (err) {
+      if (err.response?.data?.detail) {
+        setError(
+          typeof err.response.data.detail === "string"
+            ? err.response.data.detail
+            : "Registration failed. Please try again."
+        );
+      } else if (err.response?.status === 400) {
+        setError("Invalid input. Check username and password.");
+      } else if (err.request) {
+        setError("Unable to connect to the server. Make sure backend is running.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
   };
 
   const handleForgotPassword = async (e) => {

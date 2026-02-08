@@ -1,38 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../app/api";
 
-const BASE_URL = "http://wine-inventory.duckdns.org/wines/wines/"
+const BASE_URL = "/wines/wines/";
 
 export const fetchWines = createAsyncThunk("wines/fetchWines", async () => {
-  const response = await axios.get(BASE_URL);
+  const response = await api.get(BASE_URL);
   return response.data;
 });
 
 export const addWine = createAsyncThunk(
-  "wines/addWine", 
+  "wines/addWine",
   async (newWine) => {
-  const response = await axios.post(BASE_URL, newWine,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  return response.data;
-} );
+    const response = await api.post(BASE_URL, newWine);
+    return response.data;
+  }
+);
 
 export const updateWine = createAsyncThunk(
   "wines/updateWine",
   async ({ id, ...updateData }) => {
-    const response = await axios.patch(
-      `${BASE_URL}${id}/`,
-      updateData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const response = await api.patch(`${BASE_URL}${id}/`, updateData);
     return response.data;
   },
 );
@@ -40,7 +27,7 @@ export const updateWine = createAsyncThunk(
 export const deleteWine = createAsyncThunk(
   "wines/deleteWine",
   async (id) => {
-    await axios.delete(`${BASE_URL}${id}/`);
+    await api.delete(`${BASE_URL}${id}/`);
     return id;
   }
 )

@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../app/api";
 
-const BASE_URL = "http://wine-inventory.duckdns.org/inventories/inventories/"
+const BASE_URL = "/inventories/inventories/";
 
 export const fetchInventories = createAsyncThunk(
   "inventories/fetchInventories",
   async () => {
-    const response = await axios.get(
-      BASE_URL,
-    );
+    const response = await api.get(BASE_URL);
     return response.data;
   },
 );
@@ -16,11 +14,7 @@ export const fetchInventories = createAsyncThunk(
 export const addInventory = createAsyncThunk(
   "inventories/inventories",
   async (newInventory) => {
-    const response = await axios.post(
-      BASE_URL,
-      newInventory,
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const response = await api.post(BASE_URL, newInventory);
     return response.data;
   },
 );
@@ -28,11 +22,7 @@ export const addInventory = createAsyncThunk(
 export const updateInventory = createAsyncThunk(
   "inventories/updateInventory",
   async ({ id, ...updateData }) => {
-    const response = await axios.patch(
-      `${BASE_URL}/${id}/`,
-      updateData,
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const response = await api.patch(`${BASE_URL}${id}/`, updateData);
     return response.data;
   },
 );
