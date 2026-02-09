@@ -167,7 +167,7 @@ function WineList() {
     <>
       <div className="container mx-auto py-8 px-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/restaurants")}
           className="mt-4 flex items-center gap-2"
         >
           <img src={leftArrow} className="w-5 h-5" />

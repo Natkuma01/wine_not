@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Grape, Wine
 
-# Register your models here.
+admin.site.register(Grape)
+admin.site.register(Wine)

@@ -81,7 +81,7 @@ function RestaurantList() {
               <tr
                 className="hover:bg-secondary hover:text-neutral-300 cursor-pointer"
                 key={restaurant.id}
-                onClick={() => navigate(`restaurants/wines/${restaurant.id}`)}
+                onClick={() => navigate(`/restaurants/wines/${restaurant.id}`)}
               >
                 <td>{index + 1}</td>
                 <td>{restaurant.name}</td>
