@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("access_token");
 
   if (!token) {
-    return <Navigate to="/landing" replace />
+    return <Navigate to="/" replace />
   }
   return children
 }
@@ -19,11 +19,11 @@ function App() {
     <>
       <Routes>
          {/* Public Route */}
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
 
         {/* Private Routes */}
-        <Route path="/" element={<ProtectedRoute> <RestaurantList /> </ProtectedRoute>} />
-        <Route path="wines/:id" element={<ProtectedRoute> <WineList /> </ProtectedRoute>} />
+        <Route path="/restaurants" element={<ProtectedRoute> <RestaurantList /> </ProtectedRoute>} />
+        <Route path="/restaurants/wines/:id" element={<ProtectedRoute> <WineList /> </ProtectedRoute>} />
         <Route path="inventories/:wineId" element={<ProtectedRoute> <InventoryList /> </ProtectedRoute>} />
         <Route path="inventories/add/:wineId" element={<ProtectedRoute> <AddInventory /> </ProtectedRoute>} />
       </Routes>

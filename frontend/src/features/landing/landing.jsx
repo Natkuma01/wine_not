@@ -14,7 +14,7 @@ function Landing() {
   // If already logged in, go to app home
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/", { replace: true });
+      navigate("/restaurants", { replace: true });
     }
   }, [navigate]);
 
@@ -43,7 +43,7 @@ function Landing() {
       localStorage.setItem("refresh_token", data.refresh);
 
       console.log("Login successful");
-      navigate("/");
+      navigate("/restaurants");
 
     } catch (err) {
       console.error("Login Error:", err);

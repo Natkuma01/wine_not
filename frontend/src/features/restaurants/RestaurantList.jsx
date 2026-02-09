@@ -30,6 +30,13 @@ function RestaurantList() {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+
+    navigate("/", { replace: true });
+  }
+
   const handleDelete = (e, restaurantId) => {
     e.stopPropagation();
 
@@ -43,14 +50,19 @@ function RestaurantList() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex justify-between items-center px-10">
+      <div className="flex borde justify-between items-center px-10">
         <h1 className="text-2xl font-bold">Wine Inventory Tracker</h1>
+        <div className="flex justify-end gap-4">
         <button
           onClick={() => setOpen(true)}
           className="btn btn-secondary hover:text-neutral-500"
         >
           Add restaurant
         </button>
+        <button 
+        className="hover:cursor-pointer hover:underline"
+        onClick={handleLogout}>Log out</button>
+      </div>
       </div>
 
       <div className="overflow-hidden m-8 border-2 border-slate-300 rounded-lg">
@@ -69,7 +81,7 @@ function RestaurantList() {
               <tr
                 className="hover:bg-secondary hover:text-neutral-300 cursor-pointer"
                 key={restaurant.id}
-                onClick={() => navigate(`wines/${restaurant.id}`)}
+                onClick={() => navigate(`restaurants/wines/${restaurant.id}`)}
               >
                 <td>{index + 1}</td>
                 <td>{restaurant.name}</td>
@@ -110,6 +122,7 @@ function RestaurantList() {
               >
                 &times;{" "}
               </button>
+              
             </div>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
