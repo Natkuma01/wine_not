@@ -346,7 +346,7 @@ const chartOptions = {
             <div className="card-actions justify-end m-8">
               <button
                 onClick={() => setInventoryDetailFormOpen(true)}
-                className="justify-end"
+                className="justify-end hover:cursor-pointer hover:underline"
               >
                 Edit
               </button>
@@ -364,7 +364,7 @@ const chartOptions = {
               <div className="card-actions justify-end m-2">
                 <button
                   onClick={() => setWineInformationFormOpen(true)}
-                  className="justify-end"
+                  className="justify-end hover:cursor-pointer hover:underline"
                 >
                   Edit
                 </button>

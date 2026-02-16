@@ -49,6 +49,13 @@ function WineList() {
   // display current restaurant's name
   const currentRestaurant = restaurants.find((r) => r.id === parseInt(id));
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+
+    navigate("/", { replace: true });
+  }
+
   const toggleGrape = (grapeId) => {
     setSelectedGrapes((prev) => {
       if (prev.includes(grapeId)) {
@@ -180,12 +187,18 @@ function WineList() {
           <h1 className="text-2xl font-bold">
             {currentRestaurant?.name} Wine List
           </h1>
+                  <div className="flex justify-end gap-4">
+
           <button
             onClick={() => setOpen(true)}
             className="btn btn-secondary hover:text-neutral-500"
           >
             Add Wine
           </button>
+          <button 
+        className="hover:cursor-pointer hover:underline"
+        onClick={handleLogout}>Log out</button>
+      </div>
         </div>
 <div className="m-8">
   <select 
