@@ -17,7 +17,10 @@ function RestaurantList() {
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
-
+  
+console.log("DEBUG: restaurants state value:", restaurants);
+  console.log("DEBUG: is it an array?", Array.isArray(restaurants));
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !address) return;
@@ -77,7 +80,8 @@ function RestaurantList() {
           </thead>
 
           <tbody>
-            {restaurants.map((restaurant, index) => (
+            {Array.isArray(restaurants) && restaurants.length > 0 ? (
+restaurants.map((restaurant, index) => (
               <tr
                 className="hover:bg-secondary hover:text-neutral-300 cursor-pointer"
                 key={restaurant.id}
@@ -99,7 +103,17 @@ function RestaurantList() {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+
+) : (
+    <tr>
+      <td colSpan="4" className="text-center py-10 text-gray-500">
+        {loading ? "Loading restaurants..." : "No restaurants found or invalid data received."}
+      </td>
+    </tr>
+  )
+
+}
           </tbody>
         </table>
       </div>

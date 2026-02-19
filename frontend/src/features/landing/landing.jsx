@@ -31,7 +31,7 @@ function Landing() {
     const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
   try {
-      const response = await axios.post(`${BASE_URL}/api/token/`, {
+       const response = await axios.post(`${BASE_URL}/api/token/`, {
         username: username,
         password: password
       });

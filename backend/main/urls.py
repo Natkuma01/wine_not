@@ -30,9 +30,9 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
-    path("restaurants/", include("restaurants.urls")),
-    path("wines/", include("wines.urls")),
-    path("inventories/", include("inventories.urls")),
+    path("api/restaurants/", include("restaurants.urls")),
+    path("api/wines/", include("wines.urls")),
+    path("api/inventories/", include("inventories.urls")),
 
 
 ]

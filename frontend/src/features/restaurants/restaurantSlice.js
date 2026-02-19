@@ -7,7 +7,7 @@ export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
   async () => {
     const response = await api.get(BASE_URL);
-    return response.data;
+    return response.data.results ?? response.data;
   },
 );
 
