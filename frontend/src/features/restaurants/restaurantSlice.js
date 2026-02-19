@@ -7,7 +7,7 @@ export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
   async () => {
     const response = await api.get(BASE_URL);
-    return response.data;
+    return response.data.results ?? response.data;
   },
 );
 
@@ -49,6 +49,7 @@ const restaurantSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+
 
       // handle addRestaurant
       .addCase(addRestaurant.pending, (state) => {
