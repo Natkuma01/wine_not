@@ -88,6 +88,12 @@ console.log("DEBUG: restaurants state value:", restaurants);
           Home
         </button>
         <button
+          onClick={() => navigate("/analytics")}
+          className="btn btn-secondary hover:text-neutral-500"
+        >
+          Visited
+        </button>
+        <button
           onClick={() => setOpen(true)}
           className="btn btn-secondary hover:text-neutral-500"
         >

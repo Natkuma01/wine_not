@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "wines",
     "inventories",
     "restaurants",
+    "analytics",
     "rest_framework",
     "corsheaders",
 ]
