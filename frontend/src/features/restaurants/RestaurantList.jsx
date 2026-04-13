@@ -12,7 +12,12 @@ function RestaurantList() {
   );
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [streetNumber, setStreetNumber] = useState("");
+  const [streetName, setStreetName] = useState("");
+  const [floorUnit, setFloorUnit] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
 
   useEffect(() => {
     dispatch(fetchRestaurants());
@@ -23,13 +28,26 @@ console.log("DEBUG: restaurants state value:", restaurants);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !address) return;
+    if (!name) return;
 
-    const newRestaurant = { name, address };
+    const newRestaurant = {
+      name,
+      street_number: streetNumber,
+      street_name: streetName,
+      floor_unit: floorUnit,
+      postal_code: postalCode ? parseInt(postalCode) : null,
+      city,
+      state,
+    };
     dispatch(addRestaurant(newRestaurant));
 
     setName("");
-    setAddress("");
+    setStreetNumber("");
+    setStreetName("");
+    setFloorUnit("");
+    setPostalCode("");
+    setCity("");
+    setState("");
     setOpen(false);
   };
 
@@ -89,7 +107,16 @@ restaurants.map((restaurant, index) => (
               >
                 <td>{index + 1}</td>
                 <td>{restaurant.name}</td>
-                <td>{restaurant.address}</td>
+                <td>{[
+                  restaurant.street_number && restaurant.street_name
+                    ? `${restaurant.street_number} ${restaurant.street_name}`
+                    : restaurant.street_name || restaurant.street_number,
+                  restaurant.floor_unit,
+                  restaurant.city,
+                  restaurant.state && restaurant.postal_code
+                    ? `${restaurant.state} ${restaurant.postal_code}`
+                    : restaurant.state || restaurant.postal_code,
+                ].filter(Boolean).join(", ")}</td>
                 <td className="text-right">
                   <button
                     onClick={(e) => handleDelete(e, restaurant.id)}
@@ -155,15 +182,80 @@ restaurants.map((restaurant, index) => (
 
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">
-                  Address
+                  Street Name
                 </label>
                 <input
                   type="text"
                   className="input input-bordered w-full"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter Address"
-                  required
+                  value={streetName}
+                  onChange={(e) => setStreetName(e.target.value)}
+                  placeholder="e.g. Madison Avenue"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Number
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  value={streetNumber}
+                  onChange={(e) => setStreetNumber(e.target.value)}
+                  placeholder="e.g. 247"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Floor / Unit
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  value={floorUnit}
+                  onChange={(e) => setFloorUnit(e.target.value)}
+                  placeholder="e.g. Suite 3A"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Postal Code
+                </label>
+                <input
+                  type="number"
+                  className="input input-bordered w-full"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  placeholder="e.g. 10016"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  City
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="e.g. New York"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  State
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  value={state}
+                  onChange={(e) => setState(e.target.value.toUpperCase().slice(0, 2))}
+                  placeholder="e.g. NY"
+                  maxLength={2}
                 />
               </div>
 
