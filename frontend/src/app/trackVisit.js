@@ -10,9 +10,7 @@ function generateId() {
 function getSessionId() {
   let id = sessionStorage.getItem("session_id");
   if (!id) {
-    id = typeof crypto.randomUUID === "function"
-      ? crypto.randomUUID()
-      : generateId();
+    id = generateId();
     sessionStorage.setItem("session_id", id);
   }
   return id;
