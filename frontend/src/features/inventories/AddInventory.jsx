@@ -140,7 +140,7 @@ function AddInventory() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/10">
+    <div className="min-h-screen">
       <div className="container mx-auto py-8 px-4">
         {/* Back button */}
         <button

@@ -156,7 +156,6 @@ function InventoryList() {
     };
 
     await dispatch(updateInventory(updateData));
-    await dispatch(fetchInventories());
 
     setQuantity("");
     setBuyingPrice("");
@@ -181,7 +180,6 @@ function InventoryList() {
     if (imageUrl) updateData.imageURL = imageUrl;
 
     await dispatch(updateWine(updateData));
-    await dispatch(fetchInventories());
 
     setProducer("");
     setCountry("");
@@ -319,7 +317,7 @@ const chartOptions = {
           <img src={leftArrow} className="w-5 h-5" /> Back to Wine List
         </button>
         <h1 className="text-2xl font-bold">
-          {inventory.wine_name} {inventory.producer}
+          {inventory.wine_name} {wine.producer}
         </h1>
       </div>
 

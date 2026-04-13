@@ -3,3 +3,11 @@
 @plugin "daisyui" {
   themes: garden --default;
 }
+
+:root {
+  --color-base-100: #f7f0e6;
+}
+
+html, body {
+  background-color: #f7f0e6;
+}

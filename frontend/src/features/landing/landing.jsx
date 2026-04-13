@@ -11,7 +11,6 @@ function Landing() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // If already logged in, go to app home
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       navigate("/restaurants", { replace: true });
@@ -30,34 +29,26 @@ function Landing() {
 
     const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-  try {
-       const response = await axios.post(`${BASE_URL}/api/token/`, {
+    try {
+      const response = await axios.post(`${BASE_URL}/api/token/`, {
         username: username,
-        password: password
+        password: password,
       });
 
       const data = response.data;
-
-    
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
-
-      console.log("Login successful");
       navigate("/restaurants");
-
     } catch (err) {
-      console.error("Login Error:", err);
-
-      if (err.response){
-        setError("Invalid user name or password");
+      if (err.response) {
+        setError("Invalid username or password");
       } else if (err.request) {
-      setError("Unable to connect to the server. Make sure backend is running.");
+        setError("Unable to connect to the server. Make sure backend is running.");
       } else {
-        setError("Build more projects to practice. You Failed! LOL");
+        setError("Something went wrong. Please try again.");
       }
     }
   };
-  
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
@@ -127,342 +118,278 @@ function Landing() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10 px-4">
-      <div className="w-full max-w-md">
-        {/* Logo/Title Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-secondary mb-2">
-            Wine Inventory Tracker
-          </h1>
-          <p className="text-base-content/70">
-            Manage your wine inventory with ease
-          </p>
-        </div>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4"
+      style={{ backgroundColor: "#F7F0E6" }}
+    >
+      {/* Decorative blobs */}
+      <div
+        className="absolute top-[-80px] left-[-80px] w-72 h-72 rounded-full opacity-20 pointer-events-none"
+        style={{ backgroundColor: "#C8A882" }}
+      />
+      <div
+        className="absolute bottom-[-60px] right-[-60px] w-64 h-64 rounded-full opacity-20 pointer-events-none"
+        style={{ backgroundColor: "#A87C5A" }}
+      />
 
-        {/* Main Card */}
-        <div className="card bg-base-100 shadow-2xl">
-          <div className="card-body">
-            {/* Login Form */}
-            {!showCreateAccount && !showForgotPassword && (
-              <>
-                <h2 className="card-title text-2xl mb-4 justify-center text-gray-600">
-                  Sign In
-                </h2>
+      {/* Decorative wine emoji accents */}
+      <span className="absolute left-8 top-1/2 -translate-y-1/2 text-8xl opacity-20 select-none pointer-events-none hidden lg:block">
+        🍷
+      </span>
+      <span className="absolute right-12 bottom-16 text-6xl opacity-20 select-none pointer-events-none hidden lg:block">
+        🍇
+      </span>
+      <span className="absolute right-24 top-1/3 text-5xl opacity-15 select-none pointer-events-none hidden lg:block">
+        🍾
+      </span>
 
-                {error && (
-                  <div className="alert alert-error mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{error}</span>
-                  </div>
-                )}
+      {/* Title */}
+      <div className="text-center mb-8 z-10">
+        <h1 className="text-5xl font-semibold tracking-tight mb-2">
+          <span style={{ color: "#6B2737" }} className="font-bold">
+            Wine Inventory
+          </span>{" "}
+          <span style={{ color: "#3D3D3D" }} className="font-normal">
+            Tracking
+          </span>
+        </h1>
+        <p className="text-lg" style={{ color: "#888" }}>
+          Manage your wine collection with ease.
+        </p>
+      </div>
 
-                {success && (
-                  <div className="alert alert-success mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{success}</span>
-                  </div>
-                )}
-
-                <form onSubmit={handleLogin}>
-                  <div className="form-control mb-4">
-                    <label className="label">
-                      <span className="label-text font-medium">Username</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter your username"
-                      className="input input-bordered w-full"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control mb-4">
-                    <label className="label">
-                      <span className="label-text font-medium">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="Enter your password"
-                      className="input input-bordered w-full"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control mb-6">
-                    <button type="submit" className="btn btn-secondary w-full">
-                      Sign In
-                    </button>
-                  </div>
-                </form>
-
-                <div className="divider">OR</div>
-
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    className="btn btn-outline bg-secondary text-gray-300 w-full"
-                    onClick={() => {
-                      setShowCreateAccount(true);
-                      setError("");
-                      setSuccess("");
-                    }}
-                  >
-                    Create Account
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-ghost text-sm"
-                    onClick={() => {
-                      setShowForgotPassword(true);
-                      setError("");
-                      setSuccess("");
-                    }}
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              </>
+      {/* Card */}
+      <div
+        className="w-full bg-white rounded-2xl shadow-lg px-10 py-[68px] z-10"
+        style={{ maxWidth: "416px", boxShadow: "0 8px 32px rgba(107,39,55,0.10)" }}
+      >
+        {/* Login Form */}
+        {!showCreateAccount && !showForgotPassword && (
+          <>
+            {error && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mb-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                {success}
+              </div>
             )}
 
-            {/* Create Account Form */}
-            {showCreateAccount && (
-              <>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="card-title text-gray-600 text-2xl">Create Account</h2>
-                  <button
-                    className="btn btn-sm btn-ghost"
-                    onClick={() => {
-                      setShowCreateAccount(false);
-                      setError("");
-                      setSuccess("");
-                      setUsername("");
-                      setPassword("");
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
+            <form onSubmit={handleLogin} className="flex flex-col gap-5">
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                style={{
+                  borderColor: "#E0D4C8",
+                  backgroundColor: "#FDFAF7",
+                  color: "#3D3D3D",
+                }}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                style={{
+                  borderColor: "#E0D4C8",
+                  backgroundColor: "#FDFAF7",
+                  color: "#3D3D3D",
+                }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90 active:opacity-80"
+                style={{ backgroundColor: "#8d4162" }}
+              >
+                Login
+              </button>
+            </form>
 
-                {error && (
-                  <div className="alert alert-error mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{error}</span>
-                  </div>
-                )}
+            <div className="mt-5 flex flex-col gap-2 text-center">
+              <button
+                type="button"
+                className="text-sm font-medium transition hover:opacity-80"
+                style={{ color: "#6B2737" }}
+                onClick={() => {
+                  setShowCreateAccount(true);
+                  setError("");
+                  setSuccess("");
+                }}
+              >
+                Create Account
+              </button>
+              <button
+                type="button"
+                className="text-xs transition hover:opacity-80"
+                style={{ color: "#AAA" }}
+                onClick={() => {
+                  setShowForgotPassword(true);
+                  setError("");
+                  setSuccess("");
+                }}
+              >
+                Forgot Password?
+              </button>
+            </div>
+          </>
+        )}
 
-                {success && (
-                  <div className="alert alert-success mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{success}</span>
-                  </div>
-                )}
+        {/* Create Account Form */}
+        {showCreateAccount && (
+          <>
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-lg font-semibold" style={{ color: "#3D3D3D" }}>
+                Create Account
+              </h2>
+              <button
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                onClick={() => {
+                  setShowCreateAccount(false);
+                  setError("");
+                  setSuccess("");
+                  setUsername("");
+                  setPassword("");
+                }}
+              >
+                ✕
+              </button>
+            </div>
 
-                <form onSubmit={handleCreateAccount}>
-                  <div className="form-control mb-4">
-                    <label className="label">
-                      <span className="label-text font-medium">Username</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Choose a username"
-                      className="input input-bordered w-full"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control mb-4">
-                    <label className="label">
-                      <span className="label-text font-medium">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="Choose a password (min. 6 characters)"
-                      className="input input-bordered w-full"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                    />
-                  </div>
-
-                  <div className="form-control mb-4">
-                    <button type="submit" className="btn btn-secondary w-full">
-                      Create Account
-                    </button>
-                  </div>
-                </form>
-
-                <div className="text-center">
-                  <button
-                    type="button"
-                    className="btn btn-link text-secondary text-sm"
-                    onClick={() => {
-                      setShowCreateAccount(false);
-                      setError("");
-                      setSuccess("");
-                    }}
-                  >
-                    Back to Sign In
-                  </button>
-                </div>
-              </>
+            {error && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mb-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                {success}
+              </div>
             )}
 
-            {/* Forgot Password Form */}
-            {showForgotPassword && (
-              <>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="card-title text-gray-600 text-2xl">Forgot Password</h2>
-                  <button
-                    className="btn btn-sm btn-ghost"
-                    onClick={() => {
-                      setShowForgotPassword(false);
-                      setError("");
-                      setSuccess("");
-                      setUsername("");
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
+            <form onSubmit={handleCreateAccount} className="flex flex-col gap-5">
+              <input
+                type="text"
+                placeholder="Username"
+                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password (min. 6 characters)"
+                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+              />
+              <button
+                type="submit"
+                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90"
+                style={{ backgroundColor: "#8d4162" }}
+              >
+                Create Account
+              </button>
+            </form>
 
-                {error && (
-                  <div className="alert alert-error mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{error}</span>
-                  </div>
-                )}
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                className="text-sm transition hover:opacity-80"
+                style={{ color: "#6B2737" }}
+                onClick={() => {
+                  setShowCreateAccount(false);
+                  setError("");
+                  setSuccess("");
+                }}
+              >
+                Back to Sign In
+              </button>
+            </div>
+          </>
+        )}
 
-                {success && (
-                  <div className="alert alert-success mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{success}</span>
-                  </div>
-                )}
+        {/* Forgot Password Form */}
+        {showForgotPassword && (
+          <>
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-lg font-semibold" style={{ color: "#3D3D3D" }}>
+                Forgot Password
+              </h2>
+              <button
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                onClick={() => {
+                  setShowForgotPassword(false);
+                  setError("");
+                  setSuccess("");
+                  setUsername("");
+                }}
+              >
+                ✕
+              </button>
+            </div>
 
-                <p className="text-sm text-base-content/70 mb-4">
-                  Enter your username and we'll send you instructions to reset
-                  your password.
-                </p>
-
-                <form onSubmit={handleForgotPassword}>
-                  <div className="form-control mb-4">
-                    <label className="label">
-                      <span className="label-text font-medium">Username</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter your username"
-                      className="input input-bordered w-full"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control mb-4">
-                    <button type="submit" className="btn btn-secondary w-full">
-                      Send Reset Instructions
-                    </button>
-                  </div>
-                </form>
-
-                <div className="text-center">
-                  <button
-                    type="button"
-                    className="btn btn-link text-secondary text-sm"
-                    onClick={() => {
-                      setShowForgotPassword(false);
-                      setError("");
-                      setSuccess("");
-                    }}
-                  >
-                    Back to Sign In
-                  </button>
-                </div>
-              </>
+            {error && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </div>
             )}
-          </div>
-        </div>
+            {success && (
+              <div className="mb-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                {success}
+              </div>
+            )}
+
+            <p className="text-sm mb-4" style={{ color: "#888" }}>
+              Enter your username and we'll send you reset instructions.
+            </p>
+
+            <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
+              <input
+                type="text"
+                placeholder="Username"
+                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90"
+                style={{ backgroundColor: "#8d4162" }}
+              >
+                Send Reset Instructions
+              </button>
+            </form>
+
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                className="text-sm transition hover:opacity-80"
+                style={{ color: "#6B2737" }}
+                onClick={() => {
+                  setShowForgotPassword(false);
+                  setError("");
+                  setSuccess("");
+                }}
+              >
+                Back to Sign In
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

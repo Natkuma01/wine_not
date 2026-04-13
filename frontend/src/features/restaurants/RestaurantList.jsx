@@ -183,6 +183,7 @@ restaurants.map((restaurant, index) => (
           </div>
         </div>
       )}
+
     </div>
   );
 }
