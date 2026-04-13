@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRestaurant, fetchRestaurants, deleteRestaurant } from "./restaurantSlice";
 import { useNavigate } from "react-router-dom";
 import trashIcon from "../../assets/trash.png";
+import { QRCodeSVG } from "qrcode.react";
 
 function RestaurantList() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ function RestaurantList() {
     (state) => state.restaurants,
   );
   const [open, setOpen] = useState(false);
+  const [qrRestaurant, setQrRestaurant] = useState(null);
   const [name, setName] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
   const [streetName, setStreetName] = useState("");
@@ -66,12 +68,17 @@ console.log("DEBUG: restaurants state value:", restaurants);
     }
   };
 
+  const handleGenerateWineList = (e, restaurant) => {
+    e.stopPropagation();
+    setQrRestaurant(restaurant);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex borde justify-between items-center px-10">
+      <div className="flex flex-wrap gap-y-2 justify-between items-center px-2 sm:px-10">
         <h1 className="text-2xl font-bold">Wine Inventory Tracker</h1>
         <div className="flex justify-end gap-4">
         <button
@@ -86,13 +93,14 @@ console.log("DEBUG: restaurants state value:", restaurants);
       </div>
       </div>
 
-      <div className="overflow-hidden m-8 border-2 border-slate-300 rounded-lg">
+      <div className="overflow-x-auto mx-2 my-4 sm:m-8 border-2 border-slate-300 rounded-lg">
         <table className="table w-full">
           <thead>
             <tr>
               <th></th>
               <th>Restaurant Name</th>
               <th>Address</th>
+              <th className="text-center text-xs sm:text-sm whitespace-nowrap">Generate wine list</th>
               <th></th>
             </tr>
           </thead>
@@ -117,6 +125,18 @@ restaurants.map((restaurant, index) => (
                     ? `${restaurant.state} ${restaurant.postal_code}`
                     : restaurant.state || restaurant.postal_code,
                 ].filter(Boolean).join(", ")}</td>
+                <td className="text-center">
+                  <button
+                    onClick={(e) => handleGenerateWineList(e, restaurant)}
+                    className="hover:text-blue-500"
+                    title="Generate wine list"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 inline-block">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75V16.5zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
+                    </svg>
+                  </button>
+                </td>
                 <td className="text-right">
                   <button
                     onClick={(e) => handleDelete(e, restaurant.id)}
@@ -134,7 +154,7 @@ restaurants.map((restaurant, index) => (
 
 ) : (
     <tr>
-      <td colSpan="4" className="text-center py-10 text-gray-500">
+      <td colSpan="5" className="text-center py-10 text-gray-500">
         {loading ? "Loading restaurants..." : "No restaurants found or invalid data received."}
       </td>
     </tr>
@@ -272,6 +292,34 @@ restaurants.map((restaurant, index) => (
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* QR code modal */}
+      {qrRestaurant && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          onClick={() => setQrRestaurant(null)}
+        >
+          <div
+            className="bg-white rounded-lg shadow-xl p-6 text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="font-bold text-lg mb-1">{qrRestaurant.name}</p>
+            <p className="text-sm text-gray-500 mb-4">Scan to view wine list</p>
+            <QRCodeSVG
+              value={`${window.location.origin}/wine-menu/${qrRestaurant.id}`}
+              size={200}
+            />
+            <p className="text-xs text-gray-400 mt-2">{`${window.location.origin}/wine-menu/${qrRestaurant.id}`}</p>
+            <button
+              onClick={() => setQrRestaurant(null)}
+              className="btn btn-secondary mt-4 w-full"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
