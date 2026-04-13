@@ -352,21 +352,33 @@ function WineList() {
                   {/* Container for checkbox list */}
                   <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto pr-2">
                     {grapes && grapes.length > 0 ? (
-                      grapes.map((grape) => {
+                      [...grapes].sort((a, b) => a.name.localeCompare(b.name)).map((grape) => {
                         const checked = selectedGrapes.includes(grape.id);
                         return (
                           <label
                             key={grape.id}
                             className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 cursor-pointer"
+                            onClick={() => toggleGrape(grape.id)}
                           >
-                            <input
-                              type="checkbox"
-                              checked={checked}
-                              className={
-                                "checkbox border-indigo-600 bg-indigo-500 checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800"
-                              }
-                              onChange={() => toggleGrape(grape.id)}
-                            />
+                            <div
+                              style={{
+                                width: "18px",
+                                height: "18px",
+                                borderRadius: "4px",
+                                border: "2px solid #5a1a1a",
+                                backgroundColor: "#f7f0e6",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexShrink: 0,
+                              }}
+                            >
+                              {checked && (
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                  <path d="M2 6l3 3 5-5" stroke="#5a1a1a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              )}
+                            </div>
                             <span className="text-sm">{grape.name}</span>
                           </label>
                         );

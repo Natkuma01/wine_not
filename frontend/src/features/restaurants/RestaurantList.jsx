@@ -82,6 +82,12 @@ console.log("DEBUG: restaurants state value:", restaurants);
         <h1 className="text-2xl font-bold">Wine Inventory Tracker</h1>
         <div className="flex justify-end gap-4">
         <button
+          onClick={handleLogout}
+          className="btn btn-secondary hover:text-neutral-500"
+        >
+          Home
+        </button>
+        <button
           onClick={() => setOpen(true)}
           className="btn btn-secondary hover:text-neutral-500"
         >
@@ -188,7 +194,7 @@ restaurants.map((restaurant, index) => (
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">
-                  Restaruant Name
+                  Restaruant Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
