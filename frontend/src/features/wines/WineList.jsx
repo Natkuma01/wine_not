@@ -7,6 +7,13 @@ import { fetchGrapes } from "./grapeSlice";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import leftArrow from "../../assets/left-arrow.png";
 import trashIcon from "../../assets/trash.png";
+import {
+  isSafeText,
+  isPositiveInteger,
+  isValidYear,
+  isValidUrl,
+  sanitizeString,
+} from "../../app/validators";
 
 const WINE_TYPE_CHOICES = [
   { value: "white", label: "White" },
@@ -29,6 +36,7 @@ function WineList() {
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [createdWineId, setCreatedWineId] = useState(null); 
+  const [formError, setFormError] = useState("");
 
   const [name, setName] = useState("");
   const [producer, setProducer] = useState("");
@@ -70,8 +78,38 @@ function WineList() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError("");
 
-    if (!name || !producer || !country || !year || !wineType) return;
+    const cleanName = sanitizeString(name);
+    const cleanProducer = sanitizeString(producer);
+    const cleanCountry = sanitizeString(country);
+    const cleanYear = String(year).trim();
+    const cleanImageUrl = imageUrl ? imageUrl.trim() : "";
+
+    if (!isSafeText(cleanName) || !isSafeText(cleanProducer) || !isSafeText(cleanCountry)) {
+      setFormError("Please enter valid text values for wine name, producer, and country.");
+      return;
+    }
+
+    if (!isValidYear(cleanYear)) {
+      setFormError("Please enter a valid year between 1000 and the current year.");
+      return;
+    }
+
+    if (cleanImageUrl && !isValidUrl(cleanImageUrl)) {
+      setFormError("Please enter a valid image URL starting with http:// or https://.");
+      return;
+    }
+
+    if (!wineType) {
+      setFormError("Please select a wine type.");
+      return;
+    }
+
+    if (selectedGrapes.some((grapeId) => !isPositiveInteger(grapeId))) {
+      setFormError("Invalid grape selection detected.");
+      return;
+    }
 
     // Convert grape IDs to grape names for the backend
     const grapeNames = selectedGrapes
@@ -287,6 +325,12 @@ function WineList() {
                   &times;
                 </button>
               </div>
+
+              {formError && (
+                <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  {formError}
+                </div>
+              )}
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">

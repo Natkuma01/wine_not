@@ -64,6 +64,8 @@ export default function WineListMenu() {
   const restaurant = restaurants.find((r) => r.id === parseInt(restaurantId));
 
   // Join inventories for this restaurant with their wine details
+  // FIX: useMemo()
+  
   const menuItems = inventories
     .filter((inv) => inv.restaurant === parseInt(restaurantId))
     .map((inv) => {

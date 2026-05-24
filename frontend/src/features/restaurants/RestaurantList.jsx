@@ -4,6 +4,13 @@ import { addRestaurant, fetchRestaurants, deleteRestaurant } from "./restaurantS
 import { useNavigate } from "react-router-dom";
 import trashIcon from "../../assets/trash.png";
 import { QRCodeSVG } from "qrcode.react";
+import {
+  isSafeText,
+  isPositiveInteger,
+  isNonNegativeInteger,
+  sanitizeString,
+  sanitizeStateAbbreviation,
+} from "../../app/validators";
 
 function RestaurantList() {
   const dispatch = useDispatch();
@@ -20,37 +27,65 @@ function RestaurantList() {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [formError, setFormError] = useState("");
+  //const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
   
-console.log("DEBUG: restaurants state value:", restaurants);
-  console.log("DEBUG: is it an array?", Array.isArray(restaurants));
+
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name) return;
+    setFormError("");
+
+    const cleanName = sanitizeString(name);
+    const cleanStreetName = sanitizeString(streetName);
+    const cleanFloorUnit = sanitizeString(floorUnit);
+    const cleanCity = sanitizeString(city);
+    const cleanState = sanitizeStateAbbreviation(state);
+    const cleanPostalCode = String(postalCode).trim();
+    const cleanStreetNumber = String(streetNumber).trim();
+
+    if (!isSafeText(cleanName)) {
+      setFormError("Restaurant name is required and may not contain invalid characters.");
+      return;
+    }
+
+    if (cleanPostalCode && !isPositiveInteger(cleanPostalCode)) {
+      setFormError("Postal code must be a positive integer.");
+      return;
+    }
+
+    if (cleanStreetNumber && !isNonNegativeInteger(cleanStreetNumber)) {
+      setFormError("Street number must be an integer.");
+      return;
+    }
 
     const newRestaurant = {
-      name,
-      street_number: streetNumber,
-      street_name: streetName,
-      floor_unit: floorUnit,
-      postal_code: postalCode ? parseInt(postalCode) : null,
-      city,
-      state,
+      name: cleanName,
+      street_number: cleanStreetNumber ? parseInt(cleanStreetNumber) : null,
+      street_name: cleanStreetName || null,
+      floor_unit: cleanFloorUnit || null,
+      postal_code: cleanPostalCode ? parseInt(cleanPostalCode) : null,
+      city: cleanCity || null,
+      state: cleanState || null,
     };
-    dispatch(addRestaurant(newRestaurant));
 
-    setName("");
-    setStreetNumber("");
-    setStreetName("");
-    setFloorUnit("");
-    setPostalCode("");
-    setCity("");
-    setState("");
-    setOpen(false);
+    try {
+      await dispatch(addRestaurant(newRestaurant)).unwrap();
+      setName("");
+      setStreetNumber("");
+      setStreetName("");
+      setFloorUnit("");
+      setPostalCode("");
+      setCity("");
+      setState("");
+      setOpen(false);
+    } catch (err) {
+      setFormError("Failed to create restaurant. Please check the data and try again.");
+    }
   };
 
   const handleLogout = () => {
@@ -180,7 +215,7 @@ restaurants.map((restaurant, index) => (
       {/* Modal */}
       {open && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}"
+          className="fixed inset-0 flex items-center justify-center z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           onClick={() => setOpen(false)}
         >
           <div
@@ -197,6 +232,11 @@ restaurants.map((restaurant, index) => (
               </button>
               
             </div>
+            {formError && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {formError}
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">
@@ -285,16 +325,17 @@ restaurants.map((restaurant, index) => (
                   type="text"
                   className="input input-bordered w-full"
                   value={state}
-                  onChange={(e) => setState(e.target.value.toUpperCase().slice(0, 2))}
+                  onChange={(e) => setState(sanitizeStateAbbreviation(e.target.value))}
                   placeholder="e.g. NY"
                   maxLength={2}
                 />
               </div>
 
               <div className="flex gap-2">
-                <button type="submit" className="btn btn-secondary flex-1">
+                <button type="submit" className="btn btn-secondary flex-1">   
                   Submit
                 </button>
+                
                 <button
                   type="button"
                   onClick={() => setOpen(false)}

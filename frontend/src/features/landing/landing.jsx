@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { isSafeText, sanitizeString } from "../../app/validators";
 
 function Landing() {
   const navigate = useNavigate();
@@ -22,7 +23,15 @@ function Landing() {
     setError("");
     setSuccess("");
 
-    if (!username || !password) {
+    const cleanUsername = sanitizeString(username);
+    const cleanPassword = sanitizeString(password);
+
+    if (!isSafeText(cleanUsername) || !isSafeText(cleanPassword)) {
+      setError("Username and password may not contain angle brackets or invalid characters.");
+      return;
+    }
+
+    if (!cleanUsername || !cleanPassword) {
       setError("Please enter both username and password");
       return;
     }
@@ -55,12 +64,20 @@ function Landing() {
     setError("");
     setSuccess("");
 
-    if (!username || !password) {
+    const cleanUsername = sanitizeString(username);
+    const cleanPassword = sanitizeString(password);
+
+    if (!isSafeText(cleanUsername) || !isSafeText(cleanPassword)) {
+      setError("Username and password may not contain angle brackets or invalid characters.");
+      return;
+    }
+
+    if (!cleanUsername || !cleanPassword) {
       setError("Please enter both username and password");
       return;
     }
 
-    if (password.length < 6) {
+    if (cleanPassword.length < 6) {
       setError("Password must be at least 6 characters long");
       return;
     }
@@ -104,7 +121,14 @@ function Landing() {
     setError("");
     setSuccess("");
 
-    if (!username) {
+    const cleanUsername = sanitizeString(username);
+
+    if (!isSafeText(cleanUsername)) {
+      setError("Username may not contain angle brackets or invalid characters.");
+      return;
+    }
+
+    if (!cleanUsername) {
       setError("Please enter your username");
       return;
     }
