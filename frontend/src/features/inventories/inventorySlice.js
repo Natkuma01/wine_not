@@ -22,6 +22,8 @@ export const addInventory = createAsyncThunk(
 export const updateInventory = createAsyncThunk(
   "inventories/updateInventory",
   async ({ id, ...updateData }) => {
+    // Pull `id` out for the URL; remaining fields become the PATCH body
+    // so the server never receives `id` as an updatable column.
     const response = await api.patch(`${BASE_URL}${id}/`, updateData);
     return response.data;
   },
@@ -68,6 +70,10 @@ const inventorySlice = createSlice({
       })
       .addCase(updateInventory.fulfilled, (state, action) => {
         state.loading = false;
+        // Replace the existing inventory in-place (preserves list order)
+        // rather than refetching or appending a duplicate. The guard
+        // protects against a successful update for an item that was
+        // already removed locally (e.g. concurrent delete).
         const index = state.inventories.findIndex(
           (inv) => inv.id === action.payload.id,
         );

@@ -31,6 +31,10 @@ const BUCKET_COLORS = {
   ],
 };
 
+// Checks must run high-to-low: the first match wins, so reordering would
+// misclassify (e.g. a 90% margin would match `> 25` first).
+// Negative margins return null so they're excluded from the chart rather
+// than silently bucketed into 0-25%.
 const bucketFor = (margin) => {
   if (margin > 100) return ">100%";
   if (margin > 75) return "76-100%";
@@ -72,6 +76,9 @@ function RestaurantProfitChart({ restaurantId }) {
     (item) => item.restaurant === restaurantId
   );
 
+  // `profit_margin` arrives as a string from DRF's DecimalField, so parseFloat
+  // is required; `|| 0` guards against null/NaN for inventory rows where the
+  // server couldn't compute a margin (e.g. missing cost or price).
   const totalProfitPercentage = Math.round(
     restaurantInventories.reduce(
       (sum, item) => sum + (parseFloat(item.profit_margin) || 0),
@@ -93,6 +100,9 @@ function RestaurantProfitChart({ restaurantId }) {
     { "0-25%": 0, "26-50%": 0, "51-75%": 0, "76-100%": 0, ">100%": 0 }
   );
 
+  // Map over MARGIN_BUCKETS (not Object.values(distribution)) to lock the
+  // bar order to the labels/colors arrays — object key order isn't a safe
+  // contract to rely on for visual alignment.
   const chartData = {
     labels: MARGIN_BUCKETS,
     datasets: [
