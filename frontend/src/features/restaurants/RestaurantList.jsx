@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRestaurant, fetchRestaurants, deleteRestaurant } from "./restaurantSlice";
 import { useNavigate } from "react-router-dom";
+import api from "../../app/api";
 import trashIcon from "../../assets/trash.png";
 import { QRCodeSVG } from "qrcode.react";
 import {
@@ -20,6 +21,7 @@ function RestaurantList() {
   );
   const [open, setOpen] = useState(false);
   const [qrRestaurant, setQrRestaurant] = useState(null);
+  const [profileRole, setProfileRole] = useState(null);
   const [name, setName] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
   const [streetName, setStreetName] = useState("");
@@ -33,9 +35,20 @@ function RestaurantList() {
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
-  
 
-  
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await api.get("/me/");
+        setProfileRole(response.data.role);
+      } catch {
+        setProfileRole("staffs");
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError("");
@@ -83,9 +96,13 @@ function RestaurantList() {
       setCity("");
       setState("");
       setOpen(false);
-    } catch (err) {
+    } catch {
       setFormError("Failed to create restaurant. Please check the data and try again.");
     }
+  };
+
+  const handleProfileClick = () => {
+    navigate("/user_profile");
   };
 
   const handleLogout = () => {
@@ -93,7 +110,7 @@ function RestaurantList() {
     localStorage.removeItem("refresh_token");
 
     navigate("/", { replace: true });
-  }
+  };
 
   const handleDelete = (e, restaurantId) => {
     e.stopPropagation();
@@ -108,6 +125,9 @@ function RestaurantList() {
     setQrRestaurant(restaurant);
   };
 
+  const isAdmin = profileRole === "admin";
+  const tableColumnCount = isAdmin ? 5 : 4;
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -115,29 +135,55 @@ function RestaurantList() {
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-wrap gap-y-2 justify-between items-center px-2 sm:px-10">
         <h1 className="text-2xl font-bold">Wine Inventory Tracker</h1>
-        <div className="flex justify-end gap-4">
-        <button
-          onClick={handleLogout}
-          className="btn btn-secondary hover:text-neutral-500"
-        >
-          Home
-        </button>
-        <button
-          onClick={() => navigate("/analytics")}
-          className="btn btn-secondary hover:text-neutral-500"
-        >
-          Visited
-        </button>
-        <button
-          onClick={() => setOpen(true)}
-          className="btn btn-secondary hover:text-neutral-500"
-        >
-          Add restaurant
-        </button>
-        <button 
-        className="hover:cursor-pointer hover:underline"
-        onClick={handleLogout}>Log out</button>
-      </div>
+        <div className="flex items-center gap-3">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={handleLogout}
+              className="btn btn-secondary hover:text-neutral-500"
+            >
+              Home
+            </button>
+            {isAdmin && (
+              <>
+                <button
+                  onClick={() => navigate("/analytics")}
+                  className="btn btn-secondary hover:text-neutral-500"
+                >
+                  Visited
+                </button>
+                <button
+                  onClick={() => setOpen(true)}
+                  className="btn btn-secondary hover:text-neutral-500"
+                >
+                  Add restaurant
+                </button>
+              </>
+            )}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn btn-secondary hover:text-neutral-500"
+            >
+              Log out
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleProfileClick}
+            className="btn btn-ghost btn-circle h-15 w-15 rounded-full border-5 border-slate-300 bg-base-100 text-[#8d4162] hover:bg-slate-200"
+            aria-label="View user profile"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto mx-2 my-4 sm:m-8 border-2 border-slate-300 rounded-lg">
@@ -148,7 +194,7 @@ function RestaurantList() {
               <th>Restaurant Name</th>
               <th>Address</th>
               <th className="text-center text-xs sm:text-sm whitespace-nowrap">Generate wine list</th>
-              <th></th>
+              {isAdmin && <th></th>}
             </tr>
           </thead>
 
@@ -184,24 +230,26 @@ restaurants.map((restaurant, index) => (
                     </svg>
                   </button>
                 </td>
-                <td className="text-right">
-                  <button
-                    onClick={(e) => handleDelete(e, restaurant.id)}
-                    className="hover:text-red-500"    // this hover effect does not work
-                  >
-                    <img
-                      src={trashIcon}
-                      alt="Delete"
-                      className="w-5 h-5 inline-block"
-                    />
-                  </button>
-                </td>
+                {isAdmin && (
+                  <td className="text-right">
+                    <button
+                      onClick={(e) => handleDelete(e, restaurant.id)}
+                      className="hover:text-red-500"
+                    >
+                      <img
+                        src={trashIcon}
+                        alt="Delete"
+                        className="w-5 h-5 inline-block"
+                      />
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
 
 ) : (
     <tr>
-      <td colSpan="5" className="text-center py-10 text-gray-500">
+      <td colSpan={tableColumnCount} className="text-center py-10 text-gray-500">
         {loading ? "Loading restaurants..." : "No restaurants found or invalid data received."}
       </td>
     </tr>

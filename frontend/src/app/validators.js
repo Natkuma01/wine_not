@@ -50,6 +50,12 @@ export const isValidUrl = (value) => {
   }
 };
 
+export const isValidEmail = (value) => {
+  if (!isNonEmptyString(value)) return false;
+  const email = value.trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
 export const sanitizeStateAbbreviation = (value) => {
   if (typeof value !== "string") return "";
   return value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 2);

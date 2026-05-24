@@ -7,6 +7,7 @@ import AddInventory from "./features/inventories/AddInventory";
 import Landing from "../src/features/landing/landing";
 import WineListMenu from "./features/restaurants/WineListMenu";
 import AnalyticsDashboard from "./features/analytics/AnalyticsDashboard";
+import UserProfile from "./features/user_profile/UserProfile";
 import { trackVisit } from "./app/trackVisit";
 
 const ProtectedRoute = ({ children }) => {
@@ -43,6 +44,7 @@ function App() {
         <Route path="inventories/:wineId" element={<ProtectedRoute> <InventoryList /> </ProtectedRoute>} />
         <Route path="inventories/add/:wineId" element={<ProtectedRoute> <AddInventory /> </ProtectedRoute>} />
         <Route path="/analytics" element={<ProtectedRoute> <AnalyticsDashboard /> </ProtectedRoute>} />
+        <Route path="/user_profile" element={<ProtectedRoute> <UserProfile /> </ProtectedRoute>} />
       </Routes>
     </>
   );

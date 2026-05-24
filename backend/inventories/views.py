@@ -28,13 +28,9 @@ class StandardInventoryPagination(CursorPagination):
 class InventoryViewSet(viewsets.ModelViewSet):
     serializer_class = InventorySerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = StandardInventoryPagination
 
     def get_queryset(self):
-        user = self.request.user
-        return Inventory.objects.filter(
-            restaurant__owner=user
-        ).select_related('wine', 'restaurant')
+        return Inventory.objects.select_related('wine', 'restaurant')
     
     
     
