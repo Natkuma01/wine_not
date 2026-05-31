@@ -146,22 +146,22 @@ function Landing() {
       {/* Title */}
       <div className="text-center mb-8 z-10">
         <h1 className="text-5xl font-semibold tracking-tight mb-2">
-          <span style={{ color: "#6B2737" }} className="font-bold">
+          <span style={{ color: "#8d4062" }} className="font-bold">
             Wine Inventory
           </span>{" "}
           <span style={{ color: "#3D3D3D" }} className="font-normal">
             Tracking
           </span>
         </h1>
-        <p className="text-lg" style={{ color: "#888" }}>
+        <p className="text-lg" style={{ color: "#6b7280" }}>
           Manage your wine collection with ease.
         </p>
       </div>
 
       {/* Card */}
       <div
-        className="w-full bg-white rounded-2xl shadow-lg px-10 py-[68px] z-10"
-        style={{ maxWidth: "416px", boxShadow: "0 8px 32px rgba(107,39,55,0.10)" }}
+        className="w-full bg-white rounded-2xl shadow-lg px-8 py-10 z-10"
+        style={{ maxWidth: "416px", boxShadow: "0 10px 30px rgba(141,64,98,0.12)" }}
       >
         {/* Login Form */}
         {!showCreateAccount && !showForgotPassword && (
@@ -177,11 +177,11 @@ function Landing() {
               </div>
             )}
 
-            <form onSubmit={handleLogin} className="flex flex-col gap-5">
+            <form onSubmit={handleLogin} className="flex flex-col gap-4">
               <input
                 type="text"
-                placeholder="Name"
-                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                placeholder="Username"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
                 style={{
                   borderColor: "#E0D4C8",
                   backgroundColor: "#FDFAF7",
@@ -194,7 +194,7 @@ function Landing() {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
                 style={{
                   borderColor: "#E0D4C8",
                   backgroundColor: "#FDFAF7",
@@ -206,8 +206,8 @@ function Landing() {
               />
               <button
                 type="submit"
-                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90 active:opacity-80"
-                style={{ backgroundColor: "#8d4162" }}
+                className="w-full rounded-lg py-3 text-base font-semibold text-white transition hover:bg-[#7b3554] active:bg-[#682c47] cursor-pointer"
+                style={{ backgroundColor: "#8d4062" }}
               >
                 Login
               </button>
@@ -216,8 +216,8 @@ function Landing() {
             <div className="mt-5 flex flex-col gap-2 text-center">
               <button
                 type="button"
-                className="text-sm font-medium transition hover:opacity-80"
-                style={{ color: "#6B2737" }}
+                className="text-sm font-medium transition hover:underline cursor-pointer"
+                style={{ color: "#8d4062" }}
                 onClick={() => {
                   setShowCreateAccount(true);
                   setError("");
@@ -228,8 +228,7 @@ function Landing() {
               </button>
               <button
                 type="button"
-                className="text-xs transition hover:opacity-80"
-                style={{ color: "#AAA" }}
+                className="text-xs transition hover:underline text-gray-500 cursor-pointer"
                 onClick={() => {
                   setShowForgotPassword(true);
                   setError("");
@@ -250,7 +249,7 @@ function Landing() {
                 Create Account
               </h2>
               <button
-                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
                 onClick={() => {
                   setShowCreateAccount(false);
                   setError("");
@@ -274,11 +273,11 @@ function Landing() {
               </div>
             )}
 
-            <form onSubmit={handleCreateAccount} className="flex flex-col gap-5">
+            <form onSubmit={handleCreateAccount} className="flex flex-col gap-4">
               <input
                 type="text"
                 placeholder="Username"
-                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
                 style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -287,7 +286,7 @@ function Landing() {
               <input
                 type="password"
                 placeholder="Password (min. 6 characters)"
-                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
                 style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -296,8 +295,8 @@ function Landing() {
               />
               <button
                 type="submit"
-                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90"
-                style={{ backgroundColor: "#8d4162" }}
+                className="w-full rounded-lg py-3 text-base font-semibold text-white transition hover:bg-[#7b3554] active:bg-[#682c47] cursor-pointer"
+                style={{ backgroundColor: "#8d4062" }}
               >
                 Create Account
               </button>
@@ -306,8 +305,8 @@ function Landing() {
             <div className="mt-4 text-center">
               <button
                 type="button"
-                className="text-sm transition hover:opacity-80"
-                style={{ color: "#6B2737" }}
+                className="text-sm transition hover:underline cursor-pointer"
+                style={{ color: "#8d4062" }}
                 onClick={() => {
                   setShowCreateAccount(false);
                   setError("");
@@ -328,7 +327,7 @@ function Landing() {
                 Forgot Password
               </h2>
               <button
-                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
                 onClick={() => {
                   setShowForgotPassword(false);
                   setError("");
@@ -351,15 +350,15 @@ function Landing() {
               </div>
             )}
 
-            <p className="text-sm mb-4" style={{ color: "#888" }}>
+            <p className="text-sm mb-4" style={{ color: "#6b7280" }}>
               Enter your username and we'll send you reset instructions.
             </p>
 
-            <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
+            <form onSubmit={handleForgotPassword} className="flex flex-col gap-4">
               <input
                 type="text"
                 placeholder="Username"
-                className="w-full rounded-lg border px-5 py-[27px] text-base outline-none focus:ring-2 transition"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
                 style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -367,8 +366,8 @@ function Landing() {
               />
               <button
                 type="submit"
-                className="w-full rounded-lg py-[27px] text-base font-semibold text-white transition hover:opacity-90"
-                style={{ backgroundColor: "#8d4162" }}
+                className="w-full rounded-lg py-3 text-base font-semibold text-white transition hover:bg-[#7b3554] active:bg-[#682c47] cursor-pointer"
+                style={{ backgroundColor: "#8d4062" }}
               >
                 Send Reset Instructions
               </button>
@@ -377,8 +376,8 @@ function Landing() {
             <div className="mt-4 text-center">
               <button
                 type="button"
-                className="text-sm transition hover:opacity-80"
-                style={{ color: "#6B2737" }}
+                className="text-sm transition hover:underline cursor-pointer"
+                style={{ color: "#8d4062" }}
                 onClick={() => {
                   setShowForgotPassword(false);
                   setError("");

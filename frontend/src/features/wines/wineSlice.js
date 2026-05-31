@@ -3,10 +3,18 @@ import api from "../../app/api";
 
 const BASE_URL = "/wines/wines/";
 
-export const fetchWines = createAsyncThunk("wines/fetchWines", async () => {
-  const response = await api.get(BASE_URL);
+export const fetchWines = createAsyncThunk("wines/fetchWines", async (params) => {
+  const response = await api.get(BASE_URL, { params });
   return response.data;
 });
+
+export const fetchWineById = createAsyncThunk(
+  "wines/fetchWineById",
+  async (id) => {
+    const response = await api.get(`${BASE_URL}${id}/`);
+    return response.data;
+  }
+);
 
 export const addWine = createAsyncThunk(
   "wines/addWine",
@@ -36,6 +44,10 @@ const wineSlice = createSlice({
   name: "wines",
   initialState: {
     wines: [],
+    count: 0,
+    next: null,
+    previous: null,
+    selectedWine: null,
     loading: false,
     error: null,
   },
@@ -48,9 +60,27 @@ const wineSlice = createSlice({
       })
       .addCase(fetchWines.fulfilled, (state, action) => {
         state.loading = false;
-        state.wines = action.payload;
+        state.wines = action.payload.results || [];
+        state.count = action.payload.count || 0;
+        state.next = action.payload.next || null;
+        state.previous = action.payload.previous || null;
       })
       .addCase(fetchWines.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // handle fetchWineById
+      .addCase(fetchWineById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.selectedWine = null;
+      })
+      .addCase(fetchWineById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedWine = action.payload;
+      })
+      .addCase(fetchWineById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -82,6 +112,9 @@ const wineSlice = createSlice({
         if (index !== -1) {
           state.wines[index] = action.payload;
         }
+        if (state.selectedWine && state.selectedWine.id === action.payload.id) {
+          state.selectedWine = action.payload;
+        }
       })
       .addCase(updateWine.rejected, (state, action) => {
         state.loading = false;
@@ -93,6 +126,9 @@ const wineSlice = createSlice({
         state.wines = state.wines.filter(
           (wine) => wine.id !== action.payload
         );
+        if (state.selectedWine && state.selectedWine.id === action.payload) {
+          state.selectedWine = null;
+        }
       });
   },
 });
