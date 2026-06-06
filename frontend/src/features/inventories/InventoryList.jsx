@@ -334,7 +334,7 @@ function InventoryList() {
         </button>
 
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">
-          {inventory.wine_name} <span className="text-[#8d4062] font-normal">{wine.producer}</span>
+          {inventory.wine_name} <span className="text-[#8d4062] font-normal">{wine?.producer || ""}</span>
         </h1>
       </div>
 
@@ -344,8 +344,8 @@ function InventoryList() {
           <div className="lg:col-span-1 flex flex-col gap-6">
             {/* Image Card */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-center items-center">
-              <img
-                src={wine.imageURL || 'placeholder-wine.png'}
+                <img
+                src={(wine?.imageURL) || 'placeholder-wine.png'}
                 alt="wine image"
                 className="w-44 h-auto object-contain rounded-xl shadow-sm max-h-64"
                 onError={(e) => {
@@ -369,15 +369,15 @@ function InventoryList() {
               <div className="p-6 flex flex-col gap-3 text-sm text-gray-600">
                 <div className="flex justify-between border-b border-gray-50 pb-2">
                   <span className="font-medium text-gray-400">Producer</span>
-                  <span className="font-semibold text-gray-800">{wine.producer}</span>
+                  <span className="font-semibold text-gray-800">{wine?.producer || ""}</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-50 pb-2">
                   <span className="font-medium text-gray-400">Country</span>
-                  <span className="font-semibold text-gray-800">{wine.country}</span>
+                  <span className="font-semibold text-gray-800">{wine?.country || ""}</span>
                 </div>
                 <div className="flex justify-between pb-1">
                   <span className="font-medium text-gray-400">Year</span>
-                  <span className="font-semibold text-gray-800">{wine.year}</span>
+                  <span className="font-semibold text-gray-800">{wine?.year || ""}</span>
                 </div>
               </div>
             </div>
@@ -554,7 +554,7 @@ function InventoryList() {
                 <input
                   type="text"
                   className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
-                  placeholder={wine.producer}
+                  placeholder={wine?.producer || ""}
                   value={producer}
                   onChange={(e) => setProducer(e.target.value)}
                   required
@@ -565,7 +565,7 @@ function InventoryList() {
                 <input
                   type="text"
                   className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
-                  placeholder={wine.country}
+                  placeholder={wine?.country || ""}
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
                   required
@@ -576,7 +576,7 @@ function InventoryList() {
                 <input
                   type="number"
                   className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
-                  placeholder={wine.year}
+                  placeholder={wine?.year || ""}
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                   required
@@ -587,7 +587,7 @@ function InventoryList() {
                 <input
                   type="url"
                   className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
-                  placeholder={wine.image_url || "https://example.com/image.jpg"}
+                  placeholder={wine?.imageURL || wine?.image_url || "https://example.com/image.jpg"}
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
