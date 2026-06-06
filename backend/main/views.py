@@ -1,9 +1,13 @@
+import logging
+
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterView(APIView):
@@ -35,7 +39,15 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        User.objects.create_user(username=username, password=password)
+        try:
+            User.objects.create_user(username=username, password=password)
+        except Exception as exc:
+            logger.exception("Failed to create user account")
+            return Response(
+                {"detail": "Unable to create account at this time. Please try again later."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
         return Response(
             {"detail": "Account created successfully. You can now log in."},
             status=status.HTTP_201_CREATED,

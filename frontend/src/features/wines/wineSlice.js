@@ -3,42 +3,65 @@ import api from "../../app/api";
 
 const BASE_URL = "/wines/wines/";
 
-export const fetchWines = createAsyncThunk("wines/fetchWines", async (params) => {
-  const response = await api.get(BASE_URL, { params });
-  return response.data;
-});
+export const fetchWines = createAsyncThunk(
+  "wines/fetchWines",
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await api.get(BASE_URL, { params });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
+  }
+);
 
 export const fetchWineById = createAsyncThunk(
   "wines/fetchWineById",
-  async (id) => {
-    const response = await api.get(`${BASE_URL}${id}/`);
-    return response.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`${BASE_URL}${id}/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   }
 );
 
 export const addWine = createAsyncThunk(
   "wines/addWine",
-  async (newWine) => {
-    const response = await api.post(BASE_URL, newWine);
-    return response.data;
+  async (newWine, { rejectWithValue }) => {
+    try {
+      const response = await api.post(BASE_URL, newWine);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   }
 );
 
 export const updateWine = createAsyncThunk(
   "wines/updateWine",
-  async ({ id, ...updateData }) => {
-    const response = await api.patch(`${BASE_URL}${id}/`, updateData);
-    return response.data;
+  async ({ id, ...updateData }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`${BASE_URL}${id}/`, updateData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   },
 );
 
 export const deleteWine = createAsyncThunk(
   "wines/deleteWine",
-  async (id) => {
-    await api.delete(`${BASE_URL}${id}/`);
-    return id;
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`${BASE_URL}${id}/`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   }
-)
+);
 
 const wineSlice = createSlice({
   name: "wines",
@@ -67,7 +90,7 @@ const wineSlice = createSlice({
       })
       .addCase(fetchWines.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       // handle fetchWineById
@@ -82,7 +105,7 @@ const wineSlice = createSlice({
       })
       .addCase(fetchWineById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       // handle addWine
@@ -96,7 +119,7 @@ const wineSlice = createSlice({
       })
       .addCase(addWine.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       // handle the updateWine
@@ -118,7 +141,7 @@ const wineSlice = createSlice({
       })
       .addCase(updateWine.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       // delete

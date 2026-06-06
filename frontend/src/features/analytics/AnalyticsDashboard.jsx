@@ -33,7 +33,7 @@ function AnalyticsDashboard() {
     api
       .get("/analytics/stats/")
       .then((res) => setStats(res.data))
-      .catch(() => setError("Failed to load site analytics."))
+      .catch((err) => setError(err?.userMessage || "Failed to load site analytics."))
       .finally(() => setLoading(false));
   }, []);
 
