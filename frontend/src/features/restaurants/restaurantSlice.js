@@ -5,13 +5,9 @@ const BASE_URL = "/restaurants/restaurants/";
 
 export const fetchRestaurants = createAsyncThunk(
   "restaurants/fetchRestaurants",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api.get(BASE_URL);
-      return response.data.results ?? response.data;
-    } catch (error) {
-      return rejectWithValue(error.userMessage || error.message);
-    }
+  async () => {
+    const response = await api.get(BASE_URL);
+    return response.data.results ?? response.data;
   },
 );
 
@@ -61,6 +57,7 @@ const restaurantSlice = createSlice({
         state.loading = false;
         state.error = action.payload || action.error.message;
       })
+
 
       // handle addRestaurant
       .addCase(addRestaurant.pending, (state) => {

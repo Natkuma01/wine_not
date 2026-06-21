@@ -2,6 +2,9 @@
 
 A full-stack web application for managing wine inventory across multiple restaurants. This application allows you to track wines, manage inventory quantities, and monitor purchasing and selling prices. **This web application also has a companion iOS app that shares the same database**, providing seamless multi-platform access to your inventory data.
 
+# Code Review
+[![Alt Text](https://img.youtube.com/vi/WhPrqrmIcBA/hqdefault.jpg)](https://www.youtube.com/watch?v=WhPrqrmIcBA)
+
 ## Features
 
 - **Restaurant Management**: Add and manage multiple restaurant locations

@@ -24,10 +24,10 @@ function RestaurantList() {
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
-  
-console.log("DEBUG: restaurants state value:", restaurants);
+
+  console.log("DEBUG: restaurants state value:", restaurants);
   console.log("DEBUG: is it an array?", Array.isArray(restaurants));
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name) return;
