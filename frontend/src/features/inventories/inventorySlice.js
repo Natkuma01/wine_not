@@ -5,25 +5,37 @@ const BASE_URL = "/inventories/inventories/";
 
 export const fetchInventories = createAsyncThunk(
   "inventories/fetchInventories",
-  async () => {
-    const response = await api.get(BASE_URL);
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get(BASE_URL);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   },
 );
 
 export const addInventory = createAsyncThunk(
   "inventories/inventories",
-  async (newInventory) => {
-    const response = await api.post(BASE_URL, newInventory);
-    return response.data;
+  async (newInventory, { rejectWithValue }) => {
+    try {
+      const response = await api.post(BASE_URL, newInventory);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   },
 );
 
 export const updateInventory = createAsyncThunk(
   "inventories/updateInventory",
-  async ({ id, ...updateData }) => {
-    const response = await api.patch(`${BASE_URL}${id}/`, updateData);
-    return response.data;
+  async ({ id, ...updateData }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`${BASE_URL}${id}/`, updateData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   },
 );
 
@@ -47,7 +59,7 @@ const inventorySlice = createSlice({
       })
       .addCase(fetchInventories.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       .addCase(addInventory.pending, (state) => {
@@ -60,7 +72,7 @@ const inventorySlice = createSlice({
       })
       .addCase(addInventory.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
       .addCase(updateInventory.pending, (state) => {
         state.loading = true;
@@ -77,7 +89,7 @@ const inventorySlice = createSlice({
       })
       .addCase(updateInventory.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });

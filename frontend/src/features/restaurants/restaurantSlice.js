@@ -13,19 +13,27 @@ export const fetchRestaurants = createAsyncThunk(
 
 export const addRestaurant = createAsyncThunk(
   "restaurants/addRestaurant",
-  async (newRestaurant) => {
-    const response = await api.post(BASE_URL, newRestaurant);
-    return response.data; // new restaurant returned from backend
+  async (newRestaurant, { rejectWithValue }) => {
+    try {
+      const response = await api.post(BASE_URL, newRestaurant);
+      return response.data; // new restaurant returned from backend
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   },
 );
 
 export const deleteRestaurant = createAsyncThunk(
   "restaurants/deleteRestaurant",
-  async (id) => {
-    await api.delete(`${BASE_URL}${id}/`);
-    return id;
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`${BASE_URL}${id}/`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
   }
-)
+);
 
 const restaurantSlice = createSlice({
   name: "restaurants",
@@ -47,7 +55,7 @@ const restaurantSlice = createSlice({
       })
       .addCase(fetchRestaurants.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
 
@@ -62,7 +70,7 @@ const restaurantSlice = createSlice({
       })
       .addCase(addRestaurant.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
 
       // delete

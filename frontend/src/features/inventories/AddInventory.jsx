@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWines } from "../wines/wineSlice";
+import { fetchWineById } from "../wines/wineSlice";
 import { addInventory } from "./inventorySlice";
 import { useParams, useNavigate } from "react-router-dom";
 import leftArrow from "../../assets/left-arrow.png";
@@ -10,7 +10,7 @@ function AddInventory() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { wines } = useSelector((state) => state.wines);
+  const { selectedWine: wine } = useSelector((state) => state.wines);
 
   const [quantity, setQuantity] = useState("");
   const [buyingPrice, setBuyingPrice] = useState("");
@@ -19,10 +19,8 @@ function AddInventory() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    dispatch(fetchWines());
-  }, [dispatch]);
-
-  const wine = wines.find((w) => w.id === parseInt(wineId));
+    dispatch(fetchWineById(parseInt(wineId)));
+  }, [dispatch, wineId]);
   const restaurantId = wine ? wine.restaurant : null;
 
   // Calculate profit margin when buying or selling price changes
@@ -140,148 +138,136 @@ function AddInventory() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/10">
-      <div className="container mx-auto py-8 px-4">
+    <div className="min-h-screen pb-12">
+      <div className="container mx-auto py-6 px-4 max-w-2xl">
         {/* Back button */}
         <button
-          className="mt-4 flex items-center gap-2 pb-6"
           onClick={handleBack}
+          className="btn btn-sm btn-ghost text-[#8d4062] hover:bg-[#8d4062]/5 transition-all flex items-center gap-1 cursor-pointer mb-6"
         >
-          <img src={leftArrow} className="w-5 h-5" alt="back arrow" />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
           Back to Wine List
         </button>
 
-        {/* Main Content */}
-        <div className="max-w-2xl mx-auto">
-          {/* Info Card */}
-          <div className="card bg-secondary/60 text-gray-800 shadow-lg mb-6">
-            <div className="card-body">
-              <div className="flex items-start gap-4">
-                <div>
-                  <h3 className="font-bold text-lg">
-                    No Inventory Record Found
-                  </h3>
-                  <p className="text-sm mt-1">
-                    This wine doesn't have an inventory record yet. Please add
-                    inventory details below to start tracking stock levels and
-                    pricing.
-                  </p>
-                </div>
-              </div>
-            </div>
+        {/* Info Card */}
+        <div className="bg-[#8d4062]/10 border border-[#8d4062]/20 text-[#8d4062] rounded-2xl p-5 shadow-sm mb-6 flex items-start gap-3">
+          <div className="mt-0.5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+            </svg>
           </div>
+          <div>
+            <h3 className="font-bold text-base">No Inventory Record Found</h3>
+            <p className="text-sm mt-1 text-[#8d4062]/90">
+              This wine doesn't have an inventory record yet. Please add
+              inventory details below to start tracking stock levels and pricing.
+            </p>
+          </div>
+        </div>
 
-          {/* Add Inventory Form Card */}
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h2 className="card-title text-2xl text-gray-600 mb-4">
-                Add Inventory Details
-              </h2>
-
-              {/* Error Alert */}
-              {error && (
-                <div className="alert alert-error mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="stroke-current shrink-0 h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                {/* Quantity */}
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text font-medium">
-                      Quantity <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    className="input input-bordered w-full"
-                    placeholder="Enter quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    required
+        {/* Add Inventory Form Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200/80 overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
+            <h2 className="text-xl font-bold text-gray-800">
+              Add Inventory Details
+            </h2>
+          </div>
+          <div className="p-6">
+            {/* Error Alert */}
+            {error && (
+              <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
-                </div>
+                </svg>
+                <span className="font-medium">{error}</span>
+              </div>
+            )}
 
-                {/* Buying Price */}
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text font-medium">
-                      Buying Price ($) <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    className="input input-bordered w-full"
-                    placeholder="Enter buying price"
-                    value={buyingPrice}
-                    onChange={(e) => handleBuyingPriceChange(e.target.value)}
-                    required
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {/* Quantity */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Quantity <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder="Enter quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  required
+                />
+              </div>
 
-                {/* Selling Price */}
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text font-medium">
-                      Selling Price ($) <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    className="input input-bordered w-full"
-                    placeholder="Enter selling price"
-                    value={sellingPrice}
-                    onChange={(e) => handleSellingPriceChange(e.target.value)}
-                    required
-                  />
-                </div>
+              {/* Buying Price */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Buying Price ($) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder="Enter buying price"
+                  value={buyingPrice}
+                  onChange={(e) => handleBuyingPriceChange(e.target.value)}
+                  required
+                />
+              </div>
 
-                {/* Profit Margin */}
-                <div className="form-control mb-4">
-                  <label className="label">
-                    <span className="label-text font-medium">
-                      Profit Margin (%)
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    className="input input-bordered w-full"
-                    placeholder="e.g., 33.50 for 33.5%"
-                    value={profitMargin}
-                    onChange={(e) => handleProfitMarginChange(e.target.value)}
-                  />
-                  <label className="label">
-                    <span className="label-text-alt text-base-content/60">
-                      Auto-calculated based on buying and selling price
-                    </span>
-                  </label>
-                </div>
+              {/* Selling Price */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Selling Price ($) <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder="Enter selling price"
+                  value={sellingPrice}
+                  onChange={(e) => handleSellingPriceChange(e.target.value)}
+                  required
+                />
+              </div>
 
-                {/* Submit Button */}
-                <div className="form-control">
-                  <button type="submit" className="btn btn-secondary w-full">
-                    Create Inventory
-                  </button>
-                </div>
-              </form>
-            </div>
+              {/* Profit Margin */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Profit Margin (%)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none bg-white"
+                  placeholder="e.g., 33.50 for 33.5%"
+                  value={profitMargin}
+                  onChange={(e) => handleProfitMarginChange(e.target.value)}
+                />
+                <span className="text-xs text-gray-500 mt-1 block">
+                  Auto-calculated based on buying and selling price
+                </span>
+              </div>
+
+              {/* Submit Button */}
+              <div className="mt-4">
+                <button type="submit" className="btn btn-primary w-full text-white cursor-pointer">
+                  Create Inventory
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

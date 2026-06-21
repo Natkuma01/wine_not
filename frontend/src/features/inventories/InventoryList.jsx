@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory, fetchInventories } from "./inventorySlice";
-import { updateWine, fetchWines } from "../wines/wineSlice";
+import { updateWine, fetchWineById } from "../wines/wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
@@ -36,7 +36,7 @@ function InventoryList() {
   } = useSelector((state) => state.inventories);
 
   const {
-    wines,
+    selectedWine: wine,
     loading: wineLoading,
     error: wineError,
   } = useSelector((state) => state.wines);
@@ -49,9 +49,9 @@ function InventoryList() {
 
   useEffect(() => {
     dispatch(fetchInventories());
-    dispatch(fetchWines());
+    dispatch(fetchWineById(parseInt(wineId)));
     dispatch(fetchRestaurants());
-  }, [dispatch]);
+  }, [dispatch, wineId]);
 
   // Pre-fill inventory form when modal opens
   useEffect(() => {
@@ -156,7 +156,6 @@ function InventoryList() {
     };
 
     await dispatch(updateInventory(updateData));
-    await dispatch(fetchInventories());
 
     setQuantity("");
     setBuyingPrice("");
@@ -181,7 +180,6 @@ function InventoryList() {
     if (imageUrl) updateData.imageURL = imageUrl;
 
     await dispatch(updateWine(updateData));
-    await dispatch(fetchInventories());
 
     setProducer("");
     setCountry("");
@@ -196,7 +194,6 @@ function InventoryList() {
   if (restaurantError) return <p>Error: {restaurantError}</p>;
 
   const inventory = inventories.find((item) => item.wine === parseInt(wineId));
-  const wine = wines.find((w) => w.id === parseInt(wineId));
   const restaurant = restaurants.find((r) => r.id === inventory?.restaurant);
 
   if (!inventory) {
@@ -238,282 +235,379 @@ function InventoryList() {
   { '0-25%': 0, '26-50%': 0, '51-75%': 0, '76-100%': 0, '>100%': 0 }
 );
 
-const chartData = {
-  labels: ['0-25%', '26-50%', '51-75%', '76-100%', '>100%'],
-  datasets: [
-    {
-    
-      data: [
-        profitMarginDistribution['0-25%'],
-        profitMarginDistribution['26-50%'],
-        profitMarginDistribution['51-75%'],
-        profitMarginDistribution['76-100%'],
-        profitMarginDistribution['>100%'],
-      ],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.6)',   // Red
-        'rgba(255, 206, 86, 0.6)',   // Yellow
-        'rgba(75, 192, 192, 0.6)',   // Teal
-        'rgba(54, 162, 235, 0.6)',   // Blue
-        'rgba(153, 102, 255, 0.6)',  // Purple
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(153, 102, 255, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1,
+  const chartData = {
+    labels: ['0-25%', '26-50%', '51-75%', '76-100%', '>100%'],
+    datasets: [
+      {
+        data: [
+          profitMarginDistribution['0-25%'],
+          profitMarginDistribution['26-50%'],
+          profitMarginDistribution['51-75%'],
+          profitMarginDistribution['76-100%'],
+          profitMarginDistribution['>100%'],
+        ],
+        backgroundColor: [
+          'rgba(141, 64, 98, 0.8)',   // Primary Wine
+          'rgba(107, 39, 55, 0.8)',   // Dark Accent Wine
+          'rgba(218, 165, 180, 0.8)',  // Rose Gold
+          'rgba(235, 211, 221, 0.8)',  // Light Rose
+          'rgba(141, 64, 98, 0.5)',   // Muted Wine
+        ],
+        borderColor: [
+          'rgba(141, 64, 98, 1)',
+          'rgba(107, 39, 55, 1)',
+          'rgba(218, 165, 180, 1)',
+          'rgba(235, 211, 221, 1)',
+          'rgba(141, 64, 98, 0.8)',
+        ],
+        borderWidth: 1.5,
+        borderRadius: 6,
       },
-      title: {
-        display: true,
-        text: 'Number of Wines'
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+          color: '#6b7280',
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+        },
+        title: {
+          display: true,
+          text: 'Number of Wines',
+          color: '#374151',
+          font: { weight: 'bold' }
+        }
+      },
+      x: {
+        ticks: {
+          color: '#6b7280',
+        },
+        grid: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: 'Profit Margin Range',
+          color: '#374151',
+          font: { weight: 'bold' }
+        }
       }
     },
-    x: {
-      title: {
-        display: true,
-        text: 'Profit Margin Range'
-      }
-    }
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      callbacks: {
-        label: function(context) {
-          return `${context.parsed.y} wine(s)`;
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.9)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        padding: 10,
+        cornerRadius: 8,
+        callbacks: {
+          label: function(context) {
+            return ` ${context.parsed.y} wine(s)`;
+          }
         }
       }
     }
-  }
-};
-
-  
-  
- 
-
+  };
 
   return (
     <>
-      <div className="container mx-auto py-8 px-4">
+      <div className="container mx-auto py-6 px-4 max-w-6xl">
         <button
-          className="mt-4 flex items-center gap-2 pb-6"
           onClick={() => navigate(-1)}
+          className="btn btn-sm btn-ghost text-[#8d4062] hover:bg-[#8d4062]/5 transition-all flex items-center gap-1 cursor-pointer mb-4"
         >
-          <img src={leftArrow} className="w-5 h-5" /> Back to Wine List
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+          Back to Wine List
         </button>
-        <h1 className="text-2xl font-bold">
-          {inventory.wine_name} {inventory.producer}
+
+        <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">
+          {inventory.wine_name} <span className="text-[#8d4062] font-normal">{wine?.producer || ""}</span>
         </h1>
       </div>
 
-      <div className="mx-15 flex gap-4 items-start justify-center">
-        {/* image */}
-        <div className="flex-none">
-          <img
-            src={wine.imageURL}
-            alt="wine image"
-            className="w-40 h-auto rounded-md"
-          />
-        </div>
-
-        <div className="flex-1 flex flex-col gap-4">
-          {/* Inventory Details Card */}
-          <div className="card bg-base-100 shadow-md">
-            <div className="card-body">
-              <h2 className="card-title">Inventory Details</h2>
-              <p>Quantity: {inventory.quantity}</p>
-              <p>Buying Price: ${inventory.buying_price}</p>
-              <p>Selling Price: ${inventory.selling_price}</p>
-              <p>Profit Margin Percentage: {inventory.profit_margin}%</p>
+      <div className="container mx-auto px-4 pb-12 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          {/* Left Column: Image and Details */}
+          <div className="lg:col-span-1 flex flex-col gap-6">
+            {/* Image Card */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-center items-center">
+                <img
+                src={(wine?.imageURL) || 'placeholder-wine.png'}
+                alt="wine image"
+                className="w-44 h-auto object-contain rounded-xl shadow-sm max-h-64"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=500&auto=format&fit=crop&q=60';
+                }}
+              />
             </div>
-            <div className="card-actions justify-end m-8">
-              <button
-                onClick={() => setInventoryDetailFormOpen(true)}
-                className="justify-end hover:cursor-pointer hover:underline"
-              >
-                Edit
-              </button>
-            </div>
-          </div>
 
-          {/* Wine Information Card */}
-          <div className="card bg-base-100 shadow-md">
-            <div className="card-body">
-              <h2 className="card-title">Wine Information</h2>
-              <p>Producer: {wine.producer}</p>
-              <p>Country: {wine.country}</p>
-              <p>Year: {wine.year}</p>
-
-              <div className="card-actions justify-end m-2">
+            {/* Wine Info Card */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h2 className="font-bold text-gray-800">Wine Information</h2>
                 <button
                   onClick={() => setWineInformationFormOpen(true)}
-                  className="justify-end hover:cursor-pointer hover:underline"
+                  className="btn btn-xs btn-ghost text-[#8d4062] hover:bg-[#8d4062]/5 cursor-pointer"
                 >
                   Edit
                 </button>
               </div>
+              <div className="p-6 flex flex-col gap-3 text-sm text-gray-600">
+                <div className="flex justify-between border-b border-gray-50 pb-2">
+                  <span className="font-medium text-gray-400">Producer</span>
+                  <span className="font-semibold text-gray-800">{wine?.producer || ""}</span>
+                </div>
+                <div className="flex justify-between border-b border-gray-50 pb-2">
+                  <span className="font-medium text-gray-400">Country</span>
+                  <span className="font-semibold text-gray-800">{wine?.country || ""}</span>
+                </div>
+                <div className="flex justify-between pb-1">
+                  <span className="font-medium text-gray-400">Year</span>
+                  <span className="font-semibold text-gray-800">{wine?.year || ""}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Update Inventory Details Form */}
-        {inventoryDetailFormOpen && (
-          <div
-            className="fixed inset-0 flex items-center justify-center z-50"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-            onMouseDown={() => setInventoryDetailFormOpen(false)}
-          >
-            <div
-              className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
-              onMouseDown={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between mb-4">
-                <h2 className="text-xl font-bold">Update Inventory Detail</h2>
+          {/* Middle Column: Inventory Details */}
+          <div className="lg:col-span-1 flex flex-col gap-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h2 className="font-bold text-gray-800">Inventory Details</h2>
                 <button
-                  onClick={() => setInventoryDetailFormOpen(false)}
-                  className="text-2xl"
+                  onClick={() => setInventoryDetailFormOpen(true)}
+                  className="btn btn-xs btn-ghost text-[#8d4062] hover:bg-[#8d4062]/5 cursor-pointer"
                 >
-                  &times;
+                  Edit
                 </button>
               </div>
-              <form onSubmit={handleSubmit}>
-                <label className="label">Quantity</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder={inventory.quantity}
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-                <label className="label">Buying Price</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder={inventory.buying_price}
-                  value={buyingPrice}
-                  onChange={(e) => handleBuyingPriceChange(e.target.value)}
-                />
-                <label className="label">Selling Price</label>
-                <input
-                  type="number"
-                  className="input input-bordered w-full"
-                  placeholder={inventory.selling_price}
-                  value={sellingPrice}
-                  onChange={(e) => handleSellingPriceChange(e.target.value)}
-                />
-                <label className="label">Profit margin (%)</label>
-                <input
-                  type="number"
-                  className="input input-bordered w-full"
-                  placeholder={inventory.profit_margin}
-                  value={profitMargin}
-                  onChange={(e) => handleProfitMarginChange(e.target.value)}
-                />
-                <button type="submit" className="btn btn-secondary mt-4 w-full">
-                  Update
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
-        {/* END OF - Update Inventory Details Form */}
-
-        {/* Update Wine Information Form */}
-        {wineInformationFormOpen && (
-          <div
-            className="fixed inset-0 flex items-center justify-center z-50"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-            onClick={() => setWineInformationFormOpen(false)}
-          >
-            <div
-              className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between mb-4">
-                <h2 className="text-xl font-bold">Update Wine Information</h2>
-                <button
-                  onClick={() => setWineInformationFormOpen(false)}
-                  className="text-2xl"
-                >
-                  &times;
-                </button>
+              <div className="p-6 flex flex-col gap-3 text-sm text-gray-600">
+                <div className="flex justify-between border-b border-gray-50 pb-2">
+                  <span className="font-medium text-gray-400">Quantity</span>
+                  <span className="font-semibold text-gray-800 text-base">{inventory.quantity} bottles</span>
+                </div>
+                <div className="flex justify-between border-b border-gray-50 pb-2">
+                  <span className="font-medium text-gray-400">Buying Price</span>
+                  <span className="font-semibold text-gray-800">${parseFloat(inventory.buying_price).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between border-b border-gray-50 pb-2">
+                  <span className="font-medium text-gray-400">Selling Price</span>
+                  <span className="font-semibold text-gray-800">${parseFloat(inventory.selling_price).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between pb-1">
+                  <span className="font-medium text-gray-400">Profit Margin</span>
+                  <span className="badge badge-success text-white font-semibold">{inventory.profit_margin}%</span>
+                </div>
               </div>
-              <form onSubmit={handleWineInfoSubmit}>
-                <label className="label">Producer</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder={wine.producer}
-                  value={producer}
-                  onChange={(e) => setProducer(e.target.value)}
-                />
-                <label className="label">Country</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder={wine.country}
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                />
-                <label className="label">Year</label>
-                <input
-                  type="number"
-                  className="input input-bordered w-full"
-                  placeholder={wine.year}
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                />
-                <label className="label">Wine Image URL</label>
-                <input
-                  type="url"
-                  className="input input-bordered w-full"
-                  placeholder={
-                    wine.image_url || "https://example.com/image.jpg"
-                  }
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                />
-                <button type="submit" className="btn btn-secondary mt-4 w-full">
-                  Update
-                </button>
-              </form>
             </div>
           </div>
-        )}
-        {/* END OF - Update Wine Information Form */}
 
-        <div className="flex-1">
-          <div className="card bg-base-100 shadow-md">
-            <div className="card-body">
-              <h2 className="card-title">{restaurant?.name || "Restaurant"} Profit Margin Chart</h2>
-              <p>Total Profit Margin Percentage: {totalProfitPercentage}%</p>
-              <p>Total Wines: {restaurantInventories.length}</p>
-<p>Average Profit Margin: {restaurantInventories.length > 0 ? (totalProfitPercentage / restaurantInventories.length).toFixed(2) : 0}%</p>
+          {/* Right Column: Chart */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                <h2 className="font-bold text-gray-800">{restaurant?.name || "Restaurant"} Metrics</h2>
+              </div>
+              <div className="p-6">
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 p-4 rounded-xl border border-gray-100/50">
+                    <div className="text-xs font-semibold text-gray-400 uppercase">Total Wines</div>
+                    <div className="text-2xl font-bold text-gray-800 mt-1">{restaurantInventories.length}</div>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-xl border border-gray-100/50">
+                    <div className="text-xs font-semibold text-gray-400 uppercase">Avg Margin</div>
+                    <div className="text-2xl font-bold text-[#8d4062] mt-1">
+                      {restaurantInventories.length > 0 ? (totalProfitPercentage / restaurantInventories.length).toFixed(1) : 0}%
+                    </div>
+                  </div>
+                </div>
 
-<div className="w-full h-80 relative">
-  <Bar data={chartData} options={chartOptions} />
-</div>
+                <div className="w-full h-64 relative">
+                  <Bar data={chartData} options={chartOptions} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Update Inventory Details Modal */}
+      {inventoryDetailFormOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black/55 backdrop-blur-sm"
+          onMouseDown={() => setInventoryDetailFormOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full mx-4 border border-gray-100"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Update Inventory Details</h2>
+              <button
+                onClick={() => setInventoryDetailFormOpen(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                <input
+                  type="number"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={inventory.quantity}
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Buying Price ($)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={inventory.buying_price}
+                  value={buyingPrice}
+                  onChange={(e) => handleBuyingPriceChange(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price ($)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={inventory.selling_price}
+                  value={sellingPrice}
+                  onChange={(e) => handleSellingPriceChange(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Profit Margin (%)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={inventory.profit_margin}
+                  value={profitMargin}
+                  onChange={(e) => handleProfitMarginChange(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex gap-3 mt-4">
+                <button type="submit" className="btn btn-primary flex-1 text-white cursor-pointer">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInventoryDetailFormOpen(false)}
+                  className="btn btn-outline flex-1 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Update Wine Information Modal */}
+      {wineInformationFormOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black/55 backdrop-blur-sm"
+          onClick={() => setWineInformationFormOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full mx-4 border border-gray-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Update Wine Information</h2>
+              <button
+                onClick={() => setWineInformationFormOpen(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+            <form onSubmit={handleWineInfoSubmit} className="flex flex-col gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Producer</label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={wine?.producer || ""}
+                  value={producer}
+                  onChange={(e) => setProducer(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={wine?.country || ""}
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+                <input
+                  type="number"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={wine?.year || ""}
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Wine Image URL</label>
+                <input
+                  type="url"
+                  className="input input-bordered w-full focus:border-[#8d4062] focus:ring-2 focus:ring-[#8d4062]/20 transition-all outline-none"
+                  placeholder={wine?.imageURL || wine?.image_url || "https://example.com/image.jpg"}
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-3 mt-4">
+                <button type="submit" className="btn btn-primary flex-1 text-white cursor-pointer">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setWineInformationFormOpen(false)}
+                  className="btn btn-outline flex-1 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }

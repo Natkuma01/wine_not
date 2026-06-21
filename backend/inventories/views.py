@@ -4,5 +4,5 @@ from .models import Inventory
 from .serializers import InventorySerializer
 
 class InventoryViewSet(viewsets.ModelViewSet):
-    queryset = Inventory.objects.all()
+    queryset = Inventory.objects.select_related('wine', 'restaurant').all()
     serializer_class = InventorySerializer  

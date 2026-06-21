@@ -23,7 +23,7 @@ class Wine(models.Model):
         ('orange', 'orange'),
         ('dessert', 'dessert'),
     )
-    wine_type = models.CharField(max_length=20, choices=TYPE_CHOICES, null=True) 
+    wine_type = models.CharField(max_length=20, choices=TYPE_CHOICES, null=True, db_index=True) 
     grapes = models.ManyToManyField('Grape', related_name='wines')      # allow user to add more than 1 grape
 
     def __str__(self):

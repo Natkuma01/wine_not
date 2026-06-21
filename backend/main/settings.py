@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key-for-development-only')
 # The DEBUG environment variable should be set to 'True' locally and 'False' on AWS
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['18.218.13.195', 'localhost', 'wine-inventory.duckdns.org', '127.0.0.1']
+ALLOWED_HOSTS = ['54.82.120.227', 'localhost', 'wine-inventory.duckdns.org', '127.0.0.1']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "wines",
     "inventories",
     "restaurants",
+    "analytics",
     "rest_framework",
     "corsheaders",
 ]
@@ -83,7 +84,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'main.exceptions.custom_exception_handler',
 }
 
 ROOT_URLCONF = "main.urls"
@@ -113,11 +115,11 @@ WSGI_APPLICATION = "main.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'NAME': os.environ.get('DB_NAME', 'winedb'),
+        'USER': os.environ.get('DB_USER', 'wineuser'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -174,3 +176,5 @@ SIMPLE_JWT = {
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+APPEND_SLASH = True

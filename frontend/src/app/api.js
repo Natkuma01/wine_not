@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const rawApiBase = (
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+).replace(/\/+$/, "");
+const API_BASE = rawApiBase.endsWith("/api")
+  ? rawApiBase
+  : `${rawApiBase}/api`;
 
 export const api = axios.create({
   baseURL: API_BASE,
@@ -8,7 +13,24 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
+function getApiErrorMessage(error) {
+  if (error.response) {
+    const { data } = error.response;
+    if (typeof data === "string") {
+      return data;
+    }
+    if (data) {
+      if (typeof data.message === "string") return data.message;
+      if (typeof data.detail === "string") return data.detail;
+      if (Array.isArray(data.non_field_errors)) return data.non_field_errors.join(" ");
+      if (typeof data.error === "string") return data.error;
+    }
+  }
+  if (error.message) {
+    return error.message;
+  }
+  return "An unexpected error occurred.";
+}
 // Attach JWT to every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
@@ -27,8 +49,10 @@ api.interceptors.response.use(
       localStorage.removeItem("refresh_token");
       window.location.href = "/landing";
     }
+    error.userMessage = getApiErrorMessage(error);
     return Promise.reject(error);
   }
 );
 
+export { getApiErrorMessage };
 export default api;

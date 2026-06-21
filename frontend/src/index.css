@@ -1,5 +1,24 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
-@plugin "daisyui" {
-  themes: garden --default;
+@plugin "daisyui/theme" {
+  name: "wine-not";
+  default: true;
+  --color-primary: #8d4062;
+  --color-primary-content: #ffffff;
+  --color-secondary: #ebd3dd;
+  --color-secondary-content: #8d4062;
+  --color-accent: #6b2737;
+  --color-accent-content: #ffffff;
+  --color-neutral: #3d3d3d;
+  --color-neutral-content: #f7f0e6;
+  --color-base-100: #f7f0e6;
+  --color-base-200: #ebdcd0;
+  --color-base-300: #dec5b3;
+  --color-base-content: #3d3d3d;
 }
+
+html, body {
+  background-color: #f7f0e6;
+}
+

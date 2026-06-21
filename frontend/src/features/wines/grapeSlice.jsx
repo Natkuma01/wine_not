@@ -2,10 +2,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../app/api";
 
-export const fetchGrapes = createAsyncThunk("grapes/fetchGrapes", async () => {
-  const response = await api.get("/wines/grapes/");
-  return response.data;
-});
+export const fetchGrapes = createAsyncThunk(
+  "grapes/fetchGrapes",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/wines/grapes/");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
+  },
+);
 
 const grapeSlice = createSlice({
   name: "grapes",
@@ -27,7 +34,7 @@ const grapeSlice = createSlice({
       })
       .addCase(fetchGrapes.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });
