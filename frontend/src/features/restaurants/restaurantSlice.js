@@ -35,6 +35,18 @@ export const deleteRestaurant = createAsyncThunk(
   }
 );
 
+export const updateRestaurant = createAsyncThunk(
+  "restaurants/updateRestaurant",
+  async ({ id, updates }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`${BASE_URL}${id}/`, updates);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.userMessage || error.message);
+    }
+  },
+);
+
 const restaurantSlice = createSlice({
   name: "restaurants",
   initialState: {
@@ -69,6 +81,21 @@ const restaurantSlice = createSlice({
         state.restaurants.push(action.payload); // add to list
       })
       .addCase(addRestaurant.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+
+      .addCase(updateRestaurant.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateRestaurant.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurants = state.restaurants.map((restaurant) =>
+          restaurant.id === action.payload.id ? action.payload : restaurant
+        );
+      })
+      .addCase(updateRestaurant.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       })

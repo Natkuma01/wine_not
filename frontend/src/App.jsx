@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import RestaurantList from "./features/restaurants/RestaurantList";
+import RestaurantEdit from "./features/restaurants/RestaurantEdit";
 import WineList from "./features/wines/WineList";
 import InventoryList from "./features/inventories/InventoryList";
 import AddInventory from "./features/inventories/AddInventory";
@@ -39,6 +40,7 @@ function App() {
 
         {/* Private Routes */}
         <Route path="/restaurants" element={<ProtectedRoute> <RestaurantList /> </ProtectedRoute>} />
+        <Route path="/restaurants/edit/:id" element={<ProtectedRoute> <RestaurantEdit /> </ProtectedRoute>} />
         <Route path="/restaurants/wines/:id" element={<ProtectedRoute> <WineList /> </ProtectedRoute>} />
         <Route path="inventories/:wineId" element={<ProtectedRoute> <InventoryList /> </ProtectedRoute>} />
         <Route path="inventories/add/:wineId" element={<ProtectedRoute> <AddInventory /> </ProtectedRoute>} />
