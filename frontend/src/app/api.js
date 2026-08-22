@@ -47,7 +47,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      window.location.href = "/landing";
+      window.location.href = "/";
     }
     error.userMessage = getApiErrorMessage(error);
     return Promise.reject(error);
