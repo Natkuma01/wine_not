@@ -25,16 +25,66 @@ def populate():
     
     # 2. Create 5 restaurants
     restaurants_data = [
-        {"name": "Le Bernardin", "address": "155 W 51st St, New York, NY 10019"},
-        {"name": "The French Laundry", "address": "6640 Washington St, Yountville, CA 94599"},
-        {"name": "Osteria Francescana", "address": "Via Stella, 22, 41121 Modena MO, Italy"},
-        {"name": "Noma", "address": "Refshalevej 96, 1432 Copenhagen, Denmark"},
-        {"name": "Gaggan", "address": "68/1 Soi Langsuan, Ploenchit Road Lumpini, Bangkok, Thailand"}
+        {
+            "name": "Le Bernardin",
+            "street_number": "214",
+            "street_name": "West 52nd Street",
+            "floor_unit": "Floor 2",
+            "postal_code": 10019,
+            "city": "New York",
+            "state": "NY",
+        },
+        {
+            "name": "The French Laundry",
+            "street_number": "6488",
+            "street_name": "Washington Street",
+            "floor_unit": "Suite B",
+            "postal_code": 94599,
+            "city": "Yountville",
+            "state": "CA",
+        },
+        {
+            "name": "Osteria Francescana",
+            "street_number": "18",
+            "street_name": "Via San Pietro",
+            "floor_unit": "Floor 1",
+            "postal_code": 41121,
+            "city": "Modena",
+            "state": "IT",
+        },
+        {
+            "name": "Noma",
+            "street_number": "84",
+            "street_name": "Refshalevej",
+            "floor_unit": "Building 2",
+            "postal_code": 1432,
+            "city": "Copenhagen",
+            "state": "DK",
+        },
+        {
+            "name": "Gaggan",
+            "street_number": "61",
+            "street_name": "Soi Langsuan",
+            "floor_unit": "Unit 5",
+            "postal_code": 10330,
+            "city": "Bangkok",
+            "state": "TH",
+        },
     ]
     
     restaurants = []
     for data in restaurants_data:
-        restaurant, _ = Restaurant.objects.get_or_create(name=data["name"], address=data["address"])
+        restaurant, _ = Restaurant.objects.update_or_create(
+            name=data["name"],
+            defaults={
+                "street_number": data["street_number"],
+                "street_name": data["street_name"],
+                "floor_unit": data["floor_unit"],
+                "postal_code": data["postal_code"],
+                "city": data["city"],
+                "state": data["state"],
+            },
+        )
         restaurants.append(restaurant)
     print(f"Created {len(restaurants)} restaurants.")
 
