@@ -3,13 +3,14 @@ from datetime import datetime, timedelta
 
 from django.db.models import Count
 from django.db.models.functions import TruncDate
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import PageVisit
-from .serializers import PageVisitSerializer
+from .models import DailyWineSale, PageVisit
+from .serializers import DailyWineSaleSerializer, PageVisitSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -79,3 +80,46 @@ class VisitStatsView(APIView):
                 {"detail": "Unable to load analytics at this time. Please try again later."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+
+class DailyWineSaleListCreateView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DailyWineSaleSerializer
+
+    def get_queryset(self):
+        queryset = DailyWineSale.objects.select_related(
+            "restaurant",
+            "inventory",
+            "inventory__wine",
+        )
+        restaurant_id = self.request.query_params.get("restaurant_id")
+        if restaurant_id:
+            queryset = queryset.filter(restaurant_id=restaurant_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        validated_data = serializer.validated_data
+        sale, created = DailyWineSale.objects.get_or_create(
+            inventory=validated_data["inventory"],
+            sale_date=validated_data["sale_date"],
+            defaults={
+                "restaurant": validated_data["restaurant"],
+                "quantity_sold": validated_data["quantity_sold"],
+                "user": self.request.user,
+                "notes": validated_data.get("notes", ""),
+            },
+        )
+
+        if not created:
+            sale.quantity_sold += validated_data["quantity_sold"]
+            sale.restaurant = validated_data["restaurant"]
+            sale.user = self.request.user
+            incoming_notes = validated_data.get("notes", "").strip()
+            if incoming_notes:
+                sale.notes = (
+                    f"{sale.notes}\n{incoming_notes}".strip()
+                    if sale.notes else incoming_notes
+                )
+            sale.save(update_fields=["quantity_sold", "restaurant", "user", "notes", "updated_at"])
+
+        serializer.instance = sale
