@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key-for-development-only')
 # The DEBUG environment variable should be set to 'True' locally and 'False' on AWS
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['54.82.120.227', 'localhost', 'wine-inventory.duckdns.org', '127.0.0.1']
+ALLOWED_HOSTS = ['3.149.157.59', 'localhost', 'wine-inventory.duckdns.org', '127.0.0.1']
 
 
 # Application definition
@@ -65,16 +65,16 @@ MIDDLEWARE = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = False
 
 # Handling CORS
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173", 'http://wine-inventory.duckdns.org', 'https://wine-inventory.duckdns.org' ]
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173", 'http://wine-not-frontend.s3-website-us-east-1.amazonaws.com', 'http://wine-inventory.duckdns.org', 'https://wine-inventory.duckdns.org' ]
 
 # Handling CSRF (Required for Production/AWS Login)
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://wine-inventory.duckdns.org",
     "https://wine-inventory.duckdns.org",
+    "http://wine-not-frontend.s3-website-us-east-1.amazonaws.com",
 ]
 
 # for Django restframework

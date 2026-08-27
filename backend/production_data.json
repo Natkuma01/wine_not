@@ -1,0 +1,2238 @@
+[
+{
+  "model": "restaurants.restaurant",
+  "pk": 1,
+  "fields": {
+    "name": "Le Bernardin",
+    "street_number": "214",
+    "street_name": "West 52nd Street",
+    "floor_unit": "Floor 2",
+    "postal_code": 10019,
+    "city": "New York",
+    "state": "NY"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 2,
+  "fields": {
+    "name": "The French Laundry",
+    "street_number": "6488",
+    "street_name": "Washington Street",
+    "floor_unit": "Suite B",
+    "postal_code": 94599,
+    "city": "Yountville",
+    "state": "CA"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 3,
+  "fields": {
+    "name": "Osteria Francescana",
+    "street_number": "18",
+    "street_name": "Via San Pietro",
+    "floor_unit": "Floor 1",
+    "postal_code": 41121,
+    "city": "Modena",
+    "state": "IT"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 4,
+  "fields": {
+    "name": "Noma",
+    "street_number": "84",
+    "street_name": "Refshalevej",
+    "floor_unit": "Building 2",
+    "postal_code": 1432,
+    "city": "Copenhagen",
+    "state": "DK"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 5,
+  "fields": {
+    "name": "Gaggan",
+    "street_number": "61",
+    "street_name": "Soi Langsuan",
+    "floor_unit": "Unit 5",
+    "postal_code": 10330,
+    "city": "Bangkok",
+    "state": "TH"
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 1,
+  "fields": {
+    "name": "Montrachet Grand Cru",
+    "producer": "Domaine de la Romanée-Conti",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Complex, rich, and elegant.",
+    "year": 2018,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 2,
+  "fields": {
+    "name": "Chablis Grand Cru Les Clos",
+    "producer": "William Fèvre",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Crisp, mineral-driven with citrus notes.",
+    "year": 2020,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 3,
+  "fields": {
+    "name": "Château Haut-Brion Blanc",
+    "producer": "Château Haut-Brion",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Full-bodied with notes of honey and grapefruit.",
+    "year": 2019,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 4,
+  "fields": {
+    "name": "Pape Clément Blanc",
+    "producer": "Château Pape Clément",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Aromatic, rich texture.",
+    "year": 2017,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 5,
+  "fields": {
+    "name": "Scharzhofberger Riesling Auslese",
+    "producer": "Egon Müller",
+    "country": "Germany",
+    "region": "Mosel",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Sweet, vibrant acidity.",
+    "year": 2015,
+    "wine_type": "white",
+    "grapes": [
+      3
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 6,
+  "fields": {
+    "name": "Wehlener Sonnenuhr Spätlese",
+    "producer": "Joh. Jos. Prüm",
+    "country": "Germany",
+    "region": "Mosel",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Fruity and delicate.",
+    "year": 2021,
+    "wine_type": "white",
+    "grapes": [
+      3
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 7,
+  "fields": {
+    "name": "Cloudy Bay Sauvignon Blanc",
+    "producer": "Cloudy Bay",
+    "country": "New Zealand",
+    "region": "Marlborough",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Vibrant passionfruit and lime.",
+    "year": 2022,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 8,
+  "fields": {
+    "name": "Greywacke Wild Sauvignon",
+    "producer": "Greywacke",
+    "country": "New Zealand",
+    "region": "Marlborough",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Textured and complex.",
+    "year": 2020,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 9,
+  "fields": {
+    "name": "Kongsgaard Chardonnay",
+    "producer": "Kongsgaard",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Intense, savory and rich.",
+    "year": 2019,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 10,
+  "fields": {
+    "name": "Hyde Vineyard Chardonnay",
+    "producer": "HDV",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Bright acidity with stone fruit.",
+    "year": 2021,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 11,
+  "fields": {
+    "name": "Château Margaux",
+    "producer": "Château Margaux",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Elegant, complex with dark fruits and floral notes.",
+    "year": 2015,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 12,
+  "fields": {
+    "name": "Château Latour",
+    "producer": "Château Latour",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Powerful, structured with cassis and cedar.",
+    "year": 2010,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 13,
+  "fields": {
+    "name": "La Tâche Grand Cru",
+    "producer": "Domaine de la Romanée-Conti",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Aromatic, spicy, and deeply concentrated.",
+    "year": 2017,
+    "wine_type": "red",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 14,
+  "fields": {
+    "name": "Musigny Grand Cru",
+    "producer": "Domaine Comte Georges de Vogüé",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Silky texture, red berries, and floral.",
+    "year": 2019,
+    "wine_type": "red",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 15,
+  "fields": {
+    "name": "Tignanello",
+    "producer": "Marchesi Antinori",
+    "country": "Italy",
+    "region": "Tuscany",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Rich, cherries, vanilla, and spice.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      6
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 16,
+  "fields": {
+    "name": "Sassicaia",
+    "producer": "Tenuta San Guido",
+    "country": "Italy",
+    "region": "Tuscany",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Refined, dark plum, herbs, and tobacco.",
+    "year": 2019,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 17,
+  "fields": {
+    "name": "Hermitage La Chapelle",
+    "producer": "Paul Jaboulet Aîné",
+    "country": "France",
+    "region": "Rhône Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Dense, blackberry, pepper, and smoke.",
+    "year": 2015,
+    "wine_type": "red",
+    "grapes": [
+      7
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 18,
+  "fields": {
+    "name": "Côte-Rôtie La Landonne",
+    "producer": "E. Guigal",
+    "country": "France",
+    "region": "Rhône Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Intense, dark fruit, olives, and roasted meat.",
+    "year": 2016,
+    "wine_type": "red",
+    "grapes": [
+      7
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 19,
+  "fields": {
+    "name": "Opus One",
+    "producer": "Opus One Winery",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Lush, dark cherry, cocoa, and velvety tannins.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 20,
+  "fields": {
+    "name": "Dominus",
+    "producer": "Dominus Estate",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Structured, black plum, tobacco, and earth.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 21,
+  "fields": {
+    "name": "Dom Pérignon Vintage",
+    "producer": "Moët & Chandon",
+    "country": "France",
+    "region": "Champagne",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Complex, brioche, and crisp acidity.",
+    "year": 2013,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 22,
+  "fields": {
+    "name": "Cristal Brut",
+    "producer": "Louis Roederer",
+    "country": "France",
+    "region": "Champagne",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Elegant, fine bubbles, citrus notes.",
+    "year": 2014,
+    "wine_type": "sparkling",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 23,
+  "fields": {
+    "name": "Prosecco Superiore",
+    "producer": "Bisol",
+    "country": "Italy",
+    "region": "Veneto",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Fresh, floral, and fruity.",
+    "year": 2021,
+    "wine_type": "sparkling",
+    "grapes": [
+      8
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 24,
+  "fields": {
+    "name": "Franciacorta Cuvée Prestige",
+    "producer": "Ca' del Bosco",
+    "country": "Italy",
+    "region": "Lombardy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Rich, creamy texture with biscuit notes.",
+    "year": 2019,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 25,
+  "fields": {
+    "name": "Cava Gran Reserva",
+    "producer": "Gramona",
+    "country": "Spain",
+    "region": "Penedès",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Toasted almond, baked apple, vibrant.",
+    "year": 2015,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 26,
+  "fields": {
+    "name": "Château d'Yquem",
+    "producer": "Château d'Yquem",
+    "country": "France",
+    "region": "Sauternes",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Luscious, apricot, honey, and saffron.",
+    "year": 2009,
+    "wine_type": "dessert",
+    "grapes": [
+      9
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 27,
+  "fields": {
+    "name": "Tokaji Aszú 5 Puttonyos",
+    "producer": "Royal Tokaji",
+    "country": "Hungary",
+    "region": "Tokaj",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Sweet, marmalade, and vibrant acidity.",
+    "year": 2016,
+    "wine_type": "dessert",
+    "grapes": [
+      10
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 28,
+  "fields": {
+    "name": "Radikon Ribolla Gialla",
+    "producer": "Radikon",
+    "country": "Italy",
+    "region": "Friuli",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Tannic, dried fruit, complex and earthy.",
+    "year": 2014,
+    "wine_type": "orange",
+    "grapes": [
+      12
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 29,
+  "fields": {
+    "name": "Gravner Breg Anfora",
+    "producer": "Gravner",
+    "country": "Italy",
+    "region": "Friuli",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Amber, deep savory notes, long finish.",
+    "year": 2011,
+    "wine_type": "orange",
+    "grapes": [
+      11
+    ]
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 1,
+  "fields": {
+    "name": "Chardonnay"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 2,
+  "fields": {
+    "name": "Sauvignon Blanc"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 3,
+  "fields": {
+    "name": "Riesling"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 4,
+  "fields": {
+    "name": "Cabernet Sauvignon"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 5,
+  "fields": {
+    "name": "Pinot Noir"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 6,
+  "fields": {
+    "name": "Sangiovese"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 7,
+  "fields": {
+    "name": "Syrah"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 8,
+  "fields": {
+    "name": "Glera"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 9,
+  "fields": {
+    "name": "Sémillon"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 10,
+  "fields": {
+    "name": "Furmint"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 11,
+  "fields": {
+    "name": "Pinot Gris"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 12,
+  "fields": {
+    "name": "Ribolla Gialla"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 1,
+  "fields": {
+    "wine": 1,
+    "restaurant": 1,
+    "quantity": 49,
+    "buying_price": "57.00",
+    "selling_price": "167.03"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 2,
+  "fields": {
+    "wine": 2,
+    "restaurant": 1,
+    "quantity": 47,
+    "buying_price": "26.00",
+    "selling_price": "66.11"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 3,
+  "fields": {
+    "wine": 3,
+    "restaurant": 1,
+    "quantity": 45,
+    "buying_price": "67.00",
+    "selling_price": "251.66"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 4,
+  "fields": {
+    "wine": 4,
+    "restaurant": 1,
+    "quantity": 59,
+    "buying_price": "54.00",
+    "selling_price": "176.67"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 5,
+  "fields": {
+    "wine": 5,
+    "restaurant": 1,
+    "quantity": 82,
+    "buying_price": "31.00",
+    "selling_price": "79.26"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 6,
+  "fields": {
+    "wine": 6,
+    "restaurant": 1,
+    "quantity": 52,
+    "buying_price": "38.00",
+    "selling_price": "96.33"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 7,
+  "fields": {
+    "wine": 7,
+    "restaurant": 1,
+    "quantity": 31,
+    "buying_price": "76.00",
+    "selling_price": "299.98"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 8,
+  "fields": {
+    "wine": 8,
+    "restaurant": 1,
+    "quantity": 73,
+    "buying_price": "85.00",
+    "selling_price": "295.27"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 9,
+  "fields": {
+    "wine": 9,
+    "restaurant": 1,
+    "quantity": 100,
+    "buying_price": "26.00",
+    "selling_price": "103.64"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 10,
+  "fields": {
+    "wine": 10,
+    "restaurant": 1,
+    "quantity": 10,
+    "buying_price": "68.00",
+    "selling_price": "243.45"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 11,
+  "fields": {
+    "wine": 1,
+    "restaurant": 2,
+    "quantity": 51,
+    "buying_price": "77.00",
+    "selling_price": "267.08"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 12,
+  "fields": {
+    "wine": 2,
+    "restaurant": 2,
+    "quantity": 48,
+    "buying_price": "71.00",
+    "selling_price": "232.38"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 13,
+  "fields": {
+    "wine": 3,
+    "restaurant": 2,
+    "quantity": 60,
+    "buying_price": "52.00",
+    "selling_price": "172.94"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 14,
+  "fields": {
+    "wine": 4,
+    "restaurant": 2,
+    "quantity": 66,
+    "buying_price": "47.00",
+    "selling_price": "146.79"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 15,
+  "fields": {
+    "wine": 5,
+    "restaurant": 2,
+    "quantity": 34,
+    "buying_price": "61.00",
+    "selling_price": "223.51"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 16,
+  "fields": {
+    "wine": 6,
+    "restaurant": 2,
+    "quantity": 89,
+    "buying_price": "32.00",
+    "selling_price": "95.34"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 17,
+  "fields": {
+    "wine": 7,
+    "restaurant": 2,
+    "quantity": 54,
+    "buying_price": "32.00",
+    "selling_price": "90.44"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 18,
+  "fields": {
+    "wine": 8,
+    "restaurant": 2,
+    "quantity": 94,
+    "buying_price": "61.00",
+    "selling_price": "238.12"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 19,
+  "fields": {
+    "wine": 9,
+    "restaurant": 2,
+    "quantity": 59,
+    "buying_price": "71.00",
+    "selling_price": "195.26"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 20,
+  "fields": {
+    "wine": 10,
+    "restaurant": 2,
+    "quantity": 62,
+    "buying_price": "84.00",
+    "selling_price": "290.97"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 21,
+  "fields": {
+    "wine": 1,
+    "restaurant": 3,
+    "quantity": 82,
+    "buying_price": "58.00",
+    "selling_price": "206.25"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 22,
+  "fields": {
+    "wine": 2,
+    "restaurant": 3,
+    "quantity": 80,
+    "buying_price": "90.00",
+    "selling_price": "237.39"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 23,
+  "fields": {
+    "wine": 3,
+    "restaurant": 3,
+    "quantity": 57,
+    "buying_price": "87.00",
+    "selling_price": "233.87"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 24,
+  "fields": {
+    "wine": 4,
+    "restaurant": 3,
+    "quantity": 78,
+    "buying_price": "76.00",
+    "selling_price": "264.64"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 25,
+  "fields": {
+    "wine": 5,
+    "restaurant": 3,
+    "quantity": 55,
+    "buying_price": "60.00",
+    "selling_price": "212.52"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 26,
+  "fields": {
+    "wine": 6,
+    "restaurant": 3,
+    "quantity": 33,
+    "buying_price": "44.00",
+    "selling_price": "143.51"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 27,
+  "fields": {
+    "wine": 7,
+    "restaurant": 3,
+    "quantity": 45,
+    "buying_price": "32.00",
+    "selling_price": "86.80"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 28,
+  "fields": {
+    "wine": 8,
+    "restaurant": 3,
+    "quantity": 66,
+    "buying_price": "45.00",
+    "selling_price": "115.49"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 29,
+  "fields": {
+    "wine": 9,
+    "restaurant": 3,
+    "quantity": 52,
+    "buying_price": "60.00",
+    "selling_price": "226.32"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 30,
+  "fields": {
+    "wine": 10,
+    "restaurant": 3,
+    "quantity": 28,
+    "buying_price": "22.00",
+    "selling_price": "67.43"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 31,
+  "fields": {
+    "wine": 1,
+    "restaurant": 4,
+    "quantity": 35,
+    "buying_price": "32.00",
+    "selling_price": "122.85"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 32,
+  "fields": {
+    "wine": 2,
+    "restaurant": 4,
+    "quantity": 56,
+    "buying_price": "80.00",
+    "selling_price": "264.39"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 33,
+  "fields": {
+    "wine": 3,
+    "restaurant": 4,
+    "quantity": 74,
+    "buying_price": "46.00",
+    "selling_price": "151.57"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 34,
+  "fields": {
+    "wine": 4,
+    "restaurant": 4,
+    "quantity": 77,
+    "buying_price": "93.00",
+    "selling_price": "293.55"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 35,
+  "fields": {
+    "wine": 5,
+    "restaurant": 4,
+    "quantity": 38,
+    "buying_price": "69.00",
+    "selling_price": "204.54"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 36,
+  "fields": {
+    "wine": 6,
+    "restaurant": 4,
+    "quantity": 50,
+    "buying_price": "56.00",
+    "selling_price": "141.34"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 37,
+  "fields": {
+    "wine": 7,
+    "restaurant": 4,
+    "quantity": 29,
+    "buying_price": "41.00",
+    "selling_price": "158.07"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 38,
+  "fields": {
+    "wine": 8,
+    "restaurant": 4,
+    "quantity": 85,
+    "buying_price": "64.00",
+    "selling_price": "185.29"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 39,
+  "fields": {
+    "wine": 9,
+    "restaurant": 4,
+    "quantity": 66,
+    "buying_price": "48.00",
+    "selling_price": "185.12"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 40,
+  "fields": {
+    "wine": 10,
+    "restaurant": 4,
+    "quantity": 13,
+    "buying_price": "56.00",
+    "selling_price": "213.73"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 41,
+  "fields": {
+    "wine": 1,
+    "restaurant": 5,
+    "quantity": 70,
+    "buying_price": "69.00",
+    "selling_price": "275.36"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 42,
+  "fields": {
+    "wine": 2,
+    "restaurant": 5,
+    "quantity": 71,
+    "buying_price": "35.00",
+    "selling_price": "113.97"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 43,
+  "fields": {
+    "wine": 3,
+    "restaurant": 5,
+    "quantity": 98,
+    "buying_price": "20.00",
+    "selling_price": "67.94"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 44,
+  "fields": {
+    "wine": 4,
+    "restaurant": 5,
+    "quantity": 33,
+    "buying_price": "99.00",
+    "selling_price": "376.67"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 45,
+  "fields": {
+    "wine": 5,
+    "restaurant": 5,
+    "quantity": 93,
+    "buying_price": "60.00",
+    "selling_price": "203.17"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 46,
+  "fields": {
+    "wine": 6,
+    "restaurant": 5,
+    "quantity": 50,
+    "buying_price": "34.00",
+    "selling_price": "94.19"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 47,
+  "fields": {
+    "wine": 7,
+    "restaurant": 5,
+    "quantity": 22,
+    "buying_price": "28.00",
+    "selling_price": "107.13"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 48,
+  "fields": {
+    "wine": 8,
+    "restaurant": 5,
+    "quantity": 27,
+    "buying_price": "36.00",
+    "selling_price": "136.75"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 49,
+  "fields": {
+    "wine": 9,
+    "restaurant": 5,
+    "quantity": 82,
+    "buying_price": "100.00",
+    "selling_price": "310.18"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 50,
+  "fields": {
+    "wine": 10,
+    "restaurant": 5,
+    "quantity": 68,
+    "buying_price": "44.00",
+    "selling_price": "112.32"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 51,
+  "fields": {
+    "wine": 11,
+    "restaurant": 1,
+    "quantity": 9,
+    "buying_price": "108.00",
+    "selling_price": "408.94"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 52,
+  "fields": {
+    "wine": 12,
+    "restaurant": 1,
+    "quantity": 12,
+    "buying_price": "69.00",
+    "selling_price": "241.56"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 53,
+  "fields": {
+    "wine": 13,
+    "restaurant": 1,
+    "quantity": 20,
+    "buying_price": "137.00",
+    "selling_price": "370.86"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 54,
+  "fields": {
+    "wine": 14,
+    "restaurant": 1,
+    "quantity": 47,
+    "buying_price": "183.00",
+    "selling_price": "686.22"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 55,
+  "fields": {
+    "wine": 15,
+    "restaurant": 1,
+    "quantity": 10,
+    "buying_price": "64.00",
+    "selling_price": "255.94"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 56,
+  "fields": {
+    "wine": 16,
+    "restaurant": 1,
+    "quantity": 14,
+    "buying_price": "86.00",
+    "selling_price": "330.69"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 57,
+  "fields": {
+    "wine": 17,
+    "restaurant": 1,
+    "quantity": 30,
+    "buying_price": "56.00",
+    "selling_price": "198.85"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 58,
+  "fields": {
+    "wine": 18,
+    "restaurant": 1,
+    "quantity": 9,
+    "buying_price": "45.00",
+    "selling_price": "171.57"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 59,
+  "fields": {
+    "wine": 19,
+    "restaurant": 1,
+    "quantity": 50,
+    "buying_price": "198.00",
+    "selling_price": "789.73"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 60,
+  "fields": {
+    "wine": 20,
+    "restaurant": 1,
+    "quantity": 31,
+    "buying_price": "211.00",
+    "selling_price": "532.21"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 61,
+  "fields": {
+    "wine": 11,
+    "restaurant": 2,
+    "quantity": 8,
+    "buying_price": "219.00",
+    "selling_price": "862.93"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 62,
+  "fields": {
+    "wine": 12,
+    "restaurant": 2,
+    "quantity": 27,
+    "buying_price": "245.00",
+    "selling_price": "741.01"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 63,
+  "fields": {
+    "wine": 13,
+    "restaurant": 2,
+    "quantity": 35,
+    "buying_price": "76.00",
+    "selling_price": "230.42"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 64,
+  "fields": {
+    "wine": 14,
+    "restaurant": 2,
+    "quantity": 20,
+    "buying_price": "53.00",
+    "selling_price": "168.53"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 65,
+  "fields": {
+    "wine": 15,
+    "restaurant": 2,
+    "quantity": 48,
+    "buying_price": "139.00",
+    "selling_price": "487.19"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 66,
+  "fields": {
+    "wine": 16,
+    "restaurant": 2,
+    "quantity": 42,
+    "buying_price": "55.00",
+    "selling_price": "168.20"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 67,
+  "fields": {
+    "wine": 17,
+    "restaurant": 2,
+    "quantity": 13,
+    "buying_price": "61.00",
+    "selling_price": "188.76"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 68,
+  "fields": {
+    "wine": 18,
+    "restaurant": 2,
+    "quantity": 16,
+    "buying_price": "218.00",
+    "selling_price": "817.95"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 69,
+  "fields": {
+    "wine": 19,
+    "restaurant": 2,
+    "quantity": 30,
+    "buying_price": "65.00",
+    "selling_price": "222.76"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 70,
+  "fields": {
+    "wine": 20,
+    "restaurant": 2,
+    "quantity": 40,
+    "buying_price": "60.00",
+    "selling_price": "158.09"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 71,
+  "fields": {
+    "wine": 11,
+    "restaurant": 3,
+    "quantity": 15,
+    "buying_price": "145.00",
+    "selling_price": "502.00"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 72,
+  "fields": {
+    "wine": 12,
+    "restaurant": 3,
+    "quantity": 42,
+    "buying_price": "227.00",
+    "selling_price": "604.84"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 73,
+  "fields": {
+    "wine": 13,
+    "restaurant": 3,
+    "quantity": 35,
+    "buying_price": "222.00",
+    "selling_price": "739.32"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 74,
+  "fields": {
+    "wine": 14,
+    "restaurant": 3,
+    "quantity": 28,
+    "buying_price": "241.00",
+    "selling_price": "848.25"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 75,
+  "fields": {
+    "wine": 15,
+    "restaurant": 3,
+    "quantity": 23,
+    "buying_price": "194.00",
+    "selling_price": "524.98"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 76,
+  "fields": {
+    "wine": 16,
+    "restaurant": 3,
+    "quantity": 28,
+    "buying_price": "49.00",
+    "selling_price": "170.08"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 77,
+  "fields": {
+    "wine": 17,
+    "restaurant": 3,
+    "quantity": 22,
+    "buying_price": "184.00",
+    "selling_price": "725.34"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 78,
+  "fields": {
+    "wine": 18,
+    "restaurant": 3,
+    "quantity": 35,
+    "buying_price": "122.00",
+    "selling_price": "353.39"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 79,
+  "fields": {
+    "wine": 19,
+    "restaurant": 3,
+    "quantity": 27,
+    "buying_price": "57.00",
+    "selling_price": "188.78"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 80,
+  "fields": {
+    "wine": 20,
+    "restaurant": 3,
+    "quantity": 34,
+    "buying_price": "101.00",
+    "selling_price": "386.96"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 81,
+  "fields": {
+    "wine": 11,
+    "restaurant": 4,
+    "quantity": 16,
+    "buying_price": "132.00",
+    "selling_price": "411.24"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 82,
+  "fields": {
+    "wine": 12,
+    "restaurant": 4,
+    "quantity": 22,
+    "buying_price": "45.00",
+    "selling_price": "131.74"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 83,
+  "fields": {
+    "wine": 13,
+    "restaurant": 4,
+    "quantity": 40,
+    "buying_price": "101.00",
+    "selling_price": "348.13"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 84,
+  "fields": {
+    "wine": 14,
+    "restaurant": 4,
+    "quantity": 46,
+    "buying_price": "102.00",
+    "selling_price": "272.57"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 85,
+  "fields": {
+    "wine": 15,
+    "restaurant": 4,
+    "quantity": 38,
+    "buying_price": "165.00",
+    "selling_price": "531.07"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 86,
+  "fields": {
+    "wine": 16,
+    "restaurant": 4,
+    "quantity": 35,
+    "buying_price": "226.00",
+    "selling_price": "724.02"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 87,
+  "fields": {
+    "wine": 17,
+    "restaurant": 4,
+    "quantity": 15,
+    "buying_price": "164.00",
+    "selling_price": "420.55"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 88,
+  "fields": {
+    "wine": 18,
+    "restaurant": 4,
+    "quantity": 11,
+    "buying_price": "77.00",
+    "selling_price": "221.96"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 89,
+  "fields": {
+    "wine": 19,
+    "restaurant": 4,
+    "quantity": 14,
+    "buying_price": "66.00",
+    "selling_price": "173.75"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 90,
+  "fields": {
+    "wine": 20,
+    "restaurant": 4,
+    "quantity": 37,
+    "buying_price": "92.00",
+    "selling_price": "352.42"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 91,
+  "fields": {
+    "wine": 11,
+    "restaurant": 5,
+    "quantity": 18,
+    "buying_price": "95.00",
+    "selling_price": "308.75"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 92,
+  "fields": {
+    "wine": 12,
+    "restaurant": 5,
+    "quantity": 27,
+    "buying_price": "237.00",
+    "selling_price": "853.20"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 93,
+  "fields": {
+    "wine": 13,
+    "restaurant": 5,
+    "quantity": 23,
+    "buying_price": "215.00",
+    "selling_price": "761.22"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 94,
+  "fields": {
+    "wine": 14,
+    "restaurant": 5,
+    "quantity": 41,
+    "buying_price": "178.00",
+    "selling_price": "599.67"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 95,
+  "fields": {
+    "wine": 15,
+    "restaurant": 5,
+    "quantity": 32,
+    "buying_price": "114.00",
+    "selling_price": "318.69"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 96,
+  "fields": {
+    "wine": 16,
+    "restaurant": 5,
+    "quantity": 38,
+    "buying_price": "50.00",
+    "selling_price": "171.84"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 97,
+  "fields": {
+    "wine": 17,
+    "restaurant": 5,
+    "quantity": 41,
+    "buying_price": "162.00",
+    "selling_price": "417.71"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 98,
+  "fields": {
+    "wine": 18,
+    "restaurant": 5,
+    "quantity": 27,
+    "buying_price": "82.00",
+    "selling_price": "250.28"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 99,
+  "fields": {
+    "wine": 19,
+    "restaurant": 5,
+    "quantity": 5,
+    "buying_price": "142.00",
+    "selling_price": "400.54"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 100,
+  "fields": {
+    "wine": 20,
+    "restaurant": 5,
+    "quantity": 41,
+    "buying_price": "118.00",
+    "selling_price": "453.77"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 101,
+  "fields": {
+    "wine": 21,
+    "restaurant": 1,
+    "quantity": 7,
+    "buying_price": "81.00",
+    "selling_price": "239.81"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 102,
+  "fields": {
+    "wine": 22,
+    "restaurant": 1,
+    "quantity": 38,
+    "buying_price": "140.00",
+    "selling_price": "545.57"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 103,
+  "fields": {
+    "wine": 23,
+    "restaurant": 1,
+    "quantity": 35,
+    "buying_price": "116.00",
+    "selling_price": "462.28"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 104,
+  "fields": {
+    "wine": 24,
+    "restaurant": 1,
+    "quantity": 40,
+    "buying_price": "34.00",
+    "selling_price": "117.09"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 105,
+  "fields": {
+    "wine": 25,
+    "restaurant": 1,
+    "quantity": 10,
+    "buying_price": "33.00",
+    "selling_price": "111.74"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 106,
+  "fields": {
+    "wine": 26,
+    "restaurant": 1,
+    "quantity": 37,
+    "buying_price": "98.00",
+    "selling_price": "303.50"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 107,
+  "fields": {
+    "wine": 27,
+    "restaurant": 1,
+    "quantity": 20,
+    "buying_price": "58.00",
+    "selling_price": "215.08"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 108,
+  "fields": {
+    "wine": 28,
+    "restaurant": 1,
+    "quantity": 27,
+    "buying_price": "40.00",
+    "selling_price": "113.36"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 109,
+  "fields": {
+    "wine": 29,
+    "restaurant": 1,
+    "quantity": 24,
+    "buying_price": "28.00",
+    "selling_price": "91.26"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 110,
+  "fields": {
+    "wine": 21,
+    "restaurant": 2,
+    "quantity": 18,
+    "buying_price": "102.00",
+    "selling_price": "378.15"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 111,
+  "fields": {
+    "wine": 22,
+    "restaurant": 2,
+    "quantity": 10,
+    "buying_price": "145.00",
+    "selling_price": "454.87"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 112,
+  "fields": {
+    "wine": 23,
+    "restaurant": 2,
+    "quantity": 21,
+    "buying_price": "148.00",
+    "selling_price": "524.85"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 113,
+  "fields": {
+    "wine": 24,
+    "restaurant": 2,
+    "quantity": 18,
+    "buying_price": "94.00",
+    "selling_price": "248.19"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 114,
+  "fields": {
+    "wine": 25,
+    "restaurant": 2,
+    "quantity": 26,
+    "buying_price": "64.00",
+    "selling_price": "227.06"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 115,
+  "fields": {
+    "wine": 26,
+    "restaurant": 2,
+    "quantity": 15,
+    "buying_price": "54.00",
+    "selling_price": "214.35"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 116,
+  "fields": {
+    "wine": 27,
+    "restaurant": 2,
+    "quantity": 18,
+    "buying_price": "225.00",
+    "selling_price": "703.05"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 117,
+  "fields": {
+    "wine": 28,
+    "restaurant": 2,
+    "quantity": 36,
+    "buying_price": "34.00",
+    "selling_price": "98.85"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 118,
+  "fields": {
+    "wine": 29,
+    "restaurant": 2,
+    "quantity": 6,
+    "buying_price": "31.00",
+    "selling_price": "112.71"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 119,
+  "fields": {
+    "wine": 21,
+    "restaurant": 3,
+    "quantity": 17,
+    "buying_price": "120.00",
+    "selling_price": "383.71"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 120,
+  "fields": {
+    "wine": 22,
+    "restaurant": 3,
+    "quantity": 32,
+    "buying_price": "193.00",
+    "selling_price": "654.03"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 121,
+  "fields": {
+    "wine": 23,
+    "restaurant": 3,
+    "quantity": 39,
+    "buying_price": "90.00",
+    "selling_price": "348.49"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 122,
+  "fields": {
+    "wine": 24,
+    "restaurant": 3,
+    "quantity": 36,
+    "buying_price": "42.00",
+    "selling_price": "114.04"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 123,
+  "fields": {
+    "wine": 25,
+    "restaurant": 3,
+    "quantity": 23,
+    "buying_price": "150.00",
+    "selling_price": "486.85"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 124,
+  "fields": {
+    "wine": 26,
+    "restaurant": 3,
+    "quantity": 5,
+    "buying_price": "213.00",
+    "selling_price": "542.34"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 125,
+  "fields": {
+    "wine": 27,
+    "restaurant": 3,
+    "quantity": 35,
+    "buying_price": "256.00",
+    "selling_price": "1000.81"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 126,
+  "fields": {
+    "wine": 28,
+    "restaurant": 3,
+    "quantity": 35,
+    "buying_price": "59.00",
+    "selling_price": "206.25"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 127,
+  "fields": {
+    "wine": 29,
+    "restaurant": 3,
+    "quantity": 25,
+    "buying_price": "59.00",
+    "selling_price": "171.15"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 128,
+  "fields": {
+    "wine": 21,
+    "restaurant": 4,
+    "quantity": 10,
+    "buying_price": "141.00",
+    "selling_price": "559.59"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 129,
+  "fields": {
+    "wine": 22,
+    "restaurant": 4,
+    "quantity": 22,
+    "buying_price": "55.00",
+    "selling_price": "178.13"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 130,
+  "fields": {
+    "wine": 23,
+    "restaurant": 4,
+    "quantity": 6,
+    "buying_price": "101.00",
+    "selling_price": "301.02"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 131,
+  "fields": {
+    "wine": 24,
+    "restaurant": 4,
+    "quantity": 38,
+    "buying_price": "137.00",
+    "selling_price": "490.71"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 132,
+  "fields": {
+    "wine": 25,
+    "restaurant": 4,
+    "quantity": 11,
+    "buying_price": "93.00",
+    "selling_price": "320.81"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 133,
+  "fields": {
+    "wine": 26,
+    "restaurant": 4,
+    "quantity": 37,
+    "buying_price": "229.00",
+    "selling_price": "736.24"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 134,
+  "fields": {
+    "wine": 27,
+    "restaurant": 4,
+    "quantity": 35,
+    "buying_price": "146.00",
+    "selling_price": "444.11"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 135,
+  "fields": {
+    "wine": 28,
+    "restaurant": 4,
+    "quantity": 13,
+    "buying_price": "78.00",
+    "selling_price": "302.91"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 136,
+  "fields": {
+    "wine": 29,
+    "restaurant": 4,
+    "quantity": 40,
+    "buying_price": "28.00",
+    "selling_price": "88.37"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 137,
+  "fields": {
+    "wine": 21,
+    "restaurant": 5,
+    "quantity": 32,
+    "buying_price": "194.00",
+    "selling_price": "579.24"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 138,
+  "fields": {
+    "wine": 22,
+    "restaurant": 5,
+    "quantity": 10,
+    "buying_price": "154.00",
+    "selling_price": "517.95"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 139,
+  "fields": {
+    "wine": 23,
+    "restaurant": 5,
+    "quantity": 32,
+    "buying_price": "189.00",
+    "selling_price": "559.61"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 140,
+  "fields": {
+    "wine": 24,
+    "restaurant": 5,
+    "quantity": 35,
+    "buying_price": "41.00",
+    "selling_price": "147.68"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 141,
+  "fields": {
+    "wine": 25,
+    "restaurant": 5,
+    "quantity": 20,
+    "buying_price": "71.00",
+    "selling_price": "190.52"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 142,
+  "fields": {
+    "wine": 26,
+    "restaurant": 5,
+    "quantity": 34,
+    "buying_price": "204.00",
+    "selling_price": "515.27"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 143,
+  "fields": {
+    "wine": 27,
+    "restaurant": 5,
+    "quantity": 5,
+    "buying_price": "208.00",
+    "selling_price": "580.29"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 144,
+  "fields": {
+    "wine": 28,
+    "restaurant": 5,
+    "quantity": 13,
+    "buying_price": "51.00",
+    "selling_price": "147.27"
+  }
+},
+{
+  "model": "inventories.inventory",
+  "pk": 145,
+  "fields": {
+    "wine": 29,
+    "restaurant": 5,
+    "quantity": 12,
+    "buying_price": "61.00",
+    "selling_price": "193.47"
+  }
+}

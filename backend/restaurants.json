@@ -1,0 +1,67 @@
+[
+{
+  "model": "restaurants.restaurant",
+  "pk": 1,
+  "fields": {
+    "name": "Le Bernardin",
+    "street_number": "214",
+    "street_name": "West 52nd Street",
+    "floor_unit": "Floor 2",
+    "postal_code": 10019,
+    "city": "New York",
+    "state": "NY"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 2,
+  "fields": {
+    "name": "The French Laundry",
+    "street_number": "6488",
+    "street_name": "Washington Street",
+    "floor_unit": "Suite B",
+    "postal_code": 94599,
+    "city": "Yountville",
+    "state": "CA"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 3,
+  "fields": {
+    "name": "Osteria Francescana",
+    "street_number": "18",
+    "street_name": "Via San Pietro",
+    "floor_unit": "Floor 1",
+    "postal_code": 41121,
+    "city": "Modena",
+    "state": "IT"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 4,
+  "fields": {
+    "name": "Noma",
+    "street_number": "84",
+    "street_name": "Refshalevej",
+    "floor_unit": "Building 2",
+    "postal_code": 1432,
+    "city": "Copenhagen",
+    "state": "DK"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 5,
+  "fields": {
+    "name": "Gaggan",
+    "street_number": "61",
+    "street_name": "Soi Langsuan",
+    "floor_unit": "Unit 5",
+    "postal_code": 10330,
+    "city": "Bangkok",
+    "state": "TH"
+  }
+}
+]

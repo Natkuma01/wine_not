@@ -1,0 +1,579 @@
+[
+{
+  "model": "wines.wine",
+  "pk": 1,
+  "fields": {
+    "name": "Montrachet Grand Cru",
+    "producer": "Domaine de la Romanée-Conti",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Complex, rich, and elegant.",
+    "year": 2018,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 2,
+  "fields": {
+    "name": "Chablis Grand Cru Les Clos",
+    "producer": "William Fèvre",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Crisp, mineral-driven with citrus notes.",
+    "year": 2020,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 3,
+  "fields": {
+    "name": "Château Haut-Brion Blanc",
+    "producer": "Château Haut-Brion",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Full-bodied with notes of honey and grapefruit.",
+    "year": 2019,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 4,
+  "fields": {
+    "name": "Pape Clément Blanc",
+    "producer": "Château Pape Clément",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Aromatic, rich texture.",
+    "year": 2017,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 5,
+  "fields": {
+    "name": "Scharzhofberger Riesling Auslese",
+    "producer": "Egon Müller",
+    "country": "Germany",
+    "region": "Mosel",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Sweet, vibrant acidity.",
+    "year": 2015,
+    "wine_type": "white",
+    "grapes": [
+      3
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 6,
+  "fields": {
+    "name": "Wehlener Sonnenuhr Spätlese",
+    "producer": "Joh. Jos. Prüm",
+    "country": "Germany",
+    "region": "Mosel",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Fruity and delicate.",
+    "year": 2021,
+    "wine_type": "white",
+    "grapes": [
+      3
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 7,
+  "fields": {
+    "name": "Cloudy Bay Sauvignon Blanc",
+    "producer": "Cloudy Bay",
+    "country": "New Zealand",
+    "region": "Marlborough",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Vibrant passionfruit and lime.",
+    "year": 2022,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 8,
+  "fields": {
+    "name": "Greywacke Wild Sauvignon",
+    "producer": "Greywacke",
+    "country": "New Zealand",
+    "region": "Marlborough",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Textured and complex.",
+    "year": 2020,
+    "wine_type": "white",
+    "grapes": [
+      2
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 9,
+  "fields": {
+    "name": "Kongsgaard Chardonnay",
+    "producer": "Kongsgaard",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Intense, savory and rich.",
+    "year": 2019,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 10,
+  "fields": {
+    "name": "Hyde Vineyard Chardonnay",
+    "producer": "HDV",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Bright acidity with stone fruit.",
+    "year": 2021,
+    "wine_type": "white",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 11,
+  "fields": {
+    "name": "Château Margaux",
+    "producer": "Château Margaux",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Elegant, complex with dark fruits and floral notes.",
+    "year": 2015,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 12,
+  "fields": {
+    "name": "Château Latour",
+    "producer": "Château Latour",
+    "country": "France",
+    "region": "Bordeaux",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Powerful, structured with cassis and cedar.",
+    "year": 2010,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 13,
+  "fields": {
+    "name": "La Tâche Grand Cru",
+    "producer": "Domaine de la Romanée-Conti",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Aromatic, spicy, and deeply concentrated.",
+    "year": 2017,
+    "wine_type": "red",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 14,
+  "fields": {
+    "name": "Musigny Grand Cru",
+    "producer": "Domaine Comte Georges de Vogüé",
+    "country": "France",
+    "region": "Burgundy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Silky texture, red berries, and floral.",
+    "year": 2019,
+    "wine_type": "red",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 15,
+  "fields": {
+    "name": "Tignanello",
+    "producer": "Marchesi Antinori",
+    "country": "Italy",
+    "region": "Tuscany",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Rich, cherries, vanilla, and spice.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      6
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 16,
+  "fields": {
+    "name": "Sassicaia",
+    "producer": "Tenuta San Guido",
+    "country": "Italy",
+    "region": "Tuscany",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Refined, dark plum, herbs, and tobacco.",
+    "year": 2019,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 17,
+  "fields": {
+    "name": "Hermitage La Chapelle",
+    "producer": "Paul Jaboulet Aîné",
+    "country": "France",
+    "region": "Rhône Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Dense, blackberry, pepper, and smoke.",
+    "year": 2015,
+    "wine_type": "red",
+    "grapes": [
+      7
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 18,
+  "fields": {
+    "name": "Côte-Rôtie La Landonne",
+    "producer": "E. Guigal",
+    "country": "France",
+    "region": "Rhône Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Intense, dark fruit, olives, and roasted meat.",
+    "year": 2016,
+    "wine_type": "red",
+    "grapes": [
+      7
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 19,
+  "fields": {
+    "name": "Opus One",
+    "producer": "Opus One Winery",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Lush, dark cherry, cocoa, and velvety tannins.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 20,
+  "fields": {
+    "name": "Dominus",
+    "producer": "Dominus Estate",
+    "country": "USA",
+    "region": "Napa Valley",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Structured, black plum, tobacco, and earth.",
+    "year": 2018,
+    "wine_type": "red",
+    "grapes": [
+      4
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 21,
+  "fields": {
+    "name": "Dom Pérignon Vintage",
+    "producer": "Moët & Chandon",
+    "country": "France",
+    "region": "Champagne",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Complex, brioche, and crisp acidity.",
+    "year": 2013,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 22,
+  "fields": {
+    "name": "Cristal Brut",
+    "producer": "Louis Roederer",
+    "country": "France",
+    "region": "Champagne",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Elegant, fine bubbles, citrus notes.",
+    "year": 2014,
+    "wine_type": "sparkling",
+    "grapes": [
+      5
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 23,
+  "fields": {
+    "name": "Prosecco Superiore",
+    "producer": "Bisol",
+    "country": "Italy",
+    "region": "Veneto",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Fresh, floral, and fruity.",
+    "year": 2021,
+    "wine_type": "sparkling",
+    "grapes": [
+      8
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 24,
+  "fields": {
+    "name": "Franciacorta Cuvée Prestige",
+    "producer": "Ca' del Bosco",
+    "country": "Italy",
+    "region": "Lombardy",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Rich, creamy texture with biscuit notes.",
+    "year": 2019,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 25,
+  "fields": {
+    "name": "Cava Gran Reserva",
+    "producer": "Gramona",
+    "country": "Spain",
+    "region": "Penedès",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Toasted almond, baked apple, vibrant.",
+    "year": 2015,
+    "wine_type": "sparkling",
+    "grapes": [
+      1
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 26,
+  "fields": {
+    "name": "Château d'Yquem",
+    "producer": "Château d'Yquem",
+    "country": "France",
+    "region": "Sauternes",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Luscious, apricot, honey, and saffron.",
+    "year": 2009,
+    "wine_type": "dessert",
+    "grapes": [
+      9
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 27,
+  "fields": {
+    "name": "Tokaji Aszú 5 Puttonyos",
+    "producer": "Royal Tokaji",
+    "country": "Hungary",
+    "region": "Tokaj",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Sweet, marmalade, and vibrant acidity.",
+    "year": 2016,
+    "wine_type": "dessert",
+    "grapes": [
+      10
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 28,
+  "fields": {
+    "name": "Radikon Ribolla Gialla",
+    "producer": "Radikon",
+    "country": "Italy",
+    "region": "Friuli",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Tannic, dried fruit, complex and earthy.",
+    "year": 2014,
+    "wine_type": "orange",
+    "grapes": [
+      12
+    ]
+  }
+},
+{
+  "model": "wines.wine",
+  "pk": 29,
+  "fields": {
+    "name": "Gravner Breg Anfora",
+    "producer": "Gravner",
+    "country": "Italy",
+    "region": "Friuli",
+    "imageURL": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+    "notes": "Amber, deep savory notes, long finish.",
+    "year": 2011,
+    "wine_type": "orange",
+    "grapes": [
+      11
+    ]
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 1,
+  "fields": {
+    "name": "Chardonnay"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 2,
+  "fields": {
+    "name": "Sauvignon Blanc"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 3,
+  "fields": {
+    "name": "Riesling"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 4,
+  "fields": {
+    "name": "Cabernet Sauvignon"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 5,
+  "fields": {
+    "name": "Pinot Noir"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 6,
+  "fields": {
+    "name": "Sangiovese"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 7,
+  "fields": {
+    "name": "Syrah"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 8,
+  "fields": {
+    "name": "Glera"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 9,
+  "fields": {
+    "name": "Sémillon"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 10,
+  "fields": {
+    "name": "Furmint"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 11,
+  "fields": {
+    "name": "Pinot Gris"
+  }
+},
+{
+  "model": "wines.grape",
+  "pk": 12,
+  "fields": {
+    "name": "Ribolla Gialla"
+  }
+}
+]
