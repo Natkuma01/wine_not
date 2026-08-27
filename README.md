@@ -67,5 +67,24 @@ A full-stack web application for managing wine inventory across multiple restaur
    - Selling price
 4. Click "Update" to save changes
 
+## Demo Credential Email Setup
+
+The login page includes an "Email Me Demo Credentials" flow that sends a fixed shared demo login to the visitor's email address.
+
+Configure these backend environment variables so email delivery works in your deployed app:
+
+- `EMAIL_HOST`
+- `EMAIL_PORT`
+- `EMAIL_HOST_USER`
+- `EMAIL_HOST_PASSWORD`
+- `EMAIL_USE_TLS`
+- `EMAIL_USE_SSL`
+- `DEFAULT_FROM_EMAIL`
+
+Optional overrides for the shared demo login:
+
+- `DEMO_CREDENTIAL_USERNAME` defaults to `natalie-admin`
+- `DEMO_CREDENTIAL_PASSWORD` defaults to `1234567`
+- `DEMO_CREDENTIAL_FROM_EMAIL` defaults to `DEFAULT_FROM_EMAIL`
 
 

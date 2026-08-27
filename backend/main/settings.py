@@ -178,3 +178,25 @@ SIMPLE_JWT = {
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 APPEND_SLASH = True
+
+DEMO_CREDENTIAL_USERNAME = os.environ.get("DEMO_CREDENTIAL_USERNAME", "natalie-admin")
+DEMO_CREDENTIAL_PASSWORD = os.environ.get("DEMO_CREDENTIAL_PASSWORD", "1234567")
+DEMO_CREDENTIAL_FROM_EMAIL = os.environ.get(
+    "DEMO_CREDENTIAL_FROM_EMAIL",
+    os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@wineinventory.local"),
+)
+
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend",
+)
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL",
+    DEMO_CREDENTIAL_FROM_EMAIL,
+)

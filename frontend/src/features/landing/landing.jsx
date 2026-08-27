@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api, { getApiErrorMessage } from "../../app/api";
 
 function Landing() {
   const navigate = useNavigate();
@@ -8,6 +9,9 @@ function Landing() {
   const [password, setPassword] = useState("");
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showDemoCredentials, setShowDemoCredentials] = useState(false);
+  const [demoEmail, setDemoEmail] = useState("");
+  const [isSendingDemoCredentials, setIsSendingDemoCredentials] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -117,6 +121,44 @@ function Landing() {
     }, 3000);
   };
 
+  const handleSendDemoCredentials = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (!demoEmail.trim()) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    setIsSendingDemoCredentials(true);
+
+    try {
+      const response = await api.post("/demo-credentials/", {
+        email: demoEmail.trim(),
+      });
+
+      setSuccess(response.data.detail);
+      setTimeout(() => {
+        setShowDemoCredentials(false);
+        setDemoEmail("");
+        setSuccess("");
+      }, 3000);
+    } catch (err) {
+      setError(getApiErrorMessage(err));
+    } finally {
+      setIsSendingDemoCredentials(false);
+    }
+  };
+
+  const resetPanels = () => {
+    setShowCreateAccount(false);
+    setShowForgotPassword(false);
+    setShowDemoCredentials(false);
+    setError("");
+    setSuccess("");
+  };
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4"
@@ -211,6 +253,17 @@ function Landing() {
               >
                 Login
               </button>
+              <button
+                type="button"
+                className="w-full rounded-lg border py-3 text-sm font-semibold transition hover:bg-[#f9f1f4] cursor-pointer"
+                style={{ borderColor: "#D9B8C6", color: "#8d4062", backgroundColor: "#FFF8FB" }}
+                onClick={() => {
+                  resetPanels();
+                  setShowDemoCredentials(true);
+                }}
+              >
+                Email Me Demo Credentials
+              </button>
             </form>
 
             <div className="mt-5 flex flex-col gap-2 text-center">
@@ -219,9 +272,8 @@ function Landing() {
                 className="text-sm font-medium transition hover:underline cursor-pointer"
                 style={{ color: "#8d4062" }}
                 onClick={() => {
+                  resetPanels();
                   setShowCreateAccount(true);
-                  setError("");
-                  setSuccess("");
                 }}
               >
                 Create Account
@@ -230,9 +282,8 @@ function Landing() {
                 type="button"
                 className="text-xs transition hover:underline text-gray-500 cursor-pointer"
                 onClick={() => {
+                  resetPanels();
                   setShowForgotPassword(true);
-                  setError("");
-                  setSuccess("");
                 }}
               >
                 Forgot Password?
@@ -251,9 +302,7 @@ function Landing() {
               <button
                 className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
                 onClick={() => {
-                  setShowCreateAccount(false);
-                  setError("");
-                  setSuccess("");
+                  resetPanels();
                   setUsername("");
                   setPassword("");
                 }}
@@ -308,9 +357,7 @@ function Landing() {
                 className="text-sm transition hover:underline cursor-pointer"
                 style={{ color: "#8d4062" }}
                 onClick={() => {
-                  setShowCreateAccount(false);
-                  setError("");
-                  setSuccess("");
+                  resetPanels();
                 }}
               >
                 Back to Sign In
@@ -329,9 +376,7 @@ function Landing() {
               <button
                 className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
                 onClick={() => {
-                  setShowForgotPassword(false);
-                  setError("");
-                  setSuccess("");
+                  resetPanels();
                   setUsername("");
                 }}
               >
@@ -379,9 +424,79 @@ function Landing() {
                 className="text-sm transition hover:underline cursor-pointer"
                 style={{ color: "#8d4062" }}
                 onClick={() => {
-                  setShowForgotPassword(false);
-                  setError("");
-                  setSuccess("");
+                  resetPanels();
+                }}
+              >
+                Back to Sign In
+              </button>
+            </div>
+          </>
+        )}
+
+        {showDemoCredentials && (
+          <>
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-lg font-semibold" style={{ color: "#3D3D3D" }}>
+                Request Demo Login
+              </h2>
+              <button
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
+                onClick={() => {
+                  resetPanels();
+                  setDemoEmail("");
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {error && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mb-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                {success}
+              </div>
+            )}
+
+            <p className="text-sm mb-4" style={{ color: "#6b7280" }}>
+              Enter your email address and we&apos;ll send the shared demo login for this portfolio.
+            </p>
+
+            <form onSubmit={handleSendDemoCredentials} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder="Email address"
+                className="w-full rounded-lg border px-4 py-3 text-base outline-none focus:ring-2 focus:ring-[#8d4062]/20 focus:border-[#8d4062] transition-all"
+                style={{ borderColor: "#E0D4C8", backgroundColor: "#FDFAF7", color: "#3D3D3D" }}
+                value={demoEmail}
+                onChange={(e) => setDemoEmail(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                disabled={isSendingDemoCredentials}
+                className="w-full rounded-lg py-3 text-base font-semibold text-white transition hover:bg-[#7b3554] active:bg-[#682c47] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                style={{ backgroundColor: "#8d4062" }}
+              >
+                {isSendingDemoCredentials ? "Sending..." : "Send Demo Credentials"}
+              </button>
+            </form>
+
+            <p className="mt-4 text-xs" style={{ color: "#9CA3AF" }}>
+              The emailed login is always the same shared demo account.
+            </p>
+
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                className="text-sm transition hover:underline cursor-pointer"
+                style={{ color: "#8d4062" }}
+                onClick={() => {
+                  resetPanels();
+                  setDemoEmail("");
                 }}
               >
                 Back to Sign In

@@ -21,12 +21,17 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from main.views import RegisterView
+from main.views import RegisterView, SendDemoCredentialsView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("api/register/", RegisterView.as_view(), name="register"),
+    path(
+        "api/demo-credentials/",
+        SendDemoCredentialsView.as_view(),
+        name="send_demo_credentials",
+    ),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
