@@ -1,8 +1,9 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.db.models import Count
 from django.db.models.functions import TruncDate
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -43,7 +44,7 @@ class VisitStatsView(APIView):
 
     def get(self, request):
         try:
-            thirty_days_ago = datetime.now() - timedelta(days=30)
+            thirty_days_ago = timezone.now() - timedelta(days=30)
             qs = PageVisit.objects.filter(timestamp__gte=thirty_days_ago)
 
             by_day = (
@@ -61,7 +62,7 @@ class VisitStatsView(APIView):
 
             total = PageVisit.objects.count()
             today_count = PageVisit.objects.filter(
-                timestamp__date=datetime.now().date()
+                timestamp__date=timezone.now().date()
             ).count()
             unique_sessions = (
                 qs.exclude(session_id="").values("session_id").distinct().count()

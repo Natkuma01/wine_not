@@ -23,7 +23,7 @@ class WineViewSet(viewsets.ModelViewSet):
         queryset = Wine.objects.prefetch_related('grapes').all().order_by('id')
         restaurant_id = self.request.query_params.get('restaurant_id')
         if restaurant_id:
-            queryset = queryset.filter(inventory__restaurant_id=restaurant_id)
+            queryset = queryset.filter(inventory__restaurant_id=restaurant_id).distinct()
         
         wine_type = self.request.query_params.get('wine_type')
         if wine_type and wine_type != 'All Types of wines':

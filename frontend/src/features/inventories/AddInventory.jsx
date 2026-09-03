@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchWineById } from "../wines/wineSlice";
 import { addInventory } from "./inventorySlice";
-import { useParams, useNavigate } from "react-router-dom";
-import leftArrow from "../../assets/left-arrow.png";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 
 function AddInventory() {
   const { wineId } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { selectedWine: wine } = useSelector((state) => state.wines);
 
   const [quantity, setQuantity] = useState("");
   const [buyingPrice, setBuyingPrice] = useState("");
@@ -18,10 +16,12 @@ function AddInventory() {
   const [profitMargin, setProfitMargin] = useState("");
   const [error, setError] = useState("");
 
+  const queryRestaurantId = searchParams.get("restaurant_id");
+  const restaurantId = queryRestaurantId ? parseInt(queryRestaurantId, 10) : null;
+
   useEffect(() => {
-    dispatch(fetchWineById(parseInt(wineId)));
+    dispatch(fetchWineById(parseInt(wineId, 10)));
   }, [dispatch, wineId]);
-  const restaurantId = wine ? wine.restaurant : null;
 
   // Calculate profit margin when buying or selling price changes
   const calculateProfitMargin = (buyPrice, sellPrice) => {
@@ -30,7 +30,7 @@ function AddInventory() {
 
     if (buyingNum > 0 && sellingNum > 0) {
       const profit = sellingNum - buyingNum;
-      const margin = (profit / buyingNum) * 100;
+      const margin = (profit / sellingNum) * 100;
       return margin.toFixed(2);
     }
     return "";
@@ -41,8 +41,8 @@ function AddInventory() {
     const buyingNum = parseFloat(buyPrice);
     const marginNum = parseFloat(margin);
 
-    if (buyingNum > 0 && !isNaN(marginNum)) {
-      const selling = buyingNum * (1 + marginNum / 100);
+    if (buyingNum > 0 && !isNaN(marginNum) && marginNum < 100) {
+      const selling = buyingNum / (1 - marginNum / 100);
       return selling.toFixed(2);
     }
     return "";
@@ -107,9 +107,9 @@ function AddInventory() {
 
     // Prepare data for backend
     const newInventory = {
-      wine: parseInt(wineId),
+      wine: parseInt(wineId, 10),
       restaurant: restaurantId,
-      quantity: parseInt(quantity),
+      quantity: parseInt(quantity, 10),
       buying_price: parseFloat(buyingPrice),
       selling_price: parseFloat(sellingPrice),
       profit_margin: profitMargin ? parseFloat(profitMargin) : null,
@@ -119,7 +119,7 @@ function AddInventory() {
       await dispatch(addInventory(newInventory)).unwrap();
       // Navigate back to wine list after successful creation
       if (restaurantId) {
-        navigate(`/wines/${restaurantId}`);
+        navigate(`/restaurants/wines/${restaurantId}`);
       } else {
         navigate(-1);
       }
@@ -131,7 +131,7 @@ function AddInventory() {
 
   const handleBack = () => {
     if (restaurantId) {
-      navigate(`/wines/${restaurantId}`);
+      navigate(`/restaurants/wines/${restaurantId}`);
     } else {
       navigate(-1);
     }
