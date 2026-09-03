@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateInventory, fetchInventories } from "./inventorySlice";
 import { updateWine, fetchWineById } from "../wines/wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import leftArrow from "../../assets/left-arrow.png";
 
 function InventoryList() {
   const { wineId } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inventoryDetailFormOpen, setInventoryDetailFormOpen] = useState(false);
   const [wineInformationFormOpen, setWineInformationFormOpen] = useState(false);
@@ -47,11 +47,27 @@ function InventoryList() {
     error: restaurantError,
   } = useSelector((state) => state.restaurants);
 
+  const queryRestaurantId = searchParams.get("restaurant_id");
+
   useEffect(() => {
     dispatch(fetchInventories());
-    dispatch(fetchWineById(parseInt(wineId)));
+    dispatch(fetchWineById(parseInt(wineId, 10)));
     dispatch(fetchRestaurants());
   }, [dispatch, wineId]);
+
+  const inventory = inventories.find((item) => item.wine === parseInt(wineId, 10));
+  const restaurant = restaurants.find(
+    (r) => r.id === (inventory?.restaurant || (queryRestaurantId ? parseInt(queryRestaurantId, 10) : null))
+  );
+
+  useEffect(() => {
+    if (!inventoryLoading && !inventory && wineId) {
+      const redirectUrl = queryRestaurantId
+        ? `/inventories/add/${wineId}?restaurant_id=${queryRestaurantId}`
+        : `/inventories/add/${wineId}`;
+      navigate(redirectUrl, { replace: true });
+    }
+  }, [inventoryLoading, inventory, wineId, queryRestaurantId, navigate]);
 
   // Pre-fill inventory form when modal opens
   useEffect(() => {
@@ -61,7 +77,7 @@ function InventoryList() {
       setQuantity(inventory.quantity);
       setProfitMargin(inventory.profit_margin || "");
     }
-  }, [inventoryDetailFormOpen]);
+  }, [inventoryDetailFormOpen, inventory]);
 
   // Pre-fill wine form when modal opens
   useEffect(() => {
@@ -71,7 +87,7 @@ function InventoryList() {
       setYear(wine.year);
       setImageUrl(wine.imageURL || "");
     }
-  }, [wineInformationFormOpen]);
+  }, [wineInformationFormOpen, wine]);
 
   const recalculate = ({ buying, selling, margin, changed }) => {
     const buy = parseFloat(buying);
@@ -86,10 +102,10 @@ function InventoryList() {
       };
     }
 
-    if (changed === "margin" && buy > 0 && !isNaN(mar)) {
+    if (changed === "margin" && buy > 0 && !isNaN(mar) && mar < 100) {
       return {
         buying,
-        selling: (buy / (1 - margin / 100)).toFixed(2),
+        selling: (buy / (1 - mar / 100)).toFixed(2),
         margin,
       };
     }
@@ -184,7 +200,7 @@ function InventoryList() {
     setProducer("");
     setCountry("");
     setYear("");
-    setImageUrl();
+    setImageUrl("");
     setWineInformationFormOpen(false);
   };
 
@@ -193,11 +209,7 @@ function InventoryList() {
   if (wineError) return <p>Error: {wineError}</p>;
   if (restaurantError) return <p>Error: {restaurantError}</p>;
 
-  const inventory = inventories.find((item) => item.wine === parseInt(wineId));
-  const restaurant = restaurants.find((r) => r.id === inventory?.restaurant);
-
   if (!inventory) {
-    navigate(`/inventories/add/${wineId}`);
     return null;
   }
 

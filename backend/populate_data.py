@@ -181,7 +181,6 @@ def populate():
                     "quantity": random.randint(10, 100),
                     "buying_price": buying,
                     "selling_price": selling,
-                    "profit_margin": margin
                 }
             )
     print(f"Inventory created for all {len(restaurants)} restaurants with {len(wines)} wines.")
