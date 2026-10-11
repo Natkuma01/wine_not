@@ -1,5 +1,7 @@
 # Wine Not - Wine Inventory Management System
 
+![Wine Inventory Tracker](images/wine-inventory-tracker-banner.png)
+
 A full-stack web application for managing wine inventory across multiple restaurants. This application allows you to track wines, manage inventory quantities, and monitor purchasing and selling prices. **This web application also has a companion iOS app that shares the same database**, providing seamless multi-platform access to your inventory data.
 
 # Code Review
@@ -86,5 +88,4 @@ Optional overrides for the shared demo login:
 - `DEMO_CREDENTIAL_USERNAME` defaults to `natalie-admin`
 - `DEMO_CREDENTIAL_PASSWORD` defaults to `1234567`
 - `DEMO_CREDENTIAL_FROM_EMAIL` defaults to `DEFAULT_FROM_EMAIL`
-
 
