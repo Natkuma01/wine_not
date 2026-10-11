@@ -4,9 +4,7 @@ import { fetchWines, addWine, deleteWine } from "./wineSlice";
 import { fetchRestaurants } from "../restaurants/restaurantSlice";
 import { fetchInventories, addInventory } from "../inventories/inventorySlice";
 import { fetchGrapes } from "./grapeSlice";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import leftArrow from "../../assets/left-arrow.png";
-import trashIcon from "../../assets/trash.png";
+import { useParams, useNavigate } from "react-router-dom";
 
 const WINE_TYPE_CHOICES = [
   { value: "white", label: "White" },
@@ -23,7 +21,6 @@ function WineList() {
   const { wines, count, next, previous, loading, error } = useSelector((state) => state.wines);
   const { restaurants } = useSelector((state) => state.restaurants);
   const { grapes } = useSelector((state) => state.grapes);
-  const { inventories } = useSelector((state) => state.inventories);
 
 
   const [open, setOpen] = useState(false);
@@ -161,12 +158,6 @@ function WineList() {
     }
   }
 
-  const restaurantInventories = inventories.filter(
-    (inv) => inv.restaurant === parseInt(id)
-  );
-
-  const wineIdsInInventories = restaurantInventories.map((inv) => inv.wine);
-
   // Server-filtered wines
   const filtered = wines;
 
@@ -257,7 +248,7 @@ function WineList() {
                   <tr
                     className="hover:bg-[#8d4062]/5 transition-colors duration-150 cursor-pointer"
                     key={wine.id}
-                    onClick={() => navigate(`/inventories/${wine.id}`)}
+                    onClick={() => navigate(`/inventories/${wine.id}?restaurant_id=${id}`)}
                   >
                     <td className="py-4 px-6">
                       <span className="text-[#8d4062] hover:text-[#7b3554] font-semibold hover:underline">

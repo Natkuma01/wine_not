@@ -42,8 +42,8 @@ function App() {
         <Route path="/restaurants" element={<ProtectedRoute> <RestaurantList /> </ProtectedRoute>} />
         <Route path="/restaurants/edit/:id" element={<ProtectedRoute> <RestaurantEdit /> </ProtectedRoute>} />
         <Route path="/restaurants/wines/:id" element={<ProtectedRoute> <WineList /> </ProtectedRoute>} />
-        <Route path="inventories/:wineId" element={<ProtectedRoute> <InventoryList /> </ProtectedRoute>} />
-        <Route path="inventories/add/:wineId" element={<ProtectedRoute> <AddInventory /> </ProtectedRoute>} />
+        <Route path="/inventories/:wineId" element={<ProtectedRoute> <InventoryList /> </ProtectedRoute>} />
+        <Route path="/inventories/add/:wineId" element={<ProtectedRoute> <AddInventory /> </ProtectedRoute>} />
         <Route path="/analytics" element={<ProtectedRoute> <AnalyticsDashboard /> </ProtectedRoute>} />
       </Routes>
     </>

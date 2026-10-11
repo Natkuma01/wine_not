@@ -58,11 +58,12 @@ export default function WineListMenu() {
 
   const loading = invLoading || restLoading;
 
-  const restaurant = restaurants.find((r) => r.id === parseInt(restaurantId));
+  const parsedRestaurantId = parseInt(restaurantId, 10);
+  const restaurant = restaurants.find((r) => r.id === parsedRestaurantId);
 
   // Map inventories for this restaurant directly from serializers
   const menuItems = inventories
-    .filter((inv) => inv.restaurant === parseInt(restaurantId))
+    .filter((inv) => inv.restaurant === parsedRestaurantId)
     .map((inv) => ({
       inventoryId: inv.id,
       name: inv.wine_name,
